@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { EMAIL, GITHUB, LINKEDIN, ORCID } from '@/lib/site';
+import { EMAIL, SOCIALS } from '@/lib/site';
 import CVButton from './CVButton';
 
 export default function Contact() {
@@ -28,10 +28,10 @@ export default function Contact() {
 
         <div className="mt-24 flex flex-col gap-6 border-t border-line pt-8 text-sm text-paper-faint sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} Muhammad Kamran Ashraf · Islamabad</span>
-          <div className="flex gap-6">
-            <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="link-arrow hover:text-paper">GitHub <span>↗</span></a>
-            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="link-arrow hover:text-paper">LinkedIn <span>↗</span></a>
-            <a href={ORCID} target="_blank" rel="noopener noreferrer" className="link-arrow hover:text-paper">ORCID <span>↗</span></a>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            {SOCIALS.map(([label, href]) => (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="link-arrow hover:text-paper">{label} <span>↗</span></a>
+            ))}
           </div>
         </div>
       </div>

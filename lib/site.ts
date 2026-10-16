@@ -4,9 +4,19 @@ export const CV = {
 };
 
 export const GITHUB = 'https://github.com/Kamran5H';
-export const EMAIL = 'kamranashraf51214@gmail.com';
+export const EMAIL = 'chkamran32b@gmail.com';
 export const ORCID = 'https://orcid.org/0009-0003-2997-2954';
-export const LINKEDIN = 'https://www.linkedin.com/in/kamran-ashraf-762a21363';
+export const LINKEDIN = 'https://www.linkedin.com/in/kamran-ashraf-762a21363/';
+export const INSTAGRAM = 'https://www.instagram.com/muhammad.kamran.ashraf';
+export const FACEBOOK = 'https://www.facebook.com/chkamran32b';
+
+export const SOCIALS: [string, string][] = [
+  ['GitHub', GITHUB],
+  ['LinkedIn', LINKEDIN],
+  ['ORCID', ORCID],
+  ['Instagram', INSTAGRAM],
+  ['Facebook', FACEBOOK],
+];
 
 export type Status = 'LIVE' | 'PRODUCTION' | 'OPEN SOURCE' | 'PRIVATE';
 
