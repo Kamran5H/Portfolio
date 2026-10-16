@@ -1,0 +1,40 @@
+/* 
+  MUHAMMAD KAMRAN ASHRAF — ACADEMIC PORTFOLIO
+  Lightweight, High-Performance Transitions (Zero CPU Drag)
+*/
+
+/* Clean Modal Entrance */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-backdrop.active .modal-dialog {
+  animation: modalEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Subtle Fade in for Cards */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

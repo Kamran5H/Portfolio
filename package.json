@@ -1,0 +1,32 @@
+{
+  "name": "kamran-academic-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Muhammad Kamran Ashraf — Academic & Computational Physical Chemistry Portfolio Web App (QAU Islamabad)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:init": "node scripts/init-db.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.5",
+    "clsx": "^2.1.1",
+    "next": "^14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4",
+    "three": "^0.128.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.128.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
+  }
+}

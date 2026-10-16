@@ -1,0 +1,19 @@
+{
+  "trailingSlash": "never",
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/*.{png,jpg,jpeg,svg,ico,json,js,css}"]
+  },
+  "globalHeaders": {
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
+  },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".svg": "image/svg+xml",
+    ".woff2": "font/woff2"
+  }
+}

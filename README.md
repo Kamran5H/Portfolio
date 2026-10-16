@@ -6,98 +6,144 @@ Supervisor: **Prof. Dr. Safeer Ahmed** | Co-Supervisor: **Dr. Zahid Rashid**
 ---
 
 ## 🌟 Overview
-This repository contains the complete source code for the personal academic, computational chemistry, and software engineering portfolio of **Muhammad Kamran Ashraf**. 
+This repository contains the full-stack web application portfolio of **Muhammad Kamran Ashraf**, postgraduate researcher in Physical & Computational Chemistry at Quaid-i-Azam University, Islamabad.
 
-Designed with a high-performance **Obsidian Quantum Dark** aesthetic, glassmorphic UI, responsive typography (`Outfit`, `Space Grotesk`, `Fira Code`), and pure vanilla technologies (HTML5, modern CSS3, ES6 JavaScript, Three.js WebGL).
-
----
-
-## 🔬 Key Portfolio Features
-
-### 1. 🕒 Reverse-Chronological Academic & Professional Trajectory
-- **2025 – Present**: MPhil Physical Chemistry (4th Semester, Session 2025–2027) at Quaid-i-Azam University, Islamabad (CGPA 3.30/4.00). High-Performance Computing (HPC) & Quantum DFT modeling on Ce-doped bimetallic NiCo-MOFs.
-- **2024 – 2025**: Visiting Lecturer in Chemistry & Physics at Unique Science Academy & High School, Okara.
-- **2024**: Science & Chemistry Educator at The Educators, Okara Campus.
-- **2020 – 2024**: BS (Hons) Chemistry at University of the Punjab (PU, CGPA 2.97/4.00). Capstone thesis on green synthesized CaO nanoparticles & Urea-imprinted PANi electrochemical biosensor.
-- **2020 – 2022**: Associate Degree in Science (ADS / B.Sc.) at Govt. Post Graduate College, Okara / PU.
-- **2017 – 2019**: Higher Secondary School Certificate (F.Sc. Pre-Medical) at BISE Sahiwal (960/1100, Grade A+).
-- **2015 – 2017**: Secondary School Certificate (Matriculation in Science) at BISE Sahiwal (917/1100, Grade A+).
-
-### 2. 📄 Working Research Manuscripts & Thesis Deep-Dives
-- **Manuscript Under Review**: *"Why the Corner Is Empty: Antagonistic Requirements in Re-chargeable Zinc–Air Batteries"* (M. K. Ashraf, H. Maqbool, Safeer Ahmed*).
-- **Completed Manuscript**: *"Grafting of Ethyl Acetoacetate onto Chitosan with Ammonium Persulfate: FTIR and DFT Evidence for C-C Bond Cleavage"* (A. Rehman†, M. K. Ashraf†*, H. Maqbool).
-- **MPhil Thesis Proposal**: *"Theoretical Investigation of Cerium Electronic Modulation (Ce3+/Ce4+) on Bimetallic NiCo-MOFs for Bifunctional ORR/OER in Alkaline Media"*.
-- **BS Research Thesis**: Green synthesis of CaO NPs via *Syzygium cumini* extract & Urea-imprinted PANi@CaO electrochemical sensor.
-
-### 3. 🌐 Interactive 3D WebGL Molecular & Orbital Visualizer (Three.js)
-Live interactive 3D WebGL canvas allowing real-time orbital rotation, atom highlighting, and wireframe views:
-- **Ce-doped NiCo-MOF Lattice**: Bimetallic catalytic centers coordinated with BDC linkers.
-- **Urea-Imprinted PANi Matrix**: Conducting polymer cavity network.
-- **CaO Nanocrystalline Cluster**: Green synthesized metal oxide core.
-- **Catalytic d-Orbital (dz²) Surface**: Quantum probability lobes representing transition metal redox centers.
-
-### 4. 🧮 Interactive Computational & Solution Chemistry Suite
-- **Solution Preparation Calculator**: Calculates mass required from desired molarity, molecular weight, and volume ($m = M \times MW \times V$). Includes rapid presets (NaOH, KMnO₄, Ni(NO₃)₂, Ce(NO₃)₃, Chitosan).
-- **Solution Dilution Engine**: Computes target volume or stock requirements via $M_1V_1 = M_2V_2$.
-
-### 5. 📜 Verified Document & Credential Lightbox
-Click-to-view high-resolution scans of original academic credentials directly from the verified university archives:
-- QAU Student Card & Registration
-- University of the Punjab BS Chemistry Degree & Transcript
-- PU Associate Degree in Science
-- BISE Sahiwal F.Sc. & Matriculation Certificates
-- Formal Institutional Teaching & Lecturer Experience Letters
-- National Co-curricular & Naat Competition Awards
-
-### 6. 💻 Software & AI Engineering Flagships
-Direct showcase and GitHub repository links to 10 prominent open-source software tools built by Muhammad Kamran Ashraf, including:
-- `Auto-Research-Writer`: Multi-agent automated scientific literature drafting framework.
-- `PDF_Extraction_Project`: Intelligent academic paper parser with OCR and citation extraction.
-- `CV-Builder-Website`: Live responsive resume and academic CV generation tool.
-- `Chemistry_Lab_Management`: Digital laboratory reagent tracking, safety MSDS database, and inventory system.
-- `Chemical_Inventory_Desktop_App`: Electron & Python desktop database for physical chemistry laboratories.
-- `Paper-Downloader-Website`: Automated DOI-to-paper academic retrieval utility.
-- `Docx-To-Pdf-Free`: High-fidelity client-side document conversion utility.
-- `Deepfake_Voice_Detection`: Audio biometrics and synthetic spectral frequency analyzer.
-- `Brain_Tumor_Detection_Project`: Deep learning MRI classification pipeline.
-- `Heart_Disease_Prediction_System`: Clinical risk classification model.
+Built as a modern, high-performance web app powered by **Next.js 14 App Router**, **Three.js WebGL**, **Tailwind CSS**, and connected to **Neon Serverless PostgreSQL** and deployed on **Microsoft Azure**.
 
 ---
 
-## 🚀 How to Run Locally
+## 🏗️ Architecture & Cloud Stack
 
-No build tools or heavy node dependencies required! Simply open `index.html` in any modern web browser:
-
-```bash
-# Option 1: Open directly in Chrome / Edge / Firefox
-double-click index.html
-
-# Option 2: Run a lightweight local HTTP server
-python -m http.server 8080
-# Then visit: http://localhost:8080
+```mermaid
+graph TD
+    Client["Browser / Visitor"] --> Azure["Azure Static Web Apps (East Asia)"]
+    Azure --> NextApp["Next.js 14 App Router SSR / Edge"]
+    NextApp --> WebGL["Three.js 3D Molecular Engine"]
+    NextApp --> APIRoutes["Next.js Serverless API Routes (/api/*)"]
+    APIRoutes --> NeonPool["Neon Serverless PostgreSQL (Pooled SSL)"]
+    NeonPool --> DB[(Tables: inquiries, collaborations, site_analytics)]
 ```
 
----
-
-## 🌐 Deploying to GitHub Pages or Custom Domain
-
-### Option A: Deploy to GitHub Pages (Recommended Repository)
-1. Push this repository to GitHub under `https://github.com/Kamran5H/Portfolio` (or `portfolio`).
-2. Go to repository **Settings** -> **Pages**.
-3. Under **Build and deployment**, select **Source**: `Deploy from a branch`.
-4. Branch: `main` / Folder: `/ (root)`.
-5. Click **Save**. Your site will be live at:
-   `https://kamran5h.github.io/Portfolio/`
-
-> **Note on Custom Domains:**
-> If you purchase a custom domain (e.g. `kamranashraf.com` or `chkamran.me`), simply add a file named `CNAME` in the root folder containing your domain name, and configure your DNS A records pointing to GitHub Pages IP addresses (`185.199.108.153`, etc.).
+- **Frontend & App Framework**: Next.js 14 (App Router) + React 18 + TypeScript + Tailwind CSS.
+- **Molecular & Quantum Simulation**: Three.js WebGL (Interactive Ce-doped NiCo-MOF, Urea-PANi, CaO Nanocrystals, and dz² d-Orbital quantum surfaces with `IntersectionObserver` pause).
+- **Database Layer**: Neon Serverless PostgreSQL (`@neondatabase/serverless`) with connection pooling and graceful mock fallback.
+- **Cloud Hosting**: Microsoft Azure Static Web Apps (`kamran-portfolio-rg` in East Asia).
+- **Continuous Deployment**: Automated GitHub Actions workflow (`.github/workflows/azure-static-web-apps.yml`).
+- **Custom Domain Ready**: Preconfigured with SSL and Azure custom domain mappings (CNAME & Apex ALIAS).
 
 ---
 
-## 📬 Contact Information
-- **Full Name:** Muhammad Kamran Ashraf
-- **Institution:** Quaid-i-Azam University, Islamabad 45320, Pakistan
-- **Email:** [chkamran32b@gmail.com](mailto:chkamran32b@gmail.com)
-- **Phone / WhatsApp:** +92 307 0325132
-- **GitHub:** [https://github.com/Kamran5H](https://github.com/Kamran5H)
-- **Academic Supervisor:** Prof. Dr. Safeer Ahmed ([safeerad@qau.edu.pk](mailto:safeerad@qau.edu.pk))
+## 🔬 Scientific & Academic Highlights
+
+### 1. Reverse-Chronological Academic Trajectory (2025–2015)
+- **2025 – Present**: MPhil Physical Chemistry (4th Semester, Session 2025–2027) at Quaid-i-Azam University, Islamabad. Registration No: `02062511039`, Coursework CGPA: `3.30/4.00`. Computational Electrocatalysis & Quantum DFT modeling on Ce-doped bimetallic NiCo-MOFs for ORR/OER.
+- **Jan 2024 – Feb 2025**: Senior Chemistry Lecturer at Unique Science Academy & High School, Johar View Campus, Lahore.
+- **2020 – 2024**: BS (Hons) Chemistry at School of Chemistry, University of the Punjab (PU, Lahore). Roll No: `BSAD-Chem-M-66`, Reg No: `2020-mco-485`. Capstone on green synthesized CaO nanoparticles & Urea-imprinted PANi electrochemical biosensor.
+- **Jan 2019 – Jan 2022**: Science Teacher (Chemistry, Physics, Math) at The Educators (Beaconhouse System), Noor Campus, Okara.
+- **2020 – 2022**: Associate Degree in Science (ADS / B.Sc) at Govt. Post Graduate College, Okara / PU.
+- **2017 – 2019**: Higher Secondary School Certificate (F.Sc Pre-Medical) at BISE Sahiwal (`960/1100`, Grade A+, 87.27%).
+- **2015 – 2017**: Secondary School Certificate (Matriculation in Science) at BISE Sahiwal (`917/1100`, Grade A+, 83.36%).
+
+### 2. Working Research Manuscripts
+1. **Under Departmental Review**: *"Why the Corner Is Empty: Antagonistic Requirements in Re-chargeable Zinc–Air Batteries"* (M. K. Ashraf, H. Maqbool, Safeer Ahmed*).
+2. **Completed Manuscript**: *"Grafting of Ethyl Acetoacetate onto Chitosan with Ammonium Persulfate"* (A. Rehman†, M. K. Ashraf†*, H. Maqbool).
+3. **In Preparation**: *"Facile Biosynthesis of Calcium Oxide Nanoparticles from Citrus limetta Peels for Enhanced Photocatalytic Degradation of Methylene Blue"* (M. K. Ashraf, Imran Din*, Safeer Ahmed).
+4. **Research Project**: *"Conductive Polyaniline/Urea Nanocomposite Films for Potentiometric Diagnostic Biosensing"* (M. K. Ashraf, Adeel Afzal*, Safeer Ahmed).
+
+### 3. Interactive Laboratory Calculators
+- **Solution Preparation Calculator**: Calculates mass required from desired molarity, molecular weight, and volume ($m = M \times MW \times V$) across 19 standard laboratory reagents.
+- **Solution Dilution Engine**: Computes target volume or stock requirements via $M_1V_1 = M_2V_2$ with one-click recipe copying.
+
+### 4. Verified Academic Documents & Credentials
+Click-to-inspect high-resolution scans of official credentials:
+- QAU Student Identity Card (`02062511039`)
+- University of the Punjab BS Chemistry Degree & Official Transcript
+- BISE Sahiwal F.Sc Pre-Medical & Matriculation Certificates
+- Formal Institutional Teaching Experience Letters (Unique Academy & The Educators)
+- Green International University Co-curricular Award
+
+---
+
+## 🚀 Local Development Setup
+
+### Prerequisites
+- Node.js 18+ (tested with Node 20 / 22 / 24)
+- npm or pnpm
+
+### Quickstart
+```bash
+# 1. Clone repository
+git clone https://github.com/Kamran5H/Portfolio.git
+cd Portfolio
+
+# 2. Install dependencies
+npm install
+
+# 3. (Optional) Configure Neon PostgreSQL database
+cp .env.example .env.local
+# Add your Neon connection string:
+# DATABASE_URL="postgresql://user:password@ep-xyz.eastus2.aws.neon.tech/neondb?sslmode=require"
+
+# 4. Initialize Database Schema (Tables: inquiries, collaborations, site_analytics)
+npm run db:init
+
+# 5. Start development server
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to view the live web application.
+
+---
+
+## 🗄️ Neon Serverless PostgreSQL Setup
+
+1. Create a free PostgreSQL database at [https://console.neon.tech](https://console.neon.tech).
+2. Copy the pooled connection string (with `?sslmode=require`).
+3. Set the environment variable in your local `.env.local` or Azure Static Web App settings:
+   ```env
+   DATABASE_URL="postgresql://kamran_owner:xxxx@ep-cool-wave-xxxx.eastus2.aws.neon.tech/neondb?sslmode=require"
+   ```
+4. Run the schema initializer:
+   ```bash
+   npm run db:init
+   ```
+> *Note: If `DATABASE_URL` is omitted, the web app operates in Resilient Fallback Mode using an in-memory mock store so all form submissions and API health checks succeed without downtime.*
+
+---
+
+## ☁️ Microsoft Azure Deployment
+
+This repository is preconfigured for **Azure Static Web Apps** with automated GitHub Actions CI/CD.
+
+### Azure Static Web App Configuration
+- Resource Group: `kamran-portfolio-rg`
+- Region: `eastasia`
+- Workflow: `.github/workflows/azure-static-web-apps.yml`
+- App Location: `/`
+- Output Location: `.next`
+
+### Azure Environment Variables
+In the Azure Portal, navigate to **Static Web App > Configuration > Application Settings** and add:
+- `DATABASE_URL`: Your Neon Serverless PostgreSQL connection string.
+
+---
+
+## 🌐 Custom Domain Setup
+
+When you acquire your domain (e.g. `kamranashraf.com`, `kamranchem.com`, or any chosen domain), configure your DNS provider with the following records:
+
+| Record Type | Host / Name | Value / Target | Notes |
+|:---|:---|:---|:---|
+| **CNAME** | `www` | `<your-azure-app-name>.azurestaticapps.net` | Points `www.yourdomain.com` |
+| **ALIAS / ANAME** (or **A**) | `@` (root) | `<your-azure-app-name>.azurestaticapps.net` | Points apex domain |
+| **TXT** (if requested) | `_dnsauth` | `<verification-token-from-azure>` | Automatic SSL certificate validation |
+
+Then, add the domain in the Azure Portal under **Static Web App > Custom Domains**. Azure will automatically issue and renew a free TLS/SSL certificate.
+
+---
+
+## 👨‍🔬 Scholar & Supervision Contacts
+- **Scholar**: Muhammad Kamran Ashraf (`kamranashraf51214@gmail.com`)
+- **Research Supervisor**: Prof. Dr. Safeer Ahmed (`safeerad@qau.edu.pk`)
+- **Department**: Department of Chemistry, Quaid-i-Azam University, Islamabad 45320, Pakistan
+- **GitHub**: [https://github.com/Kamran5H](https://github.com/Kamran5H)
