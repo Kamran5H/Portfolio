@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import CVButton from './CVButton';
 
 /** A crystal-lattice dot field that bends away from the cursor, then springs back. */
@@ -62,13 +63,28 @@ function Lattice() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', build); window.removeEventListener('pointermove', move); document.removeEventListener('pointerleave', out); };
   }, []);
 
-  return <canvas ref={ref} aria-hidden className="absolute inset-0 h-full w-full [mask-image:radial-gradient(ellipse_at_70%_45%,black_20%,transparent_75%)]" />;
+  return <canvas ref={ref} aria-hidden className="absolute inset-0 h-full w-full [mask-image:radial-gradient(ellipse_at_30%_60%,black_15%,transparent_70%)]" />;
 }
+
+const Framework3D = dynamic(() => import('./Framework3D'), { ssr: false });
+
+const LEGEND: [string, string][] = [['Ni', '#8fbf6a'], ['Co', '#ff5b1f'], ['Ce', '#d9b45a'], ['BDC', '#6f6a60']];
 
 export default function Hero() {
   return (
     <section id="top" className="relative min-h-[100svh] overflow-hidden">
       <Lattice />
+      <div className="pointer-events-none absolute inset-x-0 top-12 h-[48svh] opacity-70 animate-[fadein_1.6s_cubic-bezier(0.22,1,0.36,1)_both] [mask-image:linear-gradient(to_bottom,black_40%,transparent)] lg:inset-y-0 lg:left-auto lg:h-auto lg:w-[52%] lg:opacity-100 lg:[mask-image:linear-gradient(to_right,transparent,black_30%)]">
+        <Framework3D />
+      </div>
+      <div className="meta pointer-events-none absolute bottom-8 right-8 hidden flex-col items-end gap-2 text-paper-faint lg:flex">
+        <span>Ce-doped NiCo-MOF · thesis structure</span>
+        <span className="flex gap-3">
+          {LEGEND.map(([k, c]) => (
+            <span key={k} className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ background: c }} />{k}</span>
+          ))}
+        </span>
+      </div>
       <div className="relative mx-auto flex min-h-[100svh] max-w-[1280px] flex-col justify-end px-4 pb-16 pt-28 sm:px-8 sm:pb-24">
         <p className="meta mb-6 flex items-center gap-2 text-paper-dim">
           <span className="h-1.5 w-1.5 rounded-full bg-moss animate-pulse" /> Islamabad · MPhil Physical Chemistry, QAU

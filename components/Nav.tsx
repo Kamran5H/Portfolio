@@ -20,7 +20,7 @@ export default function Nav() {
   }, []);
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${scrolled ? 'bg-ink/80 backdrop-blur-md border-b border-line' : ''}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${scrolled ? 'bg-ink/90 backdrop-blur-md border-b border-line' : ''}`}>
       <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-8">
         <a href="#top" className="display text-xl tracking-tight">
           Kamran<span className="text-signal">.</span>
