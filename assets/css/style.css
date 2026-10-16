@@ -74,6 +74,7 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -1377,3 +1378,240 @@ main {
     gap: 1rem;
   }
 }
+
+/* ScrollSpy Active Navigation Glow */
+.nav-links a {
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.nav-links a.active {
+  color: var(--accent-cyan) !important;
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-cyan);
+  border-radius: 99px;
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+/* Floating Back to Top Button with Circular Progress Ring */
+.btn-back-to-top {
+  position: fixed;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 900;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.9);
+  transition: all var(--transition-smooth);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.btn-back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.btn-back-to-top:hover {
+  background: var(--accent-cyan);
+  color: #060913;
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
+  transform: translateY(-3px);
+}
+
+.scroll-progress-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.scroll-progress-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 3;
+}
+
+.scroll-progress-circle {
+  fill: none;
+  stroke: var(--accent-cyan);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s ease;
+}
+
+/* Full-Screen Image Lightbox Viewer */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-smooth);
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 6, 12, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 2;
+  max-width: 92vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+}
+
+.lightbox-caption {
+  margin-top: 0.85rem;
+  color: var(--text-main);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 0.35rem 1.25rem;
+  border-radius: 99px;
+  border: 1px solid var(--border-subtle);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -46px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.lightbox-close:hover {
+  background: var(--accent-rose);
+  border-color: var(--accent-rose);
+}
+
+/* Lab Calculator Recipe Copy Buttons */
+.btn-copy-recipe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-copy-recipe:hover {
+  background: var(--accent-cyan);
+  color: #060913;
+  box-shadow: 0 0 14px rgba(0, 242, 254, 0.4);
+}
+
+/* Dedicated Print Stylesheet for Official CV & Verification */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt;
+  }
+  .navbar, .bg-ambient, .hero-section, .section, .footer, .btn-back-to-top, .toast, .no-print, .modal-close-btn {
+    display: none !important;
+  }
+  .modal-backdrop {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+    opacity: 1 !important;
+    display: block !important;
+  }
+  .modal-dialog {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    transform: none !important;
+  }
+  .modal-header {
+    border-bottom: 2px solid #000000 !important;
+    padding: 0 0 1rem 0 !important;
+    background: #ffffff !important;
+  }
+  .modal-header-title {
+    color: #000000 !important;
+    font-size: 18pt !important;
+  }
+  .printable-cv-container {
+    color: #111827 !important;
+  }
+  .printable-cv-container * {
+    color: #111827 !important;
+    border-color: #d1d5db !important;
+    background: transparent !important;
+  }
+  @page {
+    margin: 1.5cm;
+  }
+}
+

@@ -30,8 +30,13 @@
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="stylesheet" href="assets/css/animations.css" />
 
-  <!-- Three.js (WebGL 3D Engine) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Three.js (WebGL 3D Engine) - Bundled locally for 100% offline uptime -->
+  <script src="assets/js/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
 </head>
 <body>
 
@@ -85,7 +90,10 @@
   </header>
 
   <!-- Mobile Drawer Menu -->
-  <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+  <div class="mobile-nav-drawer" id="mobile-nav-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation Drawer" aria-hidden="true">
+    <div style="display:flex;justify-content:flex-end;width:100%;padding-bottom:0.5rem;">
+      <button class="modal-close-btn" onclick="document.getElementById('mobile-nav-drawer').classList.remove('open')" aria-label="Close navigation menu">&times;</button>
+    </div>
     <a href="#hero" class="nav-link">Overview</a>
     <a href="#research" class="nav-link">Working Research</a>
     <a href="#trajectory" class="nav-link">Life Trajectory (Reverse Chronology)</a>
@@ -937,16 +945,31 @@
             <label class="input-label" for="calc-reagent">Select Common Lab Reagent:</label>
             <select id="calc-reagent" class="input-field">
               <option value="custom">-- Custom Molecular Weight --</option>
-              <option value="cao" selected>Calcium Oxide (CaO) — 56.08 g/mol</option>
-              <option value="caco3">Calcium Carbonate (CaCO₃) — 100.09 g/mol</option>
-              <option value="urea">Urea [CO(NH₂)₂] — 60.06 g/mol</option>
-              <option value="aniline">Aniline (C₆H₅NH₂) — 93.13 g/mol</option>
-              <option value="edta">EDTA Disodium Salt — 292.24 g/mol</option>
-              <option value="aps">Ammonium Persulfate (APS) — 228.20 g/mol</option>
-              <option value="eaa">Ethyl Acetoacetate (EAA) — 130.14 g/mol</option>
-              <option value="chitosan">Chitosan Monomer — 161.16 g/mol</option>
-              <option value="naoh">Sodium Hydroxide (NaOH) — 40.00 g/mol</option>
-              <option value="hcl">Hydrochloric Acid (HCl) — 36.46 g/mol</option>
+              <optgroup label="Research Specific (QAU & PU)">
+                <option value="cao" selected>Calcium Oxide (CaO) — 56.08 g/mol</option>
+                <option value="caco3">Calcium Carbonate (CaCO₃) — 100.09 g/mol</option>
+                <option value="urea">Urea [CO(NH₂)₂] — 60.06 g/mol</option>
+                <option value="aniline">Aniline (C₆H₅NH₂) — 93.13 g/mol</option>
+                <option value="aps">Ammonium Persulfate (APS) — 228.20 g/mol</option>
+                <option value="eaa">Ethyl Acetoacetate (EAA) — 130.14 g/mol</option>
+                <option value="chitosan">Chitosan Monomer — 161.16 g/mol</option>
+                <option value="fe3o4">Magnetite Nanoparticles (Fe₃O₄) — 231.53 g/mol</option>
+                <option value="ni_no3">Nickel(II) Nitrate [Ni(NO₃)₂·6H₂O] — 290.79 g/mol</option>
+                <option value="co_no3">Cobalt(II) Nitrate [Co(NO₃)₂·6H₂O] — 291.03 g/mol</option>
+                <option value="ce_no3">Cerium(III) Nitrate [Ce(NO₃)₃·6H₂O] — 434.22 g/mol</option>
+                <option value="h2bdc">Terephthalic Acid (H₂BDC) — 166.13 g/mol</option>
+                <option value="zn_acetate">Zinc Acetate Dihydrate — 219.51 g/mol</option>
+                <option value="alginate">Sodium Alginate Monomer — 216.12 g/mol</option>
+              </optgroup>
+              <optgroup label="Bench Reagents & Acids/Bases">
+                <option value="naoh">Sodium Hydroxide (NaOH) — 40.00 g/mol</option>
+                <option value="koh">Potassium Hydroxide (KOH) — 56.11 g/mol</option>
+                <option value="hcl">Hydrochloric Acid (HCl) — 36.46 g/mol</option>
+                <option value="h2so4">Sulfuric Acid (H₂SO₄) — 98.08 g/mol</option>
+                <option value="kmno4">Potassium Permanganate (KMnO₄) — 158.03 g/mol</option>
+                <option value="edta">EDTA Disodium Salt Dihydrate — 372.24 g/mol</option>
+                <option value="nacl">Sodium Chloride (NaCl) — 58.44 g/mol</option>
+              </optgroup>
             </select>
           </div>
 
@@ -969,6 +992,12 @@
           <div class="calc-result-box">
             <span style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">Required Mass of Solute (m = M &times; MW &times; V)</span>
             <span class="calc-result-val" id="calc-mass-val">0.7010 g</span>
+            <div>
+              <button class="btn-copy-recipe" onclick="copySolutionRecipe()" title="Copy step-by-step weighing procedure">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Lab Recipe</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -998,6 +1027,12 @@
           <div class="calc-result-box" style="margin-top:auto;">
             <span style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem;">Aliquot &amp; Dilution Recipe</span>
             <span class="calc-result-val" id="dil-v1-val" style="font-size:1.05rem;">Take <b>5.00 mL</b> stock + dilute with <b>95.00 mL</b> solvent to <b>100 mL</b></span>
+            <div>
+              <button class="btn-copy-recipe" onclick="copyDilutionRecipe()" title="Copy step-by-step dilution protocol">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Dilution Protocol</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1092,6 +1127,15 @@
         <button onclick="openCVViewer()" style="background:none;border:none;color:var(--accent-cyan);cursor:pointer;font-size:inherit;">View Resume</button>
       </div>
     </footer>
+
+    <!-- Floating Back to Top Button with Circular Progress Ring -->
+    <button id="btn-back-to-top" class="btn-back-to-top" title="Glide to top" aria-label="Back to Top">
+      <svg class="scroll-progress-svg" viewBox="0 0 40 40">
+        <circle class="scroll-progress-bg" cx="20" cy="20" r="18"></circle>
+        <circle id="scroll-progress-circle" class="scroll-progress-circle" cx="20" cy="20" r="18"></circle>
+      </svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
   </main>
 
   <!-- Interactive Modal Backdrop Container -->

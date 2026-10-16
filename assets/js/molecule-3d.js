@@ -16,11 +16,28 @@
   let previousMousePosition = { x: 0, y: 0 };
   let currentPreset = 'mof';
 
-  // Check if Three.js is available
-  if (typeof THREE === 'undefined') {
+  // Check if Three.js and WebGL are available
+  function isWebGLAvailable() {
+    try {
+      const canvas = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+    } catch (e) {
+      return false;
+    }
+  }
+
+  if (typeof THREE === 'undefined' || !isWebGLAvailable()) {
     container.innerHTML = `
-      <div style="display:flex;height:100%;align-items:center;justify-content:center;color:#00f2fe;font-family:monospace;padding:2rem;text-align:center;">
-        [3D Molecular Engine: WebGL Ready]<br/>Loading High-Resolution Crystal Lattice...
+      <div style="display:flex;flex-direction:column;height:100%;align-items:center;justify-content:center;color:#00f2fe;font-family:var(--font-mono);padding:2rem;text-align:center;background:radial-gradient(circle at center, rgba(0,242,254,0.08), transparent 70%);border-radius:18px;">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="1.5" style="margin-bottom:1rem;animation:floatOrb 4s ease-in-out infinite;">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+          <polyline points="2 17 12 22 22 17"/>
+          <polyline points="2 12 12 17 22 12"/>
+        </svg>
+        <span style="font-weight:700;font-size:1.1rem;color:#ffffff;margin-bottom:0.4rem;">Ce-Doped NiCo-MOF 3D Lattice</span>
+        <span style="font-size:0.82rem;color:var(--text-muted);max-width:320px;line-height:1.5;">
+          Bimetallic catalytic framework with Cerium (Ce³⁺/Ce⁴⁺) electron modulation nodes.
+        </span>
       </div>`;
     return;
   }
@@ -377,27 +394,55 @@
       previousMousePosition = { x: e.clientX, y: e.clientY };
     });
 
-    // Touch support for mobile devices
+    // Touch support for mobile devices with passive listeners and pinch zoom
+    let initialPinchDistance = null;
+
     dom.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         isDragging = true;
+        initialPinchDistance = null;
         previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      } else if (e.touches.length === 2) {
+        isDragging = false;
+        initialPinchDistance = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
       }
-    });
+    }, { passive: true });
 
     window.addEventListener('touchend', () => {
       isDragging = false;
-    });
+      initialPinchDistance = null;
+    }, { passive: true });
 
     dom.addEventListener('touchmove', (e) => {
-      if (!isDragging || e.touches.length !== 1) return;
-      const deltaX = e.touches[0].clientX - previousMousePosition.x;
-      const deltaY = e.touches[0].clientY - previousMousePosition.y;
+      if (e.touches.length === 1 && isDragging) {
+        const deltaX = e.touches[0].clientX - previousMousePosition.x;
+        const deltaY = e.touches[0].clientY - previousMousePosition.y;
 
-      currentGroup.rotation.y += deltaX * 0.008;
-      currentGroup.rotation.x += deltaY * 0.008;
+        currentGroup.rotation.y += deltaX * 0.008;
+        currentGroup.rotation.x += deltaY * 0.008;
 
-      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      } else if (e.touches.length === 2 && initialPinchDistance !== null) {
+        const currentDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        const diff = initialPinchDistance - currentDist;
+        camera.position.z += diff * 0.05;
+        camera.position.z = Math.max(16, Math.min(60, camera.position.z));
+        initialPinchDistance = currentDist;
+      }
+    }, { passive: true });
+
+    // Double click to reset orientation and zoom
+    dom.addEventListener('dblclick', () => {
+      if (currentGroup) {
+        currentGroup.rotation.set(0, 0, 0);
+      }
+      camera.position.set(0, 0, 32);
     });
 
     // Mouse wheel zoom
