@@ -15,6 +15,8 @@
   let isDragging = false;
   let previousMousePosition = { x: 0, y: 0 };
   let currentPreset = 'mof';
+  let isCanvasVisible = true;
+  let animationFrameId = null;
 
   // Check if Three.js and WebGL are available
   function isWebGLAvailable() {
@@ -28,13 +30,13 @@
 
   if (typeof THREE === 'undefined' || !isWebGLAvailable()) {
     container.innerHTML = `
-      <div style="display:flex;flex-direction:column;height:100%;align-items:center;justify-content:center;color:#00f2fe;font-family:var(--font-mono);padding:2rem;text-align:center;background:radial-gradient(circle at center, rgba(0,242,254,0.08), transparent 70%);border-radius:18px;">
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="1.5" style="margin-bottom:1rem;animation:floatOrb 4s ease-in-out infinite;">
+      <div style="display:flex;flex-direction:column;height:100%;align-items:center;justify-content:center;color:var(--accent-blue);font-family:var(--font-mono);padding:2rem;text-align:center;background:rgba(15,23,42,0.6);border-radius:14px;border:1px solid var(--border-subtle);">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" style="margin-bottom:1rem;">
           <polygon points="12 2 2 7 12 12 22 7 12 2"/>
           <polyline points="2 17 12 22 22 17"/>
           <polyline points="2 12 12 17 22 12"/>
         </svg>
-        <span style="font-weight:700;font-size:1.1rem;color:#ffffff;margin-bottom:0.4rem;">Ce-Doped NiCo-MOF 3D Lattice</span>
+        <span style="font-weight:700;font-size:1.05rem;color:var(--text-heading);margin-bottom:0.35rem;">Ce-Doped NiCo-MOF 3D Lattice</span>
         <span style="font-size:0.82rem;color:var(--text-muted);max-width:320px;line-height:1.5;">
           Bimetallic catalytic framework with Cerium (Ce³⁺/Ce⁴⁺) electron modulation nodes.
         </span>
@@ -51,25 +53,25 @@
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.set(0, 0, 32);
 
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     container.appendChild(renderer.domElement);
 
-    // Ambient and Point Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    // Balanced academic laboratory lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0x00f2fe, 2.0);
+    const dirLight1 = new THREE.DirectionalLight(0xf1f5f9, 1.4);
     dirLight1.position.set(20, 25, 20);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x6366f1, 1.8);
+    const dirLight2 = new THREE.DirectionalLight(0x94a3b8, 0.9);
     dirLight2.position.set(-20, -20, -10);
     scene.add(dirLight2);
 
-    const pointLight = new THREE.PointLight(0xffffff, 1.2, 50);
+    const pointLight = new THREE.PointLight(0xffffff, 0.8, 50);
     pointLight.position.set(0, 0, 15);
     scene.add(pointLight);
 
@@ -82,8 +84,11 @@
     // Event Listeners for Interaction
     setupInteraction();
 
+    // IntersectionObserver to freeze GPU loop when off-screen
+    setupVisibilityObserver();
+
     window.addEventListener('resize', onWindowResize);
-    animate();
+    startAnimationLoop();
   }
 
   function clearCurrentModel() {
@@ -98,26 +103,26 @@
     }
   }
 
-  // Atom builder utility
-  function createAtom(x, y, z, radius, color, metalness = 0.4, roughness = 0.2) {
-    const geo = new THREE.SphereGeometry(radius, 24, 24);
+  // Atom builder utility (optimized polycount)
+  function createAtom(x, y, z, radius, color, metalness = 0.35, roughness = 0.25) {
+    const geo = new THREE.SphereGeometry(radius, 16, 16);
     const mat = new THREE.MeshStandardMaterial({
       color: color,
       metalness: metalness,
       roughness: roughness,
       emissive: color,
-      emissiveIntensity: 0.15
+      emissiveIntensity: 0.08
     });
     const atom = new THREE.Mesh(geo, mat);
     atom.position.set(x, y, z);
     return atom;
   }
 
-  // Bond builder utility
+  // Bond builder utility (optimized polycount)
   function createBond(p1, p2, radius = 0.12, color = 0x8899aa) {
     const direction = new THREE.Vector3().subVectors(p2, p1);
     const length = direction.length();
-    const geo = new THREE.CylinderGeometry(radius, radius, length, 12);
+    const geo = new THREE.CylinderGeometry(radius, radius, length, 8);
     const mat = new THREE.MeshStandardMaterial({
       color: color,
       metalness: 0.2,
@@ -482,12 +487,44 @@
     renderer.setSize(width, height);
   }
 
+  function setupVisibilityObserver() {
+    if (!('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isCanvasVisible = entry.isIntersecting;
+        if (isCanvasVisible) {
+          startAnimationLoop();
+        } else {
+          stopAnimationLoop();
+        }
+      });
+    }, { threshold: 0.05 });
+    observer.observe(container);
+  }
+
+  function startAnimationLoop() {
+    if (!animationFrameId && isCanvasVisible) {
+      animate();
+    }
+  }
+
+  function stopAnimationLoop() {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+  }
+
   function animate() {
-    requestAnimationFrame(animate);
+    if (!isCanvasVisible) {
+      animationFrameId = null;
+      return;
+    }
+    animationFrameId = requestAnimationFrame(animate);
 
     if (isAutoRotating && !isDragging && currentGroup) {
-      currentGroup.rotation.y += 0.004;
-      currentGroup.rotation.x += 0.0015;
+      currentGroup.rotation.y += 0.003;
+      currentGroup.rotation.x += 0.001;
     }
 
     renderer.render(scene, camera);
