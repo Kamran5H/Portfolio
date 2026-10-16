@@ -4,7 +4,11 @@ import { insertCollaboration } from '@/lib/db';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { scholarName, institution, email, projectTopic, proposalSummary } = body;
+    const scholarName = body.scholarName || body.lead_investigator || '';
+    const institution = body.institution || '';
+    const email = body.email || '';
+    const projectTopic = body.projectTopic || body.title || body.domain || '';
+    const proposalSummary = body.proposalSummary || body.abstract || '';
 
     if (!scholarName || !institution || !email || !projectTopic || !proposalSummary) {
       return NextResponse.json(
