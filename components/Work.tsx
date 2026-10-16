@@ -45,7 +45,7 @@ export default function Work() {
                   {!p.repo && <span className="text-paper-faint">Source private</span>}
                 </div>
               </div>
-              <div className={`relative overflow-hidden rounded-[28px] border border-line bg-ink-2 ${featured ? 'h-[560px] sm:h-[640px]' : 'h-[420px] sm:h-[480px]'} ${flip ? 'lg:order-1' : ''}`}>
+              <div className={`relative rounded-[28px] border border-line bg-ink-2 [transform-style:preserve-3d] ${featured ? 'h-[560px] sm:h-[640px]' : 'h-[420px] sm:h-[480px]'} ${flip ? 'lg:order-1' : ''}`}>
                 <Visual />
               </div>
             </article>

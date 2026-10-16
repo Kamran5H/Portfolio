@@ -15,7 +15,7 @@ const FEED = [
 export function KalamVisual() {
   const tilt = useTilt<HTMLDivElement>(10);
   const [ref, tick] = useTicker(2600);
-  const [liked, setLiked] = useState<Record<number, boolean>>({});
+  const [liked, setLiked] = useState<Record<string, boolean>>({});
   const top = tick % FEED.length;
   const order = [0, 1, 2].map((i) => FEED[(top + i) % FEED.length]);
 
@@ -35,37 +35,40 @@ export function KalamVisual() {
               ))}
             </div>
             <div className="flex flex-1 flex-col gap-2 px-3">
-              {order.map((p, i) => (
-                <div
-                  key={p.body}
-                  className={`rounded-xl p-3 text-[11px] leading-snug transition-all duration-700 ease-out ${
-                    p.kind === 'Verse' ? 'bg-gradient-to-br from-[#f3e2b3] to-[#e6c97a] text-center' : p.kind === 'Question' ? 'bg-[#dfe9f5]' : 'bg-white'
-                  } ${i === 0 ? 'animate-[none] opacity-100' : 'opacity-90'}`}
-                  style={{ transform: `translateY(${i === 0 ? 0 : 0}px)` }}
-                >
-                  <div className="mb-1 text-[8px] font-bold uppercase tracking-wider opacity-50">{p.kind}</div>
-                  <div dir="auto" className={`whitespace-pre-line ${p.kind === 'Verse' ? 'display text-[14px]' : p.kind === 'Line' ? 'font-semibold text-[13px]' : ''}`}>{p.body}</div>
-                  <div className="mt-2 flex items-center justify-between text-[9px] opacity-60">
-                    <span>{p.who}</span>
-                    <button
-                      aria-label="Like"
-                      onClick={() => setLiked((l) => ({ ...l, [i + top]: !l[i + top] }))}
-                      className={`transition-transform duration-300 active:scale-150 ${liked[i + top] ? 'text-[#d6336c] opacity-100' : ''}`}
-                    >
-                      ♥ {12 + ((i + top) * 7) % 30 + (liked[i + top] ? 1 : 0)}
-                    </button>
+              {order.map((p, i) => {
+                const isLiked = !!liked[p.body];
+                const baseLikes = 14 + ((p.body.length * 3) % 19);
+                return (
+                  <div
+                    key={p.body}
+                    className={`rounded-xl p-3 text-[11px] leading-snug transition-all duration-700 ease-out ${
+                      p.kind === 'Verse' ? 'bg-gradient-to-br from-[#f3e2b3] to-[#e6c97a] text-center' : p.kind === 'Question' ? 'bg-[#dfe9f5]' : 'bg-white'
+                    } ${i === 0 ? 'animate-[none] opacity-100' : 'opacity-90'}`}
+                  >
+                    <div className="mb-1 text-[8px] font-bold uppercase tracking-wider opacity-50">{p.kind}</div>
+                    <div dir="auto" className={`whitespace-pre-line ${p.kind === 'Verse' ? 'display text-[14px]' : p.kind === 'Line' ? 'font-semibold text-[13px]' : ''}`}>{p.body}</div>
+                    <div className="mt-2 flex items-center justify-between text-[9px] opacity-60">
+                      <span>{p.who}</span>
+                      <button
+                        aria-label={isLiked ? 'Unlike' : 'Like'}
+                        onClick={() => setLiked((l) => ({ ...l, [p.body]: !l[p.body] }))}
+                        className={`transition-transform duration-300 active:scale-150 ${isLiked ? 'text-[#d6336c] opacity-100' : 'hover:text-[#d6336c]'}`}
+                      >
+                        ♥ {baseLikes + (isLiked ? 1 : 0)}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <div className="mt-2 grid grid-cols-4 border-t border-black/10 py-2 text-center text-[8px] font-semibold opacity-70">
               <span>Feed</span><span>Mentors</span><span>Chats</span><span>Bus</span>
             </div>
           </div>
         </div>
-        <Chip className="-left-24 top-16 [transform:translateZ(60px)]">✓ qau.edu.pk verified</Chip>
-        <Chip className="-right-20 top-44 [transform:translateZ(90px)]"><span className="text-sky-400">✓✓</span> Seen</Chip>
-        <Chip className="-left-16 bottom-20 [transform:translateZ(40px)]">🚌 Bab-ul-Quaid · 5:00</Chip>
+        <Chip className="-left-6 sm:-left-12 lg:-left-20 top-16 [transform:translateZ(60px)]">✓ qau.edu.pk verified</Chip>
+        <Chip className="-right-6 sm:-right-10 lg:-right-16 top-44 [transform:translateZ(90px)]"><span className="text-sky-400">✓✓</span> Seen</Chip>
+        <Chip className="-left-4 sm:-left-8 lg:-left-14 bottom-20 [transform:translateZ(40px)]">🚌 Bab-ul-Quaid · 5:00</Chip>
       </div>
     </div>
   );
@@ -177,79 +180,181 @@ export function ArticlesVisual() {
 /* ---------------- Humanizer: drag to compare machine vs. human ---------------- */
 
 export function HumanizerVisual() {
-  const [x, setX] = useState(52);
+  const [x, setX] = useState(65);
   const before = 'In today’s rapidly evolving landscape, it is crucial to leverage cutting-edge solutions that seamlessly delve into the multifaceted tapestry of innovation.';
   const after = 'Things change fast. Pick tools that solve the problem in front of you, and drop the ones that don’t.';
 
+  // x% represents percentage of human text revealed from the left
+  // x = 0%: 100% Machine text visible, Score = 94% (Red)
+  // x = 100%: 100% Human text visible, Score = 8% (Green)
+  const score = Math.round(94 - (x / 100) * (94 - 8));
+  const scoreColor = score <= 25 ? '#8fbf6a' : score <= 55 ? '#d9b45a' : '#ff5b1f';
+
   return (
     <div className="relative flex h-full flex-col items-center justify-center gap-5 p-6">
-      <div className="relative w-full max-w-[460px] select-none overflow-hidden rounded-2xl border border-line-2 bg-ink-2 text-[15px] leading-relaxed">
-        <div className="p-6 text-paper-faint">
-          <div className="meta mb-3 text-signal">Machine · 94% AI</div>
-          <p className="line-through decoration-signal/40">{before}</p>
+      <div className="group relative w-full max-w-[460px] select-none overflow-hidden rounded-2xl border border-line-2 bg-ink-2 text-[15px] leading-relaxed transition-all focus-within:ring-2 focus-within:ring-signal/80">
+        {/* Base layer: Raw Machine Text */}
+        <div className="p-6 text-paper-dim">
+          <div className="meta mb-3 flex items-center justify-between text-signal">
+            <span>Machine Output</span>
+            <span className="font-mono text-[10px] text-paper-faint">Raw AI Draft</span>
+          </div>
+          <p className="line-through decoration-signal/40 opacity-70">{before}</p>
         </div>
-        <div className="absolute inset-0 bg-[#f4efe4] p-6 text-ink" style={{ clipPath: `inset(0 0 0 ${x}%)` }}>
-          <div className="meta mb-3 text-[#3c7a2a]">Human · 8% AI</div>
+
+        {/* Top layer: Humanized Text (revealed from left to right) */}
+        <div
+          className="absolute inset-0 bg-[#f4efe4] p-6 text-ink transition-[clip-path] duration-75 ease-out"
+          style={{ clipPath: `inset(0 ${100 - x}% 0 0)` }}
+        >
+          <div className="meta mb-3 flex items-center justify-between text-[#3c7a2a]">
+            <span>Humanized Prose</span>
+            <span className="font-mono text-[10px] opacity-70">Natural Tone</span>
+          </div>
           <p className="display text-[22px] leading-snug">{after}</p>
         </div>
-        <div className="pointer-events-none absolute inset-y-0 w-px bg-signal" style={{ left: `${x}%` }}>
-          <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal px-2 py-1 font-mono text-[10px] text-ink">⇆</div>
+
+        {/* Vertical divider handle */}
+        <div className="pointer-events-none absolute inset-y-0 w-px bg-signal shadow-[0_0_12px_rgba(255,91,31,0.8)]" style={{ left: `${x}%` }}>
+          <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal px-2 py-1 font-mono text-[10px] font-bold text-ink shadow-lg">
+            ⇆
+          </div>
         </div>
+
+        {/* Accessible range slider */}
         <input
-          type="range" min={0} max={100} value={x} onChange={(e) => setX(+e.target.value)}
-          aria-label="Compare before and after"
-          className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
+          type="range"
+          min={0}
+          max={100}
+          value={x}
+          onChange={(e) => setX(+e.target.value)}
+          aria-label="Humanizer comparison: slide to naturalize machine text"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={x}
+          aria-valuetext={`${score}% AI likelihood score (${x}% humanized)`}
+          className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0 focus-visible:opacity-10"
         />
       </div>
+
+      {/* Synchronized AI detector bar */}
       <div className="flex w-full max-w-[460px] items-center gap-3 font-mono text-[11px] text-paper-dim">
-        <span>detector</span>
-        <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-ink-3">
-          <div className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-300 ease-out" style={{ width: `${94 - x * 0.86}%`, background: x > 50 ? '#8fbf6a' : '#ff5b1f' }} />
+        <span className="text-[10px] uppercase tracking-wider text-paper-faint">AI Detection</span>
+        <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-ink-3">
+          <div
+            className="absolute inset-y-0 left-0 rounded-full transition-all duration-300 ease-out"
+            style={{ width: `${score}%`, backgroundColor: scoreColor }}
+          />
         </div>
-        <span className="w-10 text-right tabular-nums">{Math.round(94 - x * 0.86)}%</span>
+        <span className="w-12 text-right font-mono text-[12px] font-semibold tabular-nums" style={{ color: scoreColor }}>
+          {score}%
+        </span>
       </div>
+      <p className="meta text-[10px] text-paper-faint">slide to compare · 0% raw AI → 100% human prose</p>
     </div>
   );
 }
 
-/* ---------------- Quidian: parallel segment download ---------------- */
+/* ---------------- Quidian: dynamic multi-stream media engine ---------------- */
 
-const FORMATS = ['2160p', '1080p', 'MP3', 'SRT'];
+const FORMAT_CONFIG = [
+  { label: '2160p', badge: '4K UHD', desc: 'aria2c · 16 parallel threads · 48.2 MB/s · AV1/Opus', type: 'video4k' },
+  { label: '1080p', badge: 'FHD', desc: 'aria2c · 8 parallel threads · 24.4 MB/s · H.264/AAC', type: 'video1080' },
+  { label: 'MP3', badge: 'Audio', desc: 'FFmpeg live pipeline · 320 kbps CBR · Stereo Master', type: 'audio' },
+  { label: 'SRT', badge: 'Subtitles', desc: 'Automated Whisper VTT extraction · English + Urdu', type: 'subs' },
+];
 
 export function VideosVisual() {
-  const [ref, tick] = useTicker(120);
-  const [fmt, setFmt] = useState(0);
-  const segs = Array.from({ length: 8 }, (_, i) => Math.min(100, Math.max(0, ((tick * (3 + ((i * 7) % 5))) % 180) - i * 6)));
+  const [ref, tick] = useTicker(100);
+  const [fmtIndex, setFmtIndex] = useState(0);
+  const currentFmt = FORMAT_CONFIG[fmtIndex];
+
+  // Dynamic waveform/packets driven by active format
+  const barCount = 44;
+  const isAudio = currentFmt.type === 'audio';
+  const isSubs = currentFmt.type === 'subs';
+  const is4K = currentFmt.type === 'video4k';
+
+  const segs = Array.from({ length: 8 }, (_, i) => {
+    const rate = is4K ? 6 : isAudio ? 4 : 5;
+    return Math.min(100, Math.max(0, ((tick * (rate + ((i * 5) % 4))) % 200) - i * 8));
+  });
   const total = Math.round(segs.reduce((a, b) => a + b, 0) / segs.length);
 
   return (
     <div ref={ref} className="relative flex h-full items-center justify-center p-6">
       <div className="w-full max-w-[460px] rounded-2xl border border-line-2 bg-ink-2 p-5 shadow-2xl">
-        <div className="flex items-center gap-2 rounded-lg bg-ink-3 px-3 py-2 font-mono text-[11px] text-paper-dim">
-          <span className="text-signal">▶</span> youtube.com/playlist?list=PL·lectures
+        <div className="flex items-center justify-between rounded-lg bg-ink-3 px-3 py-2 font-mono text-[11px] text-paper-dim">
+          <div className="flex items-center gap-2 truncate">
+            <span className="text-signal">▶</span>
+            <span className="truncate">youtube.com/watch?v=electrocatalysis_lecture</span>
+          </div>
+          <span className="ml-2 rounded bg-signal/20 px-1.5 py-0.5 text-[9px] font-bold text-signal">{currentFmt.badge}</span>
         </div>
-        <div className="mt-4 flex gap-2">
-          {FORMATS.map((f, i) => (
-            <button key={f} onClick={() => setFmt(i)} className={`rounded-full border px-3 py-1 font-mono text-[11px] transition-all duration-300 ${fmt === i ? 'border-signal bg-signal text-ink' : 'border-line text-paper-dim hover:border-paper-dim'}`}>
-              {f}
+
+        <div className="mt-4 flex gap-2" role="group" aria-label="Media format selection">
+          {FORMAT_CONFIG.map((f, i) => (
+            <button
+              key={f.label}
+              onClick={() => setFmtIndex(i)}
+              className={`rounded-full border px-3 py-1 font-mono text-[11px] transition-all duration-300 ${
+                fmtIndex === i ? 'border-signal bg-signal text-ink font-semibold' : 'border-line text-paper-dim hover:border-paper-dim hover:text-paper'
+              }`}
+            >
+              {f.label}
             </button>
           ))}
         </div>
-        <div className="mt-5 flex h-12 items-end gap-[3px]">
-          {Array.from({ length: 48 }, (_, i) => (
-            <div key={i} className="flex-1 rounded-sm bg-paper/20 transition-all duration-150" style={{ height: `${18 + Math.abs(Math.sin((i + tick) * 0.35) * Math.cos(i * 0.7)) * 82}%`, background: i / 48 < total / 100 ? '#ff5b1f' : undefined }} />
-          ))}
+
+        {/* Dynamic visual stream visualizer */}
+        <div className="mt-5 flex h-14 items-end gap-[3px] rounded-lg bg-ink-3/50 px-2 py-1">
+          {Array.from({ length: barCount }, (_, i) => {
+            let height = 20;
+            if (isAudio) {
+              // Audio spectrum equalizer style
+              const freq = Math.sin((i / barCount) * Math.PI) * 70;
+              const jitter = Math.abs(Math.sin((i + tick * 2) * 0.45) * Math.cos(i * 0.6)) * 30;
+              height = Math.min(100, Math.max(12, freq + jitter));
+            } else if (isSubs) {
+              // Subtitle packet pulse bursts
+              height = (i % 6 === (tick % 6)) ? 80 : 15;
+            } else {
+              // Video segment transfer waveforms
+              const wave = Math.abs(Math.sin((i + tick) * (is4K ? 0.5 : 0.3)) * Math.cos(i * 0.7)) * 80;
+              height = Math.min(100, Math.max(16, 18 + wave));
+            }
+            const active = (i / barCount) * 100 < total;
+            return (
+              <div
+                key={i}
+                className="flex-1 rounded-sm transition-all duration-100"
+                style={{
+                  height: `${height}%`,
+                  backgroundColor: active ? (isAudio ? '#d9b45a' : isSubs ? '#38bdf8' : '#ff5b1f') : 'rgba(236,232,223,0.12)',
+                }}
+              />
+            );
+          })}
         </div>
-        <div className="mt-4 grid grid-cols-8 gap-1">
+
+        {/* Parallel segmented workers */}
+        <div className="mt-4 grid grid-cols-8 gap-1.5">
           {segs.map((s, i) => (
             <div key={i} className="h-1.5 overflow-hidden rounded-full bg-ink-3">
-              <div className="h-full bg-moss" style={{ width: `${s}%` }} />
+              <div
+                className="h-full transition-all duration-150"
+                style={{
+                  width: `${s}%`,
+                  backgroundColor: isAudio ? '#d9b45a' : isSubs ? '#38bdf8' : '#8fbf6a',
+                }}
+              />
             </div>
           ))}
         </div>
-        <div className="mt-3 flex justify-between font-mono text-[10px] text-paper-faint">
-          <span>aria2c · 8 connections · {FORMATS[fmt]}</span>
-          <span className="tabular-nums text-paper">{total}%</span>
+
+        <div className="mt-3 flex items-center justify-between font-mono text-[10px] text-paper-faint">
+          <span className="truncate pr-2">{currentFmt.desc}</span>
+          <span className="font-semibold tabular-nums text-paper">{total}%</span>
         </div>
       </div>
     </div>

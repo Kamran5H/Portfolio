@@ -16,15 +16,17 @@ export default function Stack() {
   return (
     <section className="border-t border-line">
       <div className="mx-auto max-w-[1280px] px-4 py-24 sm:px-8 sm:py-32">
-        <div className="reveal mb-14 flex items-baseline justify-between gap-6">
+        <div className="reveal mb-14 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
           <h2 className="display text-5xl sm:text-7xl">How it ships</h2>
-          <span className="meta hidden h-4 text-signal sm:block">{hover ? `${hover} → ${USED_IN[hover]}` : 'hover a tool'}</span>
+          <span className="meta min-h-[1.25rem] text-signal transition-opacity duration-300">
+            {hover ? `${hover} → ${USED_IN[hover]}` : 'tap or hover a tool'}
+          </span>
         </div>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {STACK.map((g, gi) => (
             <div key={g.group} className="reveal" style={{ transitionDelay: `${gi * 80}ms` }}>
               <div className="border-t border-line-2 pt-4">
-                <div className="font-medium">{g.group}</div>
+                <h3 className="font-medium text-paper text-base">{g.group}</h3>
                 <div className="meta mt-1 text-paper-faint">{g.note}</div>
               </div>
               <ul className="mt-6 space-y-1">

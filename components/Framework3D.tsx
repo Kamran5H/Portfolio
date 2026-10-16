@@ -73,22 +73,34 @@ export default function Framework3D() {
       }
     }
 
+    const materials: THREE.Material[] = [];
+    const geometries: THREE.BufferGeometry[] = [];
+    const textures: THREE.Texture[] = [];
+
     const COLORS = { Ni: 0x8fbf6a, Co: 0xff5b1f, Ce: 0xd9b45a, O: 0xece8df, C: 0x6f6a60 };
     const geo = new THREE.SphereGeometry(1, 20, 14);
+    geometries.push(geo);
+
     (Object.keys(COLORS) as (keyof typeof COLORS)[]).forEach((kind) => {
       const list = atoms.filter((a) => a.kind === kind);
       const mat = new THREE.MeshStandardMaterial({
         color: COLORS[kind], roughness: kind === 'C' ? 0.7 : 0.35, metalness: kind === 'Ce' ? 0.6 : 0.15,
         emissive: kind === 'Ce' ? 0x5a3c00 : 0x000000,
       });
+      materials.push(mat);
       const mesh = new THREE.InstancedMesh(geo, mat, list.length);
       const m = new THREE.Matrix4();
       list.forEach((a, idx) => mesh.setMatrixAt(idx, m.makeScale(a.r, a.r, a.r).setPosition(a.p)));
       lattice.add(mesh);
     });
+
     const bondGeo = new THREE.BufferGeometry();
     bondGeo.setAttribute('position', new THREE.Float32BufferAttribute(bonds, 3));
-    lattice.add(new THREE.LineSegments(bondGeo, new THREE.LineBasicMaterial({ color: 0xa9a397, transparent: true, opacity: 0.35 })));
+    geometries.push(bondGeo);
+
+    const lineMat = new THREE.LineBasicMaterial({ color: 0xa9a397, transparent: true, opacity: 0.35 });
+    materials.push(lineMat);
+    lattice.add(new THREE.LineSegments(bondGeo, lineMat));
 
     // Cerium glow halos
     const glow = document.createElement('canvas');
@@ -100,13 +112,17 @@ export default function Framework3D() {
     g.fillStyle = grad;
     g.fillRect(0, 0, 64, 64);
     const glowTex = new THREE.CanvasTexture(glow);
+    textures.push(glowTex);
+
     const halo = new THREE.SpriteMaterial({ map: glowTex, color: 0xd9b45a, transparent: true, opacity: 0.22, depthWrite: false, blending: THREE.AdditiveBlending });
+    materials.push(halo);
     atoms.filter((a) => a.kind === 'Ce').forEach((a) => { const s = new THREE.Sprite(halo); s.position.copy(a.p); s.scale.setScalar(1.6); lattice.add(s); });
 
     lattice.rotation.set(0.5, 0.6, 0);
 
     const resize = () => {
       const w = el.clientWidth, h = el.clientHeight;
+      if (w === 0 || h === 0) return;
       renderer.setSize(w, h);
       camera.aspect = w / h;
       // Fit the ~6-unit lattice to the shorter side of the viewport.
@@ -140,11 +156,25 @@ export default function Framework3D() {
     renderer.render(scene, camera);
     if (!reduce) loop();
 
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      cancelAnimationFrame(raf);
+    };
+    renderer.domElement.addEventListener('webglcontextlost', onContextLost, false);
+
     return () => {
-      cancelAnimationFrame(raf); io.disconnect(); ro.disconnect();
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      ro.disconnect();
       window.removeEventListener('pointermove', move);
-      renderer.dispose(); geo.dispose(); bondGeo.dispose(); glowTex.dispose();
-      el.removeChild(renderer.domElement);
+      renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
+      materials.forEach((m) => m.dispose());
+      geometries.forEach((g) => g.dispose());
+      textures.forEach((tex) => tex.dispose());
+      renderer.dispose();
+      if (el.contains(renderer.domElement)) {
+        el.removeChild(renderer.domElement);
+      }
     };
   }, []);
 

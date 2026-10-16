@@ -141,7 +141,7 @@ def write_ico_from_png(png_data: bytes, path: str, size: int = 32) -> None:
 
 
 def main() -> None:
-    out_dir = r"C:\Users\chkam\OneDrive\Desktop\BrandFinder\kamranashraf"
+    out_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     public_dir = os.path.join(out_dir, "public")
     app_dir = os.path.join(out_dir, "app")
     os.makedirs(public_dir, exist_ok=True)

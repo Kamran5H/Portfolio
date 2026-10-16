@@ -74,11 +74,11 @@ export default function Hero() {
   return (
     <section id="top" className="relative min-h-[100svh] overflow-hidden">
       <Lattice />
-      <div className="pointer-events-none absolute inset-x-0 top-12 h-[48svh] opacity-70 animate-[fadein_1.6s_cubic-bezier(0.22,1,0.36,1)_both] [mask-image:linear-gradient(to_bottom,black_40%,transparent)] lg:inset-y-0 lg:left-auto lg:h-auto lg:w-[52%] lg:opacity-100 lg:[mask-image:linear-gradient(to_right,transparent,black_30%)]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[42svh] opacity-30 sm:opacity-50 lg:opacity-100 animate-[fadein_1.6s_cubic-bezier(0.22,1,0.36,1)_both] [mask-image:linear-gradient(to_bottom,black_25%,transparent)] lg:inset-y-0 lg:left-auto lg:h-auto lg:w-[52%] lg:[mask-image:linear-gradient(to_right,transparent,black_30%)]">
         <Framework3D />
       </div>
       <div className="meta pointer-events-none absolute bottom-8 right-8 hidden flex-col items-end gap-2 text-paper-faint lg:flex">
-        <span>Ce-doped NiCo-MOF · thesis structure</span>
+        <span>Ce-doped NiCo-MOF · MPhil Thesis Structure</span>
         <span className="flex gap-3">
           {LEGEND.map(([k, c]) => (
             <span key={k} className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ background: c }} />{k}</span>
@@ -86,15 +86,21 @@ export default function Hero() {
         </span>
       </div>
       <div className="relative mx-auto flex min-h-[100svh] max-w-[1280px] flex-col justify-end px-4 pb-16 pt-28 sm:px-8 sm:pb-24">
-        <p className="meta mb-6 flex items-center gap-2 text-paper-dim">
-          <span className="h-1.5 w-1.5 rounded-full bg-moss animate-pulse" /> Islamabad · MPhil Physical Chemistry, QAU
-        </p>
-        <h1 className="display max-w-5xl text-[clamp(3rem,9vw,8.5rem)] leading-[0.92]">
+        <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-paper-dim">
+          <p className="meta flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-moss animate-pulse" /> QAU Islamabad · MPhil Physical Chemistry
+          </p>
+          <span className="hidden text-paper-faint sm:inline">·</span>
+          <p className="meta text-paper-faint">
+            Supervisor: <span className="text-paper-dim font-medium">Prof. Dr. Safeer Ahmed</span>
+          </p>
+        </div>
+        <h1 className="display max-w-5xl text-[clamp(2.75rem,8.5vw,8.5rem)] leading-[0.92]">
           Chemist by training.<br />
           <em className="text-paper-dim">Builder</em> by habit.
         </h1>
-        <p className="mt-8 max-w-md text-lg text-paper-dim">
-          I&apos;m Kamran. One campus network in production, twenty-plus tools on GitHub.
+        <p className="mt-8 max-w-lg text-lg text-paper-dim">
+          I&apos;m Kamran. Computational physical chemist researching electrocatalysts under Prof. Dr. Safeer Ahmed, building high-accuracy campus networks and scientific tools.
         </p>
         <div className="mt-10 flex flex-wrap items-center gap-3">
           <a href="#work" className="btn btn-solid">

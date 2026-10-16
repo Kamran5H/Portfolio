@@ -71,44 +71,84 @@ export default function Lab() {
   const [cat, setCat] = useState<(typeof CATS)[number]>('All');
   const list = REPOS.filter((r) => cat === 'All' || r.category === cat);
 
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let nextIndex = index;
+    if (e.key === 'ArrowRight') {
+      nextIndex = (index + 1) % CATS.length;
+    } else if (e.key === 'ArrowLeft') {
+      nextIndex = (index - 1 + CATS.length) % CATS.length;
+    } else if (e.key === 'Home') {
+      nextIndex = 0;
+    } else if (e.key === 'End') {
+      nextIndex = CATS.length - 1;
+    } else {
+      return;
+    }
+    e.preventDefault();
+    setCat(CATS[nextIndex]);
+    const tabEl = document.getElementById(`tab-${CATS[nextIndex]}`);
+    tabEl?.focus();
+  };
+
   return (
     <section id="lab" className="border-t border-line">
       <div className="mx-auto max-w-[1280px] px-4 py-24 sm:px-8 sm:py-32">
-        <div className="reveal mb-10 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+        <div className="reveal mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <h2 className="display text-5xl sm:text-7xl">The lab</h2>
-          <div role="tablist" className="flex flex-wrap gap-1.5">
-            {CATS.map((c) => (
+          <div
+            role="tablist"
+            aria-label="Repository Categories"
+            className="flex overflow-x-auto no-scrollbar pb-1 sm:pb-0 sm:flex-wrap gap-1.5"
+          >
+            {CATS.map((c, i) => (
               <button
                 key={c}
+                id={`tab-${c}`}
                 role="tab"
+                tabIndex={cat === c ? 0 : -1}
                 aria-selected={cat === c}
+                aria-controls={`panel-${c}`}
                 onClick={() => setCat(c)}
-                className={`rounded-full px-3.5 py-1.5 text-sm transition-all duration-500 ease-out ${cat === c ? 'bg-paper text-ink' : 'text-paper-dim hover:text-paper'}`}
+                onKeyDown={(e) => handleKeyDown(e, i)}
+                className={`whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm transition-all duration-300 ease-out focus-visible:ring-2 focus-visible:ring-signal ${
+                  cat === c ? 'bg-paper text-ink font-medium shadow-sm' : 'text-paper-dim hover:text-paper bg-ink-2/60 sm:bg-transparent'
+                }`}
               >
                 {c}
-                <sup className="ml-0.5 font-mono text-[9px] opacity-60">{c === 'All' ? REPOS.length : REPOS.filter((r) => r.category === c).length}</sup>
+                <sup className="ml-1 font-mono text-[9px] opacity-70">
+                  {c === 'All' ? REPOS.length : REPOS.filter((r) => r.category === c).length}
+                </sup>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          id={`panel-${cat}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${cat}`}
+          className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+        >
           {list.map((r, i) => {
             const Tag = r.repo ? 'a' : 'div';
             return (
               <Tag
                 key={r.name}
                 {...(r.repo ? { href: r.repo, target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="group relative flex min-h-[200px] gap-5 bg-ink p-6 transition-colors duration-500 hover:bg-ink-2 animate-[fadein_0.6s_cubic-bezier(0.22,1,0.36,1)_both]"
-                style={{ animationDelay: `${i * 30}ms` }}
+                className="group relative flex min-h-[200px] gap-5 bg-ink p-6 transition-colors duration-500 hover:bg-ink-2 animate-[fadein_0.5s_cubic-bezier(0.22,1,0.36,1)_both]"
+                style={{ animationDelay: `${i * 25}ms` }}
               >
                 <div className="h-16 w-16 shrink-0"><Glyph cat={r.category} seed={i} /></div>
                 <div className="flex min-w-0 flex-1 flex-col">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-medium text-paper">{r.name}</h3>
-                    {r.repo && <span className="text-paper-faint transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-signal">↗</span>}
+                    <h3 className="font-medium text-paper text-base">{r.name}</h3>
+                    {r.repo ? (
+                      <span className="text-paper-faint transition-all duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-signal">↗</span>
+                    ) : (
+                      <span className="font-mono text-[10px] text-paper-faint">Private</span>
+                    )}
                   </div>
-                  <p className="mt-2 text-sm text-paper-dim">{r.line}</p>
+                  <p className="mt-2 text-sm text-paper-dim leading-relaxed">{r.line}</p>
                   <div className="mt-auto flex items-center justify-between pt-5">
                     <StatusBadge status={r.status} />
                     <span className="font-mono text-[11px] text-paper-faint">{r.lang}</span>
@@ -119,7 +159,7 @@ export default function Lab() {
           })}
         </div>
 
-        <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="link-arrow mt-8 text-sm text-paper-dim">
+        <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="link-arrow mt-8 text-sm text-paper-dim hover:text-paper inline-flex">
           Everything on github.com/Kamran5H <span>↗</span>
         </a>
       </div>
