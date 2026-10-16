@@ -150,7 +150,7 @@ export default function Research() {
                   showDocs ? 'border-signal bg-signal text-ink font-semibold' : 'border-line text-paper-dim hover:text-paper hover:border-paper-dim'
                 }`}
               >
-                {showDocs ? 'Hide Verified Credentials' : 'View Verified Credentials (9 Scans) ↓'}
+                {showDocs ? 'Hide Verified Credentials' : `View Verified Credentials (${CREDENTIALS.length} Scans) ↓`}
               </button>
             </div>
           </div>

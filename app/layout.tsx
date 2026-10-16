@@ -10,14 +10,14 @@ export const metadata: Metadata = {
   title: 'Muhammad Kamran Ashraf | Physical Chemist & Computational Researcher (QAU)',
   description: 'MPhil Physical Chemistry scholar at Quaid-i-Azam University (QAU) Islamabad, supervised by Prof. Dr. Safeer Ahmed. Research in DFT simulations, Ce-doped NiCo MOFs, electrocatalysis, and 20+ software engines.',
   authors: [{ name: 'Muhammad Kamran Ashraf', url: 'https://github.com/Kamran5H' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://kamran5h.github.io'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://zealous-wave-0fa444a00.5.azurestaticapps.net'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://kamran5h.github.io',
+    url: '/',
     title: 'Muhammad Kamran Ashraf | Physical Chemist & Computational Researcher',
     description: 'MPhil Physical Chemistry at QAU Islamabad. Quantum ESPRESSO DFT, Ce-NiCo MOFs for Zn-air batteries, QAU Kalam, and 20+ shipped tools.',
     siteName: 'Muhammad Kamran Ashraf Portfolio',
@@ -43,7 +43,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Muhammad Kamran Ashraf',
-  url: 'https://kamran5h.github.io',
+  url: 'https://zealous-wave-0fa444a00.5.azurestaticapps.net',
   jobTitle: 'Computational Physical Chemist & Software Engineer',
   worksFor: {
     '@type': 'CollegeOrUniversity',
