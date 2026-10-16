@@ -150,9 +150,23 @@ export default function MoleculeViewer() {
 
     window.addEventListener('resize', handleResize);
 
+    const onAppSleep = () => {
+      stopLoop();
+    };
+    const onAppWake = () => {
+      if (isVisibleRef.current) {
+        startLoop();
+      }
+    };
+
+    window.addEventListener('app:sleep', onAppSleep);
+    window.addEventListener('app:wake', onAppWake);
+
     return () => {
       observer.disconnect();
       stopLoop();
+      window.removeEventListener('app:sleep', onAppSleep);
+      window.removeEventListener('app:wake', onAppWake);
       container.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);

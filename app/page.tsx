@@ -14,6 +14,7 @@ import DocModal, { DocItem } from '@/components/modals/DocModal';
 import CVModal from '@/components/modals/CVModal';
 import ResearchModal from '@/components/modals/ResearchModal';
 import Toast, { ToastMessage } from '@/components/ui/Toast';
+import SleepManager from '@/components/ui/SleepManager';
 
 export default function Home() {
   const [selectedDoc, setSelectedDoc] = useState<DocItem | null>(null);
@@ -64,6 +65,12 @@ export default function Home() {
 
       {/* Lightweight Notifications */}
       <Toast toasts={toasts} onDismiss={removeToast} />
+
+      {/* 3-Minute Inactivity Sleep & Scale-to-Zero Standby Manager */}
+      <SleepManager
+        timeoutMs={180000}
+        onToast={(msg, type) => addToast(msg, type)}
+      />
     </div>
   );
 }
