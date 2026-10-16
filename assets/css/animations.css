@@ -1,0 +1,111 @@
+/* 
+  MUHAMMAD KAMRAN ASHRAF — ACADEMIC & COMPUTATIONAL PORTFOLIO
+  Animations, Top-Layer Transitions & Keyframes
+*/
+
+/* Floating Ambient Orbs */
+@keyframes floatOrb1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-40px, 60px) scale(1.08);
+  }
+}
+
+@keyframes floatOrb2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(60px, -50px) scale(1.12);
+  }
+}
+
+.orb-1 {
+  animation: floatOrb1 18s ease-in-out infinite;
+}
+
+.orb-2 {
+  animation: floatOrb2 22s ease-in-out infinite;
+}
+
+/* Subtle Shimmer & Glows */
+@keyframes borderGlow {
+  0%, 100% {
+    border-color: rgba(0, 242, 254, 0.25);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+  }
+  50% {
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+  }
+}
+
+.glow-animated {
+  animation: borderGlow 4s ease-in-out infinite;
+}
+
+/* Typing cursor animation */
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background-color: var(--accent-cyan);
+  vertical-align: -0.15em;
+  margin-left: 2px;
+  animation: blinkCursor 0.8s infinite;
+}
+
+/* Modal and Top-layer Entrance */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-backdrop.active .modal-dialog {
+  animation: modalEnter 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered Timeline Fade-In */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-item {
+  animation: fadeSlideUp 0.6s ease forwards;
+}
+
+/* Particle or Atom Pulse */
+@keyframes atomPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px var(--accent-cyan));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 12px var(--accent-cyan));
+  }
+}
+
+.pulse-atom {
+  animation: atomPulse 3s infinite ease-in-out;
+}
