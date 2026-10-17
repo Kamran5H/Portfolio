@@ -1,12 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { SITE } from '@/lib/site';
 import Masthead from './Masthead';
 import CVButton from './CVButton';
-import ThreeStage from './three/ThreeStage';
-import AtomModel from './three/models/AtomModel';
 import VaultModal from './VaultModal';
+
+const Framework3D = dynamic(() => import('./Framework3D'), { ssr: false });
+
+const LEGEND: [string, string][] = [
+  ['Ni', '#8fbf6a'],
+  ['Co', '#ff5b1f'],
+  ['Ce', '#d9b45a'],
+  ['BDC', '#6f6a60'],
+];
 
 export default function Hero() {
   const [vaultOpen, setVaultOpen] = useState(false);
@@ -66,7 +74,7 @@ export default function Hero() {
             {/* Quick Metrics Bar */}
             <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-line/70 grid grid-cols-3 gap-3 sm:gap-4 max-w-md">
               <div>
-                <div className="display text-xl sm:text-3xl text-paper">8+</div>
+                <div className="display text-xl sm:text-3xl text-paper">5</div>
                 <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">Flagships</div>
               </div>
               <div>
@@ -80,11 +88,24 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: Isolated 3D Quantum Chemistry Orbital Artifact */}
-          <div className="w-full h-[230px] sm:h-[380px] lg:h-[480px] order-1 lg:order-2">
-            <ThreeStage className="h-full w-full">
-              <AtomModel />
-            </ThreeStage>
+          {/* Right: Authentic MPhil Thesis 3D MOF Crystal Structure */}
+          <div className="relative w-full h-[280px] sm:h-[400px] lg:h-[480px] order-1 lg:order-2 rounded-3xl border border-line/80 bg-gradient-to-b from-ink-card to-ink-2 overflow-hidden shadow-2xl shadow-black/50">
+            <div className="absolute inset-0">
+              <Framework3D />
+            </div>
+
+            {/* Thesis Structure Legend & Tag */}
+            <div className="pointer-events-none absolute bottom-3 inset-x-4 flex items-center justify-between text-paper-faint bg-ink/75 px-3 py-1.5 rounded-xl border border-line/50 backdrop-blur-sm">
+              <span className="font-mono text-[10px] text-paper-dim">Ce-doped NiCo-MOF · Thesis</span>
+              <span className="flex items-center gap-2.5 font-mono text-[10px]">
+                {LEGEND.map(([k, c]) => (
+                  <span key={k} className="flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ background: c }} />
+                    <span>{k}</span>
+                  </span>
+                ))}
+              </span>
+            </div>
           </div>
         </div>
       </div>

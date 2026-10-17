@@ -13,5 +13,8 @@
   { "id": "early-coding", "name": "Early Coding Archive", "line": "First Tkinter tools and a boiling-point ML model.", "category": "Desktop", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/Early-Coding-Archive" },
   { "id": "ai-coding", "name": "AI-Coding", "line": "Local coding agent with SSE streaming and approval gates.", "category": "AI", "lang": "JavaScript", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/AI-Coding" },
   { "id": "videostudio", "name": "VideoStudio", "line": "Text- and image-to-video on free cloud GPUs.", "category": "AI", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/VideoStudio" },
-  { "id": "aura", "name": "AURA", "line": "Personal chief-of-staff agent for tasks and mail.", "category": "AI", "lang": "Python", "status": "PRIVATE", "locked": true }
+  { "id": "aura", "name": "AURA", "line": "Personal chief-of-staff agent for tasks and mail.", "category": "AI", "lang": "Python", "status": "PRIVATE", "locked": true },
+  { "id": "gmail-zenith", "name": "Gmail Zenith", "line": "Rule-based inbox cleanup and automated triaging on the official Gmail API.", "category": "Automation", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/GmailZenith" },
+  { "id": "disk-cleaner", "name": "Disk Cleaner Pro", "line": "High-performance duplicate hunter and cleanup for Windows drives.", "category": "Desktop", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/DiskOptimizerPro" },
+  { "id": "facebook-cleaner", "name": "Facebook Cleaner", "line": "Bulk-triage friends, groups, and pages from an automated web GUI.", "category": "Automation", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/FacebookCleaner" }
 ]
