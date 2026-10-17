@@ -49,7 +49,7 @@ export default function Hero() {
             </h2>
 
             <p className="mt-4 sm:mt-6 text-sm sm:text-lg text-paper-dim max-w-xl leading-relaxed">
-              Supervised by <strong className="text-paper font-medium">Prof. Dr. Safeer Ahmed</strong> in Physical Chemistry — investigating Ce-doped NiCo-MOF bifunctional electrocatalysts via Quantum ESPRESSO DFT, while architecting high-throughput production platforms and automation engines.
+              Investigating Ce-doped NiCo-MOF bifunctional electrocatalysts for OER/HER through Quantum ESPRESSO DFT simulations, while engineering high-throughput production platforms, desktop engines, and scientific automation.
             </p>
 
             {/* CTAs */}

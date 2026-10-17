@@ -4,48 +4,47 @@ import { SITE } from '@/lib/site';
 
 export default function Masthead() {
   return (
-    <header className="relative w-full pt-20 pb-4 sm:pt-28 sm:pb-8 text-center overflow-hidden">
-      <div className="mx-auto max-w-5xl px-4 flex flex-col items-center">
-        {/* 1. Grand Starting Title: "A Programmer Chemist's Portfolio" in best attractive manner */}
-        <div className="w-full flex flex-col items-center justify-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald/30 bg-emerald/[0.08] backdrop-blur-md px-3.5 py-1 mb-3.5 sm:mb-4 shadow-sm shadow-emerald/20 transition-all hover:border-emerald-bright/50">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-bright animate-ping" />
-            <span className="meta text-[10px] sm:text-[11px] text-emerald-bright font-mono tracking-widest uppercase">
-              Computational Bench × Production Software
-            </span>
-          </div>
-
-          <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
-            <h1 className="display whitespace-nowrap text-[clamp(1.35rem,5.2vw,4.2rem)] leading-[1.1] tracking-tight text-paper font-normal select-none">
-              <span className="bg-gradient-to-r from-paper via-[#fbf8ee] to-emerald-bright bg-clip-text text-transparent drop-shadow-sm">
-                A Programmer Chemist&apos;s Portfolio
-              </span>
-            </h1>
-          </div>
-        </div>
-
-        {/* 2. Urdu Name: Very very beautiful fonts, radiant colour & style, complete on ONE single line */}
-        <div className="mt-3.5 sm:mt-5 w-full flex flex-col items-center justify-center">
-          <div className="w-full max-w-full overflow-hidden flex items-center justify-center py-1">
-            <div
-              dir="rtl"
-              lang="ur"
-              className="font-urdu urdu-glow whitespace-nowrap text-[clamp(1.85rem,5.8vw,3.75rem)] leading-[1.65] select-none text-center px-2"
-            >
-              <span className="bg-gradient-to-r from-amber-200 via-gold-bright to-emerald-bright bg-clip-text text-transparent font-medium tracking-normal">
-                {SITE.name.urdu}
-              </span>
-            </div>
-          </div>
-          {/* Refined English transliteration anchor */}
-          <span className="mt-0.5 font-sans text-xs sm:text-sm tracking-wider text-paper-dim/80 font-light select-none">
-            {SITE.name.first} {SITE.name.middle} {SITE.name.last}
+    <header className="relative w-full pt-20 pb-2 sm:pt-24 sm:pb-4 text-center overflow-hidden">
+      <div className="mx-auto max-w-4xl px-4 flex flex-col items-center">
+        
+        {/* 1. Academic / Scholar Credential Capsule */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald/30 bg-emerald/[0.08] backdrop-blur-md px-3.5 py-1.5 mb-3 sm:mb-4 shadow-sm shadow-emerald/20 transition-all hover:border-emerald-bright/50">
+          <span className="flex h-2 w-2 relative flex-shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-bright" />
+          </span>
+          <span className="font-mono text-[10px] sm:text-xs text-paper font-medium whitespace-nowrap">
+            QAU Islamabad
+          </span>
+          <span className="text-paper-faint">·</span>
+          <span className="font-mono text-[10px] sm:text-xs text-emerald-bright font-medium whitespace-nowrap">
+            MPhil Chemistry Researcher
           </span>
         </div>
 
-        {/* 3. Chemist, builder, islamabad - complete on ONE single line */}
-        <div className="mt-3 sm:mt-4 w-full overflow-hidden flex items-center justify-center">
-          <div className="flex items-center justify-center gap-2 sm:gap-3.5 font-mono text-[11px] sm:text-[13px] tracking-[0.18em] sm:tracking-[0.24em] text-paper-dim uppercase whitespace-nowrap select-none">
+        {/* 2. Big English Name: Prominent, authoritative, scholarship-caliber */}
+        <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
+          <h1 className="display whitespace-nowrap text-[clamp(2.1rem,6.2vw,5.2rem)] leading-[1.05] tracking-tight text-paper font-normal select-none">
+            <span className="bg-gradient-to-r from-paper via-[#fbf8ee] to-emerald-bright bg-clip-text text-transparent drop-shadow-sm">
+              {SITE.name.first} {SITE.name.middle} {SITE.name.last}
+            </span>
+          </h1>
+        </div>
+
+        {/* 3. Smaller, refined Urdu signature: Elegant calligraphic accent */}
+        <div className="mt-1 sm:mt-1.5 flex items-center justify-center gap-2 select-none">
+          <span
+            dir="rtl"
+            lang="ur"
+            className="font-urdu whitespace-nowrap text-base sm:text-xl text-gold/90 font-normal tracking-wide drop-shadow-[0_2px_10px_rgba(245,158,11,0.25)]"
+          >
+            {SITE.name.urdu}
+          </span>
+        </div>
+
+        {/* 4. Single-line descriptor: Chemist · Builder · Islamabad */}
+        <div className="mt-2.5 sm:mt-3 w-full overflow-hidden flex items-center justify-center">
+          <div className="flex items-center justify-center gap-2 sm:gap-3.5 font-mono text-[11px] sm:text-xs tracking-[0.2em] sm:tracking-[0.24em] text-paper-dim uppercase whitespace-nowrap select-none">
             <span className="text-paper hover:text-emerald-bright transition-colors font-medium">Chemist</span>
             <span className="text-emerald-bright/70 font-mono text-xs">✦</span>
             <span className="text-emerald-bright font-semibold hover:text-emerald transition-colors">Builder</span>
@@ -54,22 +53,12 @@ export default function Masthead() {
           </div>
         </div>
 
-        {/* 4. QAU Islamabad · MPhil Chemistry Researcher - one line on desktop, equally balanced in two on mobile */}
-        <div className="mt-3.5 sm:mt-4.5 inline-flex items-center justify-center">
-          <div className="inline-flex flex-wrap sm:flex-nowrap items-center justify-center gap-1.5 sm:gap-2.5 rounded-full border border-white/[0.12] bg-ink-2/70 backdrop-blur-md px-3.5 py-1.5 sm:px-5 sm:py-2 shadow-lg shadow-black/30 hover:border-emerald/40 transition-all">
-            <span className="flex h-2 w-2 relative flex-shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-bright" />
-            </span>
-            <span className="font-mono text-[10px] sm:text-xs text-paper font-medium whitespace-nowrap">
-              QAU Islamabad
-            </span>
-            <span className="hidden sm:inline text-paper-faint">·</span>
-            <span className="font-mono text-[10px] sm:text-xs text-emerald-bright font-medium whitespace-nowrap">
-              MPhil Chemistry Researcher
-            </span>
-          </div>
-        </div>
+        {/* 5. Humanized, engaging academic statement */}
+        <p className="mt-3 sm:mt-3.5 max-w-xl text-xs sm:text-sm text-paper-dim font-light leading-relaxed select-none">
+          Bridging quantum-scale DFT simulation with high-throughput production software.
+          Supervised by <strong className="text-paper font-medium">Prof. Dr. Safeer Ahmed</strong> at Quaid-i-Azam University.
+        </p>
+
       </div>
     </header>
   );
