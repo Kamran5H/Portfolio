@@ -7,8 +7,11 @@ import {
   VAULT_ITEMS,
   type Category,
   type VaultItem,
+  ARTIFACTS,
+  type LabItem,
 } from "@/lib/site";
 import VaultModal from "./VaultModal";
+import { ArtifactThumbnail, ArtifactDialog } from "./ProjectArtifact";
 const CATEGORIES: ("All" | Category)[] = [
   "All",
   "Research",
@@ -23,6 +26,7 @@ export default function Lab() {
   const [expanded, setExpanded] = useState(false);
   const [selected, setSelected] = useState<VaultItem | null>(null);
   const [modal, setModal] = useState(false);
+  const [preview, setPreview] = useState<LabItem | null>(null);
   const list = useMemo(
     () =>
       REPOS.filter(
@@ -90,6 +94,11 @@ export default function Lab() {
         <div className="collection-grid">
           {visible.map((item) => (
             <article key={item.id} className="collection-card">
+              <ArtifactThumbnail
+                projectId={item.id}
+                name={item.name}
+                onOpen={() => setPreview(item)}
+              />
               <div className="card-topline">
                 <span className="eyebrow">{item.category}</span>
                 <span className="collection-language">{item.lang}</span>
@@ -163,6 +172,14 @@ export default function Lab() {
             isOpen={modal}
             onClose={() => setModal(false)}
             selectedItem={selected}
+          />
+        )}
+        {preview && (
+          <ArtifactDialog
+            artifact={ARTIFACTS.find((a) => a.id === preview.id)!}
+            name={preview.name}
+            href={preview.repo}
+            onClose={() => setPreview(null)}
           />
         )}
       </div>

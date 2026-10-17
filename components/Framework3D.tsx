@@ -5,11 +5,15 @@ import * as THREE from "three";
 
 /**
  * A slowly turning Ce-doped NiCo metal–organic framework: metal nodes on a cubic
- * lattice joined by benzene-dicarboxylate (BDC) linkers. Drag-free — it leans toward the cursor.
+ * lattice joined by benzene-dicarboxylate (BDC) linkers. Drag or use the turn controls;
+ * animation is opt-in and stops when the scene is hidden or off-screen.
  */
 export default function Framework3D() {
   const mount = useRef<HTMLDivElement>(null);
   const control = useRef<((paused: boolean) => void) | null>(null);
+  const view = useRef<((direction: "left" | "right" | "reset") => void) | null>(
+    null,
+  );
   const [paused, setPaused] = useState(true);
   const [unsupported, setUnsupported] = useState(false);
 
@@ -37,7 +41,12 @@ export default function Framework3D() {
     el.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const fog = new THREE.Fog(0x0f0f0d, 9, 20);
+    const palette = () => getComputedStyle(document.documentElement);
+    const fog = new THREE.Fog(
+      new THREE.Color(palette().getPropertyValue("--model-bg").trim()),
+      9,
+      20,
+    );
     scene.fog = fog;
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
     camera.position.set(0, 0, 14);
@@ -46,7 +55,7 @@ export default function Framework3D() {
     const key = new THREE.DirectionalLight(0xffffff, 0.9);
     key.position.set(5, 6, 8);
     scene.add(key);
-    const rim = new THREE.PointLight(0xff5b1f, 1.4, 30);
+    const rim = new THREE.PointLight(0x9f8055, 1.0, 30);
     rim.position.set(-6, -3, 4);
     scene.add(rim);
 
@@ -129,11 +138,11 @@ export default function Framework3D() {
     const textures: THREE.Texture[] = [];
 
     const COLORS = {
-      Ni: 0x8fbf6a,
-      Co: 0xff5b1f,
-      Ce: 0xd9b45a,
-      O: 0xece8df,
-      C: 0x6f6a60,
+      Ni: 0x3f8069,
+      Co: 0x9b5a40,
+      Ce: 0xb38c45,
+      O: 0x77969b,
+      C: 0x525b54,
     };
     const geo = new THREE.SphereGeometry(1, 20, 14);
     geometries.push(geo);
@@ -163,9 +172,9 @@ export default function Framework3D() {
     geometries.push(bondGeo);
 
     const lineMat = new THREE.LineBasicMaterial({
-      color: 0xa9a397,
+      color: palette().getPropertyValue("--muted").trim(),
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.55,
     });
     materials.push(lineMat);
     lattice.add(new THREE.LineSegments(bondGeo, lineMat));
@@ -235,11 +244,53 @@ export default function Framework3D() {
       t = 0,
       isPaused = true,
       lost = false;
+    const manual = { y: 0 };
+    view.current = (direction) => {
+      if (direction === "reset") {
+        manual.y = 0;
+        t = 0;
+        lattice.rotation.set(0.5, 0.6, 0);
+      } else {
+        manual.y += direction === "left" ? -0.3 : 0.3;
+        lattice.rotation.y = 0.6 + t + manual.y;
+      }
+      if (!lost) renderer.render(scene, camera);
+    };
+    let dragX: number | null = null;
+    const down = (e: PointerEvent) => {
+      if (!e.isPrimary || e.button !== 0) return;
+      dragX = e.clientX;
+      canvas.setPointerCapture(e.pointerId);
+    };
+    const drag = (e: PointerEvent) => {
+      if (dragX === null) return;
+      manual.y += (e.clientX - dragX) * 0.01;
+      dragX = e.clientX;
+      lattice.rotation.y = 0.6 + t + manual.y;
+      if (!lost) renderer.render(scene, camera);
+    };
+    const upDrag = () => {
+      dragX = null;
+    };
+    canvas.addEventListener("pointerdown", down);
+    canvas.addEventListener("pointermove", drag);
+    canvas.addEventListener("pointerup", upDrag);
+    canvas.addEventListener("pointercancel", upDrag);
+    const syncPalette = () => {
+      fog.color.set(palette().getPropertyValue("--model-bg").trim());
+      lineMat.color.set(palette().getPropertyValue("--muted").trim());
+      if (!lost) renderer.render(scene, camera);
+    };
+    const themeObserver = new MutationObserver(syncPalette);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
     const loop = () => {
       cancelAnimationFrame(raf);
       if (!visible || isPaused || lost || document.hidden) return;
       t += 0.0035;
-      lattice.rotation.y = 0.6 + t + target.x;
+      lattice.rotation.y = 0.6 + t + manual.y + target.x;
       lattice.rotation.x += (0.5 + target.y - lattice.rotation.x) * 0.04;
       halo.opacity = 0.16 + Math.sin(t * 8) * 0.08;
       renderer.render(scene, camera);
@@ -287,6 +338,12 @@ export default function Framework3D() {
       io.disconnect();
       ro.disconnect();
       control.current = null;
+      view.current = null;
+      themeObserver.disconnect();
+      canvas.removeEventListener("pointerdown", down);
+      canvas.removeEventListener("pointermove", drag);
+      canvas.removeEventListener("pointerup", upDrag);
+      canvas.removeEventListener("pointercancel", upDrag);
       document.removeEventListener("visibilitychange", sync);
       window.removeEventListener("pointermove", move);
       renderer.domElement.removeEventListener(
@@ -314,23 +371,52 @@ export default function Framework3D() {
       <div
         ref={mount}
         aria-hidden="true"
-        className="h-full w-full pointer-events-none"
+        className="model-canvas h-full w-full"
       />
       {unsupported ? (
         <p className="absolute inset-0 flex items-center justify-center p-8 text-sm text-paper-dim">
           The schematic needs WebGL. Research details are available above.
         </p>
       ) : (
-        <button
-          className="btn btn-ghost absolute bottom-4 right-4"
-          aria-pressed={!paused}
-          onClick={() => {
-            control.current?.(!paused);
-            setPaused(!paused);
-          }}
+        <div
+          className="model-controls"
+          role="group"
+          aria-label="3D model controls"
         >
-          {paused ? "Animate schematic" : "Pause animation"}
-        </button>
+          <span className="model-hint">Drag to turn</span>
+          <button
+            className="model-turn"
+            aria-label="Rotate model left"
+            onClick={() => view.current?.("left")}
+          >
+            ←
+          </button>
+          <button
+            className="model-turn"
+            aria-label="Rotate model right"
+            onClick={() => view.current?.("right")}
+          >
+            →
+          </button>
+          <button
+            className="model-turn"
+            aria-label="Reset model view"
+            onClick={() => view.current?.("reset")}
+          >
+            ↺
+          </button>
+          <button
+            className="btn btn-ghost model-animate"
+            aria-label={paused ? "Animate schematic" : "Pause animation"}
+            aria-pressed={!paused}
+            onClick={() => {
+              control.current?.(!paused);
+              setPaused(!paused);
+            }}
+          >
+            {paused ? "Animate" : "Pause"}
+          </button>
+        </div>
       )}
     </div>
   );

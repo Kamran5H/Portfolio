@@ -30,7 +30,8 @@ try {
     projects = read("projects"),
     lab = read("lab"),
     vault = read("vault"),
-    research = read("research");
+    research = read("research"),
+    artifacts = read("artifacts");
   for (const field of ["first", "middle", "last", "urdu"])
     text(site.name[field], "name." + field);
   assert(
@@ -38,6 +39,11 @@ try {
     "Invalid contact email",
   );
   url(site.siteUrl, "siteUrl");
+  assert(
+    /^\+[1-9]\d{9,14}$/.test(site.contactChannels?.whatsapp),
+    "WhatsApp must use international +digits format",
+  );
+  text(site.contactChannels?.wechat, "WeChat ID");
   list(site.socials, "socials");
   site.socials.forEach((s) => {
     text(s.label, "social label");
@@ -74,6 +80,7 @@ try {
     lab,
     vault,
     research,
+    artifacts,
   })) {
     list(entries, label);
     unique(entries, label);
@@ -128,8 +135,58 @@ try {
       item.id + " points at a missing request target",
     );
   });
+  const allProjects = [...projects, ...lab];
+  unique(allProjects, "combined projects");
+  const projectIds = allProjects.map((p) => p.id).sort();
+  assert.deepEqual(
+    artifacts.map((a) => a.id).sort(),
+    projectIds,
+    "Every project must have exactly one artifact",
+  );
+  const kinds = [
+    "papers",
+    "community",
+    "checklist",
+    "document",
+    "molecule",
+    "browser",
+    "sidebar",
+    "compare",
+    "table",
+    "chart",
+    "type",
+    "code",
+    "media",
+    "board",
+    "mail",
+  ];
+  artifacts.forEach((a) => {
+    text(a.label, a.id + " artifact label");
+    text(a.note, a.id + " preview disclosure");
+    assert(kinds.includes(a.kind), "Unknown artifact visual: " + a.id);
+    assert(
+      Array.isArray(a.stages) && a.stages.length === 3,
+      a.id + " artifact needs three stages",
+    );
+    assert(
+      new Set(a.stages.map((s) => s.label)).size === 3,
+      a.id + " artifact needs unique stage labels",
+    );
+    a.stages.forEach((s) => {
+      ["label", "title", "detail"].forEach((key) =>
+        text(s[key], a.id + " stage " + key),
+      );
+      if (s.mode)
+        assert(
+          kinds.includes(s.mode),
+          "Unknown artifact stage visual: " + a.id,
+        );
+      list(s.items, a.id + " sample items");
+      s.items.forEach((item) => text(item, a.id + " sample item"));
+    });
+  });
   console.log(
-    "Content verified: profile, CV, links, unique IDs, project evidence, research and private request references.",
+    "Content verified: profile, messaging contacts, CV, links, project evidence, all project artifacts, research and request references.",
   );
 } catch (error) {
   console.error("Content validation failed:", error.message);

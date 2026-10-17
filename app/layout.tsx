@@ -50,10 +50,10 @@ export const metadata: Metadata = {
     siteName: "Muhammad Kamran Ashraf Portfolio",
     images: [
       {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Muhammad Kamran Ashraf — Physical Chemist & Computational Researcher",
+        url: "/images/certificate-presentation.jpg",
+        width: 2560,
+        height: 2197,
+        alt: "Muhammad Kamran Ashraf receiving a certificate at an academic event",
       },
     ],
   },
@@ -62,13 +62,13 @@ export const metadata: Metadata = {
     title: "Muhammad Kamran Ashraf | Physical Chemist & Software Builder",
     description:
       "MPhil Physical Chemistry at QAU Islamabad · DFT modelling & electrocatalytic simulations.",
-    images: ["/og-image.png"],
+    images: ["/images/certificate-presentation.jpg"],
   },
   icons: { icon: "/favicon.ico" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#070c18",
+  themeColor: "#f6f4ed",
   width: "device-width",
   initialScale: 1,
 };
@@ -93,6 +93,8 @@ const jsonLd = {
   sameAs: SITE.socials.map((social) => social.href),
 };
 
+const themeScript = `(function(){try{var t=localStorage.getItem('portfolio-theme');if(t==='dark'||t==='light'){document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#191f1d':'#f6f4ed');}}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: {
@@ -102,8 +104,11 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${serif.variable} ${sans.variable} ${mono.variable}`}
+      data-theme="light"
+      suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

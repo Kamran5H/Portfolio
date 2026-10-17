@@ -10,6 +10,10 @@
   "location": "Islamabad, Pakistan",
   "siteUrl": "https://kamranashraf.is-a.dev",
   "email": "chkamran32b@gmail.com",
+  "contactChannels": {
+    "whatsapp": "+923070325132",
+    "wechat": "wxid_vln260814mxo22"
+  },
   "cv": {
     "pdf": "/cv/KAMRAN-ASHRAF-CV.pdf",
     "label": "Public CV"

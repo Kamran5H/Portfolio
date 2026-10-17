@@ -1,0 +1,844 @@
+[
+  {
+    "id": "articles-downloader",
+    "kind": "papers",
+    "label": "Literature discovery desk",
+    "note": "A sample literature workflow. Paper titles and citation records below are illustrative; this preview does not query scholarly databases.",
+    "stages": [
+      {
+        "label": "Discover",
+        "title": "One question, several sources",
+        "detail": "Federated discovery brings scholarly metadata into a single review queue.",
+        "items": [
+          "Query / NiCo MOF electrocatalysis",
+          "OpenAlex · Crossref · PubMed",
+          "Candidate records → relevance review"
+        ]
+      },
+      {
+        "label": "Review",
+        "title": "Review before retrieval",
+        "detail": "Compare metadata, remove duplicate DOIs, and select relevant records before retrieving available full text.",
+        "items": [
+          "Sample A / Cerium-modified frameworks",
+          "Sample B / Bimetallic catalyst design",
+          "Sample C / Oxygen evolution pathways"
+        ]
+      },
+      {
+        "label": "Export",
+        "title": "From discovery to references",
+        "detail": "The application supports reference-manager formats and access-dependent PDF retrieval.",
+        "mode": "code",
+        "items": [
+          "@article{sample_framework,",
+          "  title = {Illustrative framework study},",
+          "  note = {Sample citation, not a publication}",
+          "}"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "qau-kalam",
+    "kind": "community",
+    "label": "A shared campus space",
+    "note": "An illustrative community interface with fictional posts. Open the live project to use its current services.",
+    "stages": [
+      {
+        "label": "Conversations",
+        "title": "The campus, in conversation",
+        "detail": "A university-focused feed connects student questions and shared experiences.",
+        "items": [
+          "Chemistry / Starting a literature discussion",
+          "Campus life / Finding a study group",
+          "Student question / Planning the semester"
+        ]
+      },
+      {
+        "label": "Mentorship",
+        "title": "Make guidance easier to find",
+        "detail": "The mentorship area helps students explore academic guidance within their community.",
+        "items": [
+          "Academic direction / Research interests",
+          "Peer support / Study habits",
+          "Next step / Start a conversation"
+        ]
+      },
+      {
+        "label": "Campus",
+        "title": "Useful information, together",
+        "detail": "Campus information sits alongside student discussions rather than being scattered across unrelated groups.",
+        "items": [
+          "University information",
+          "Community updates",
+          "Student resources"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "subah-taskbook",
+    "kind": "checklist",
+    "label": "A gentler start to the day",
+    "note": "Try the sample checklist. Changes stay in this preview and reset when it closes or the page reloads.",
+    "stages": [
+      {
+        "label": "Focus",
+        "title": "Today, with intention",
+        "detail": "A small focus queue keeps the next useful action visible. Tick a sample task to try it.",
+        "items": [
+          "Read one research paper",
+          "Review experiment notes",
+          "Plan tomorrow’s first task"
+        ]
+      },
+      {
+        "label": "Reflect",
+        "title": "Leave a note for tomorrow",
+        "detail": "A reflective journal sits beside daily planning in the offline desktop application.",
+        "mode": "document",
+        "items": [
+          "A useful question emerged during reading.",
+          "Next: compare the proposed mechanisms.",
+          "Keep the next step specific and manageable."
+        ]
+      },
+      {
+        "label": "Rollover",
+        "title": "Carry the work forward",
+        "detail": "Unfinished work rolls into the next day, keeping a continuous plan without a growing wall of overdue dates.",
+        "mode": "board",
+        "items": [
+          "Today / Review experiment notes",
+          "Carry forward / Compare mechanisms",
+          "Tomorrow / Begin with one clear task"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "reviewforge",
+    "kind": "document",
+    "label": "From scope to structured draft",
+    "note": "Illustrative review pipeline; no draft is generated or submitted by this preview.",
+    "stages": [
+      {
+        "label": "Configure",
+        "title": "Define the review scope",
+        "detail": "Configuration makes the intended topic and draft structure explicit.",
+        "mode": "code",
+        "items": [
+          "topic: energy materials",
+          "sections: [context, methods, discussion]",
+          "output: review draft"
+        ]
+      },
+      {
+        "label": "Structure",
+        "title": "Make the argument visible",
+        "detail": "A structured pipeline organises the review before a researcher evaluates its evidence.",
+        "items": [
+          "01 / Context and research question",
+          "02 / Methods and comparison",
+          "03 / Discussion and limitations"
+        ]
+      },
+      {
+        "label": "Review",
+        "title": "A draft for human scrutiny",
+        "detail": "Academic claims, citations, and final language require researcher verification.",
+        "items": [
+          "Check each source",
+          "Compare the evidence",
+          "Revise the argument"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "research-daybook",
+    "kind": "document",
+    "label": "A page for the laboratory",
+    "note": "Fictional lab notes illustrating an offline journal; no experimental result is represented here.",
+    "stages": [
+      {
+        "label": "Observe",
+        "title": "Keep the context with the work",
+        "detail": "A single-file lab journal keeps daily observations close to the experiment.",
+        "items": [
+          "Question / What changed between samples?",
+          "Observation / Record the conditions first",
+          "Next / Check the instrument settings"
+        ]
+      },
+      {
+        "label": "Organise",
+        "title": "Make notes retrievable",
+        "detail": "A consistent journal structure helps connect questions, observations, and follow-up work.",
+        "mode": "board",
+        "items": [
+          "Preparation / Materials and method",
+          "Observation / Conditions and notes",
+          "Follow-up / Questions to investigate"
+        ]
+      },
+      {
+        "label": "Keep locally",
+        "title": "An offline working record",
+        "detail": "The application uses browser localStorage. Local records need a deliberate backup routine.",
+        "items": [
+          "Single HTML file",
+          "Browser-local journal",
+          "Device backup remains important"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "private-comp-chem",
+    "kind": "molecule",
+    "label": "A modelling workflow, in outline",
+    "note": "Conceptual workflow only. No private structures, calculations, research data, or unpublished results are exposed.",
+    "stages": [
+      {
+        "label": "Prepare",
+        "title": "Begin with a defined system",
+        "detail": "A modelling workflow starts with a clear structure and documented assumptions.",
+        "items": [
+          "Structure / Define the system",
+          "Method / Record assumptions",
+          "Inputs / Check consistency"
+        ]
+      },
+      {
+        "label": "Calculate",
+        "title": "Keep the workflow traceable",
+        "detail": "Inputs and calculation context belong together so that a result can be interpreted later.",
+        "items": [
+          "Input preparation",
+          "Calculation context",
+          "Output organisation"
+        ]
+      },
+      {
+        "label": "Interpret",
+        "title": "Discuss the scientific question",
+        "detail": "Project-specific methods and shareable material can be discussed directly.",
+        "items": [
+          "Inspect the outputs",
+          "Check the assumptions",
+          "Discuss available details"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "source-genius",
+    "kind": "browser",
+    "label": "From product to candidate source",
+    "note": "Fictional products and candidate domains; this preview performs no searches and endorses no supplier.",
+    "stages": [
+      {
+        "label": "Product",
+        "title": "Start with product context",
+        "detail": "Marketplace information provides a starting point for brand-site discovery.",
+        "items": [
+          "Sample product / Field notebook",
+          "Brand clue / Example stationery",
+          "Input / Product and marketplace context"
+        ]
+      },
+      {
+        "label": "Candidates",
+        "title": "Collect leads for review",
+        "detail": "Candidate websites need a human check before they can be treated as an official brand source.",
+        "items": [
+          "Candidate A / stationery.example",
+          "Candidate B / notebooks.example",
+          "Status / Verification required"
+        ]
+      },
+      {
+        "label": "Verify",
+        "title": "A lead is a starting point",
+        "detail": "Compare brand identity and product context before following up on a candidate.",
+        "items": [
+          "Check the brand identity",
+          "Compare product details",
+          "Review contact information"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "source-genius-ext",
+    "kind": "sidebar",
+    "label": "Research beside the browser page",
+    "note": "Illustrative MV3 side panel; it does not inspect your tabs or collect page content.",
+    "stages": [
+      {
+        "label": "Context",
+        "title": "Keep the page in view",
+        "detail": "The Chrome extension provides a side-panel interface for the Source Genius workflow.",
+        "items": [
+          "Current page / Sample product",
+          "Side panel / Source Genius",
+          "Context / Product information"
+        ]
+      },
+      {
+        "label": "Review",
+        "title": "Compare candidate leads",
+        "detail": "Candidate brand sources can be reviewed without losing the original page context.",
+        "items": ["Product clue", "Candidate website", "Manual verification"]
+      },
+      {
+        "label": "Continue",
+        "title": "A compact browser companion",
+        "detail": "The extension is the front-end; see the repository for its current setup and integration requirements.",
+        "items": [
+          "Manifest V3",
+          "Side-panel interface",
+          "Source Genius integration"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "auto-clear",
+    "kind": "checklist",
+    "label": "A deliberate browser cleanup",
+    "note": "Sample choices only. Ticking these boxes does not access or clear browser data.",
+    "stages": [
+      {
+        "label": "Choose",
+        "title": "Choose the scope",
+        "detail": "Review which browser-data categories a cleanup action would affect.",
+        "items": [
+          "Cached files",
+          "Browsing history",
+          "Cookies and site sessions"
+        ]
+      },
+      {
+        "label": "Review",
+        "title": "Understand the tradeoffs",
+        "detail": "Clearing cookies can sign you out. Cleanup scope should match the intended action.",
+        "mode": "document",
+        "items": [
+          "Cache / Files may be downloaded again",
+          "History / Browsing records are removed",
+          "Cookies / Sessions can be reset"
+        ]
+      },
+      {
+        "label": "Extension",
+        "title": "Run it in the actual extension",
+        "detail": "The repository contains the browser extension. This portfolio preview has no cleanup permissions.",
+        "mode": "browser",
+        "items": [
+          "Review extension permissions",
+          "Choose the intended categories",
+          "Use the installed extension"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tiktok-hunter",
+    "kind": "compare",
+    "label": "Compare product candidates",
+    "note": "Fictional listings demonstrating a matching workflow; no marketplace is queried.",
+    "stages": [
+      {
+        "label": "Input",
+        "title": "Begin with one product",
+        "detail": "Product information from Amazon is used to seek possible TikTok Shop matches.",
+        "items": [
+          "Reference / Sample travel mug",
+          "Clues / Brand, size, and colour",
+          "Target / Candidate shop listing"
+        ]
+      },
+      {
+        "label": "Compare",
+        "title": "Compare the important details",
+        "detail": "Candidate matches still need a check of identity, variant, and listing context.",
+        "items": [
+          "Identity / Compare brand names",
+          "Variant / Compare size and colour",
+          "Listing / Review product context"
+        ]
+      },
+      {
+        "label": "Review",
+        "title": "Keep uncertainty visible",
+        "detail": "Automated matching supports a review queue; it does not establish authenticity on its own.",
+        "items": [
+          "Candidate A / Needs review",
+          "Candidate B / Different variant",
+          "Decision / Verify manually"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "brand-scrapers",
+    "kind": "table",
+    "label": "A traceable product-data pipeline",
+    "note": "Synthetic product identifiers and rows; no scraping is performed here.",
+    "stages": [
+      {
+        "label": "Collect",
+        "title": "Gather product identifiers",
+        "detail": "The toolkit combines ASIN scraping and related lookup utilities.",
+        "items": [
+          "SAMPLE-001 / Notebook",
+          "SAMPLE-002 / Travel mug",
+          "SAMPLE-001 / Duplicate input"
+        ]
+      },
+      {
+        "label": "Clean",
+        "title": "Prepare a consistent table",
+        "detail": "Cleaner utilities help normalise collected product records.",
+        "items": [
+          "SAMPLE-001 / Notebook",
+          "SAMPLE-002 / Travel mug",
+          "Duplicate rows / Flag for review"
+        ]
+      },
+      {
+        "label": "Look up",
+        "title": "Connect the lookup stage",
+        "detail": "Keepa integrations depend on their service configuration and access requirements.",
+        "items": [
+          "Identifier / Lookup input",
+          "Provider / Keepa configuration",
+          "Output / Reviewable product records"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "chrome-monitor",
+    "kind": "chart",
+    "label": "See the browser’s working footprint",
+    "note": "Illustrative bars and sample profiles, not live device measurements.",
+    "stages": [
+      {
+        "label": "Profiles",
+        "title": "Know which context is active",
+        "detail": "The desktop tool monitors Chrome profiles and related browser activity.",
+        "items": [
+          "Research / Sample profile",
+          "Development / Sample profile",
+          "Personal / Sample profile"
+        ]
+      },
+      {
+        "label": "Extensions",
+        "title": "Review the browser’s additions",
+        "detail": "Extension visibility gives context to a browser’s working footprint.",
+        "items": [
+          "Reference helper / Sample extension",
+          "Developer tool / Sample extension",
+          "Reading utility / Sample extension"
+        ]
+      },
+      {
+        "label": "Memory",
+        "title": "Inspect resource use",
+        "detail": "The real application monitors memory. These relative bars are decorative sample values.",
+        "items": [
+          "Profile A / Sample usage",
+          "Profile B / Sample usage",
+          "Extensions / Sample usage"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "urdu-poetry-studio",
+    "kind": "type",
+    "label": "A studio for Urdu typography",
+    "note": "An original sample line for this preview. Select a stage to explore the typography workflow.",
+    "stages": [
+      {
+        "label": "Compose",
+        "title": "Words, given room",
+        "detail": "A Nastaliq design workspace brings text and composition together.",
+        "items": [
+          "علم کی راہ میں ہر روز نیا سوال",
+          "Original sample text",
+          "Urdu / Nastaliq composition"
+        ]
+      },
+      {
+        "label": "Style",
+        "title": "A quieter typographic treatment",
+        "detail": "Layout and visual treatment give the words their own space.",
+        "items": [
+          "سوچ سے روشنی، سوال سے سفر",
+          "Original sample text",
+          "Type / Space / Contrast"
+        ]
+      },
+      {
+        "label": "Export",
+        "title": "From composition to image",
+        "detail": "The project documents high-resolution 4K image export for completed designs.",
+        "items": [
+          "لفظوں میں خیال کا ایک نیا رنگ",
+          "Original sample text",
+          "Composition → 4K image export"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "early-coding",
+    "kind": "code",
+    "label": "An archive of first experiments",
+    "note": "Illustrative pseudocode, not a runnable model or a claimed prediction result.",
+    "stages": [
+      {
+        "label": "Interfaces",
+        "title": "Learning through useful tools",
+        "detail": "The archive includes early Python and Tkinter interface experiments.",
+        "items": [
+          "window = create_interface()",
+          "inputs = collect_values()",
+          "display_result(inputs)"
+        ]
+      },
+      {
+        "label": "Modelling",
+        "title": "A first modelling question",
+        "detail": "A boiling-point model connects introductory programming with a chemistry problem.",
+        "items": [
+          "features → training data",
+          "model → estimated boiling point",
+          "validation → inspect prediction error"
+        ]
+      },
+      {
+        "label": "Archive",
+        "title": "Make the learning visible",
+        "detail": "The repository preserves early implementations as a record of technical development.",
+        "items": [
+          "Python fundamentals",
+          "Tkinter interfaces",
+          "Introductory machine learning"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ai-coding",
+    "kind": "code",
+    "label": "Plan, inspect, then approve",
+    "note": "A fictional agent trace; no code is executed, no files are changed, and no model is called.",
+    "stages": [
+      {
+        "label": "Plan",
+        "title": "Make the proposed work clear",
+        "detail": "A local coding-agent interface presents a task and a working plan.",
+        "items": [
+          "> task: inspect a sample module",
+          "  plan: read → propose → review",
+          "  state: awaiting a reviewed action"
+        ]
+      },
+      {
+        "label": "Stream",
+        "title": "Expose progress as it happens",
+        "detail": "Server-sent events carry streamed agent updates to the interface.",
+        "items": [
+          "event: progress",
+          "data: reviewing sample input",
+          "event: proposed_change"
+        ]
+      },
+      {
+        "label": "Approval",
+        "title": "Keep an explicit decision point",
+        "detail": "Approval gates separate a proposal from permission to perform a gated action.",
+        "items": [
+          "proposal: update sample module",
+          "decision: user review required",
+          "execution: gated by approval"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "videostudio",
+    "kind": "media",
+    "label": "From prompt to moving sequence",
+    "note": "A symbolic storyboard, not generated footage. No video model is run in this preview.",
+    "stages": [
+      {
+        "label": "Direction",
+        "title": "Start with a visual intention",
+        "detail": "The experiments explore text- and image-led video workflows.",
+        "items": [
+          "Scene / Light moving across a surface",
+          "Reference / A still composition",
+          "Direction / Slow, continuous movement"
+        ]
+      },
+      {
+        "label": "Sequence",
+        "title": "Think in frames",
+        "detail": "A storyboard helps connect an input concept with the intended sequence.",
+        "items": [
+          "01 / Establish the composition",
+          "02 / Introduce motion",
+          "03 / Hold the final frame"
+        ]
+      },
+      {
+        "label": "Process",
+        "title": "Prepare the media output",
+        "detail": "Media processing is part of the workflow; runtime and model requirements are documented in the project.",
+        "items": [
+          "Review the generated sequence",
+          "Prepare the media workflow",
+          "Inspect the final output"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aura",
+    "kind": "board",
+    "label": "A considered daily briefing",
+    "note": "Conceptual preview with fictional tasks. Private integrations and account data are not exposed.",
+    "stages": [
+      {
+        "label": "Collect",
+        "title": "Bring the day into view",
+        "detail": "The private project explores a personal assistant for tasks and mail.",
+        "items": [
+          "Task / Prepare a meeting agenda",
+          "Mail / Review a sample invitation",
+          "Follow-up / Set a next step"
+        ]
+      },
+      {
+        "label": "Prioritise",
+        "title": "Make the next action clear",
+        "detail": "An organised briefing connects information to a manageable set of actions.",
+        "items": [
+          "Now / Prepare the agenda",
+          "Next / Review the invitation",
+          "Later / Organise reference notes"
+        ]
+      },
+      {
+        "label": "Discuss",
+        "title": "Explore the approach",
+        "detail": "Available implementation details and project scope can be discussed directly.",
+        "items": [
+          "Personal workflow design",
+          "Task and mail context",
+          "Private project / Enquire for details"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gmail-zenith",
+    "kind": "mail",
+    "label": "Give inbox rules a clear structure",
+    "note": "Fictional messages and rules. This preview never connects to Gmail or modifies an inbox.",
+    "stages": [
+      {
+        "label": "Inbox",
+        "title": "A reviewable inbox sample",
+        "detail": "Rule-based triage starts with a clear understanding of incoming messages.",
+        "items": [
+          "Sample newsletter / Weekly digest",
+          "Sample invitation / Research meeting",
+          "Sample receipt / Order confirmation"
+        ]
+      },
+      {
+        "label": "Rules",
+        "title": "Turn intent into a rule",
+        "detail": "The application uses the official Gmail API for its configured automation.",
+        "mode": "code",
+        "items": [
+          "if category == newsletter:",
+          "  propose: archive",
+          "else: keep for review"
+        ]
+      },
+      {
+        "label": "Triage",
+        "title": "See the intended destinations",
+        "detail": "Rules and access scopes should be reviewed in the real application before applying mailbox changes.",
+        "items": [
+          "Weekly digest → Archive candidate",
+          "Research meeting → Keep",
+          "Order confirmation → Review"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "disk-cleaner",
+    "kind": "table",
+    "label": "Inspect duplicates before cleanup",
+    "note": "Sample paths and sizes only. No local files are scanned or deleted by this preview.",
+    "stages": [
+      {
+        "label": "Discover",
+        "title": "Find candidate duplicates",
+        "detail": "The Windows utility helps discover duplicate files and disk-cleanup candidates.",
+        "items": [
+          "notes.pdf / Sample folder A",
+          "notes-copy.pdf / Sample folder B",
+          "image.png / Sample folder C"
+        ]
+      },
+      {
+        "label": "Compare",
+        "title": "Compare before deciding",
+        "detail": "A duplicate review should retain the file context needed for a deliberate decision.",
+        "items": [
+          "Group A / Two sample documents",
+          "Original path / Review location",
+          "Candidate copy / Inspect before removal"
+        ]
+      },
+      {
+        "label": "Review",
+        "title": "Keep cleanup intentional",
+        "detail": "Use the actual application for supported scans and cleanup. The portfolio only explains the workflow.",
+        "items": [
+          "Confirm which copy to retain",
+          "Review the proposed selection",
+          "Keep backups of important files"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "facebook-cleaner",
+    "kind": "community",
+    "label": "A review queue for social clutter",
+    "note": "Fictional entries only. No Facebook session is accessed and no account action is taken.",
+    "stages": [
+      {
+        "label": "Inventory",
+        "title": "Make the list reviewable",
+        "detail": "The project explores bulk triage of friends, groups, and pages through an automated web interface.",
+        "items": [
+          "Sample group / Campus discussion",
+          "Sample page / Old event updates",
+          "Sample connection / Personal contact"
+        ]
+      },
+      {
+        "label": "Triage",
+        "title": "Separate decisions from browsing",
+        "detail": "A review queue can help organise account-maintenance choices.",
+        "items": [
+          "Keep / Campus discussion",
+          "Review / Old event updates",
+          "Keep / Personal contact"
+        ]
+      },
+      {
+        "label": "Workflow",
+        "title": "Inspect the project’s approach",
+        "detail": "See the repository for the current implementation and browser-automation requirements.",
+        "items": [
+          "Web GUI",
+          "Browser automation",
+          "Account-maintenance workflow"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "quidian-media-downloader",
+    "kind": "media",
+    "label": "A clear media-processing queue",
+    "note": "Sample media items only. This preview downloads no content and runs no media tools.",
+    "stages": [
+      {
+        "label": "Queue",
+        "title": "Organise the intended media",
+        "detail": "The application supports media and playlist workflows built around yt-dlp.",
+        "items": [
+          "Sample clip A / Video",
+          "Sample clip B / Audio",
+          "Sample collection / Playlist"
+        ]
+      },
+      {
+        "label": "Format",
+        "title": "Choose the output workflow",
+        "detail": "Video, audio, and subtitle options depend on the source and selected tool configuration.",
+        "items": [
+          "Video / Available source formats",
+          "Audio / Selected output format",
+          "Subtitles / When available"
+        ]
+      },
+      {
+        "label": "Process",
+        "title": "Connect retrieval and processing",
+        "detail": "FFmpeg handles media processing; aria2c is an optional download component.",
+        "mode": "code",
+        "items": [
+          "yt-dlp → media retrieval",
+          "aria2c → optional download workflow",
+          "FFmpeg → media processing"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "humanizer-pro",
+    "kind": "document",
+    "label": "A workspace for considered revision",
+    "note": "An illustrative writing workflow. No language model is called, no detector score is claimed, and no document is uploaded.",
+    "stages": [
+      {
+        "label": "Read",
+        "title": "Start with the intended meaning",
+        "detail": "The text-editing experiment combines document processing and configurable language-model providers.",
+        "items": [
+          "Draft / The experiment was repeated.",
+          "Question / What needs to be clearer?",
+          "Aim / Preserve meaning while revising"
+        ]
+      },
+      {
+        "label": "Revise",
+        "title": "A clearer sample sentence",
+        "detail": "A useful edit makes the intended action and context easier to understand.",
+        "items": [
+          "Revision / We repeated the experiment.",
+          "Change / A direct, explicit subject",
+          "Review / Check that the meaning is accurate"
+        ]
+      },
+      {
+        "label": "Document",
+        "title": "Keep the final review human",
+        "detail": "Provider configuration determines where text is processed. Researchers remain responsible for accuracy and authorship.",
+        "items": [
+          "Document / DOCX handling",
+          "Provider / Configurable services",
+          "Final step / Review every change"
+        ]
+      }
+    ]
+  }
+]

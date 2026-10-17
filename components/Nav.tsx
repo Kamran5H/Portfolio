@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CV } from "@/lib/site";
+import ThemeToggle from "./ThemeToggle";
 
 const LINKS = [
   ["Research", "#research"],
@@ -16,7 +17,7 @@ export default function Nav() {
   const menuRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open) return;
-    const media = window.matchMedia("(min-width: 761px)");
+    const media = window.matchMedia("(min-width: 901px)");
     const closeOnResize = () => {
       if (media.matches) setOpen(false);
     };
@@ -89,15 +90,18 @@ export default function Nav() {
             CV <span aria-hidden="true">↗</span>
           </a>
         </nav>
-        <button
-          ref={toggleRef}
-          className="menu-toggle"
-          aria-expanded={open}
-          aria-controls={open ? "mobile-navigation" : undefined}
-          onClick={() => setOpen(!open)}
-        >
-          {open ? "Close −" : "Menu +"}
-        </button>
+        <div className="nav-controls">
+          <ThemeToggle disabled={open} />
+          <button
+            ref={toggleRef}
+            className="menu-toggle"
+            aria-expanded={open}
+            aria-controls={open ? "mobile-navigation" : undefined}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? "Close −" : "Menu +"}
+          </button>
+        </div>
       </div>
       {open && (
         <nav

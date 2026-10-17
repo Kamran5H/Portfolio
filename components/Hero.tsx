@@ -45,34 +45,48 @@ export default function Hero() {
             Research, scientific software &amp; collaboration{" "}
             <span aria-hidden="true">↗</span>
           </a>
+          <br />
+          <a href="#framework-viewer">
+            Explore the 3D molecular model <span aria-hidden="true">↘</span>
+          </a>
         </div>
       </div>
-      <figure className="hero-portrait">
+      <figure className="hero-portrait hero-portrait--event">
         <div className="portrait-index">
-          <span>01 / Researcher &amp; developer</span>
-          <span>ISB, PK</span>
+          <span>Academic engagement</span>
+          <span>Certificate presentation</span>
         </div>
-        <div className="portrait-frame">
-          <div className="portrait-orbit" aria-hidden="true" />
+        <a
+          className="portrait-frame"
+          href="/images/certificate-presentation.jpg"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View the full certificate presentation photograph (opens in a new tab)"
+        >
           <Image
-            src="/images/portrait.webp"
-            alt="Portrait of Muhammad Kamran Ashraf"
-            width={433}
-            height={577}
+            src="/images/certificate-presentation.jpg"
+            alt="Muhammad Kamran Ashraf (centre) receiving a certificate, with two presenters at an academic event"
+            width={2560}
+            height={2197}
             priority
             sizes="(max-width: 760px) 90vw, 40vw"
             className="portrait-image"
           />
-        </div>
+        </a>
         <figcaption>
           <span>
-            From materials questions
+            Certificate presentation
             <br />
-            to practical tools.
+            Muhammad Kamran Ashraf (centre)
           </span>
-          <span className="portrait-mark" aria-hidden="true">
-            K.
-          </span>
+          <a
+            className="photo-original-link"
+            href="/images/certificate-presentation.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Full photograph <span aria-hidden="true">↗</span>
+          </a>
         </figcaption>
       </figure>
       <div className="hero-strip">

@@ -1,23 +1,6 @@
 import { FLAGSHIPS } from "@/lib/site";
 import StatusBadge from "./StatusBadge";
-
-const DIAGRAMS: Record<string, string[]> = {
-  "articles-downloader": [
-    "Research question",
-    "Search · rank · deduplicate",
-    "Open-access PDFs + citations",
-  ],
-  "qau-kalam": [
-    "University community",
-    "Student access · shared spaces",
-    "Feed · mentors · conversations",
-  ],
-  "subah-taskbook": [
-    "Today’s focus",
-    "Complete · reflect · carry forward",
-    "A fresh start tomorrow",
-  ],
-};
+import ProjectArtifact from "./ProjectArtifact";
 export default function Work() {
   return (
     <section id="work" className="section-band" aria-labelledby="work-title">
@@ -82,23 +65,7 @@ export default function Work() {
                 </div>
               </div>
               <div className="project-notes">
-                <div
-                  className="workflow-diagram"
-                  aria-label={`${project.name} workflow`}
-                >
-                  <span className="eyebrow">Workflow overview</span>
-                  {DIAGRAMS[project.id]?.map((step, i) => (
-                    <div key={step}>
-                      <span className="workflow-step">{i + 1}</span>
-                      <span>{step}</span>
-                      {i < 2 && (
-                        <span className="workflow-arrow" aria-hidden="true">
-                          ↓
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                <ProjectArtifact projectId={project.id} />
                 {project.deepDive && (
                   <details className="project-details">
                     <summary>

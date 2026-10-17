@@ -68,12 +68,13 @@ export default function Research() {
         ))}
       </div>
       <details
+        id="framework-viewer"
         className="model-disclosure"
         onToggle={(e) => setModel(e.currentTarget.open)}
       >
         <summary>
-          <span>Explore the metal–organic framework schematic</span>
-          <span className="eyebrow">3D illustration +</span>
+          <span>Explore the molecular framework in 3D</span>
+          <span className="eyebrow">Rotate · animate · explore +</span>
         </summary>
         <div className="model-stage">{model && <Framework3D />}</div>
         <p className="caption">

@@ -13,6 +13,7 @@ try {
   assert(fs.existsSync(root), "Missing out/; run the production build first.");
   fs.copyFileSync(
     "staticwebapp.config.json",
+    "images/certificate-presentation.jpg",
     path.join(root, "staticwebapp.config.json"),
   );
   const files = walk(root);
@@ -31,6 +32,28 @@ try {
       "Missing export: " + required,
     );
   const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const artifacts = JSON.parse(
+    fs.readFileSync("content/artifacts.json", "utf8"),
+  );
+  for (const artifact of artifacts) {
+    const file = path.join(root, "artifacts", `${artifact.id}.svg`);
+    assert(
+      fs.existsSync(file),
+      "Missing project workflow sheet: " + artifact.id,
+    );
+    assert(
+      fs.readFileSync(file, "utf8").includes("Illustrative workflow study"),
+      "Workflow disclosure missing: " + artifact.id,
+    );
+  }
+  const site = JSON.parse(fs.readFileSync("content/site.json", "utf8"));
+  assert(
+    home.includes(
+      `https://wa.me/${site.contactChannels.whatsapp.replace(/\D/g, "")}`,
+    ),
+    "Missing WhatsApp contact link",
+  );
+  assert(home.includes(site.contactChannels.wechat), "Missing WeChat ID");
   for (const id of [
     "main-content",
     "top",

@@ -71,3 +71,24 @@ test("a missing public CV fails the build", () =>
     assert.equal(result.status, 1);
     assert.match(result.stderr, /CV file is missing/);
   }));
+test("an absent artifact cannot leave a project without a working preview", () =>
+  fixture(({ mutate, validate }) => {
+    mutate("artifacts", (a) => a.pop());
+    const result = validate();
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /Every project must have exactly one artifact/);
+  }));
+test("an unsupported preview visual is rejected before publication", () =>
+  fixture(({ mutate, validate }) => {
+    mutate("artifacts", (a) => (a[0].stages[0].mode = "unknown-scene"));
+    const result = validate();
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /Unknown artifact stage visual/);
+  }));
+test("WhatsApp links cannot silently contain a local or malformed number", () =>
+  fixture(({ mutate, validate }) => {
+    mutate("site", (site) => (site.contactChannels.whatsapp = "0307 0325132"));
+    const result = validate();
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /international/);
+  }));

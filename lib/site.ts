@@ -2,6 +2,7 @@ import siteData from "@/content/site.json";
 import projectsData from "@/content/projects.json";
 import labData from "@/content/lab.json";
 import vaultData from "@/content/vault.json";
+import artifactsData from "@/content/artifacts.json";
 
 export type Status = "LIVE" | "PRODUCTION" | "OPEN SOURCE" | "PRIVATE";
 export type Category = "Research" | "Browser" | "Automation" | "Desktop" | "AI";
@@ -61,6 +62,7 @@ export const CV = {
   label: siteData.cv.label,
 };
 export const EMAIL = siteData.email;
+export const CONTACT_CHANNELS = siteData.contactChannels;
 export const GITHUB =
   siteData.socials.find((s) => s.label.toLowerCase() === "github")?.href ||
   "https://github.com/Kamran5H";
@@ -73,3 +75,19 @@ export const FLAGSHIPS: Project[] = projectsData as Project[];
 export const REPOS: LabItem[] = labData as LabItem[];
 export const VAULT_ITEMS: VaultItem[] = vaultData;
 export const STACK = siteData.stack;
+
+export interface ArtifactStage {
+  label: string;
+  title: string;
+  detail: string;
+  mode?: string;
+  items: string[];
+}
+export interface ProjectArtifact {
+  id: string;
+  kind: string;
+  label: string;
+  note: string;
+  stages: ArtifactStage[];
+}
+export const ARTIFACTS: ProjectArtifact[] = artifactsData;

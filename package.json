@@ -5,7 +5,7 @@
   "description": "Muhammad Kamran Ashraf — physical chemistry research and scientific software portfolio",
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "node scripts/check-content.mjs && next build --webpack && node scripts/check-export.mjs",
+    "build": "node scripts/check-content.mjs && node scripts/generate-artifacts.mjs && next build --webpack && node scripts/check-export.mjs",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
     "content:check": "node scripts/check-content.mjs",
