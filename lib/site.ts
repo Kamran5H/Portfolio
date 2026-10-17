@@ -7,6 +7,13 @@ export type Status = 'LIVE' | 'PRODUCTION' | 'OPEN SOURCE' | 'PRIVATE';
 export type Category = 'Research' | 'Browser' | 'Automation' | 'Desktop' | 'AI';
 export type ModelType = 'phone' | 'papers' | 'envelope' | 'disk' | 'morph' | 'book' | 'funnel' | 'prism' | 'atom';
 
+export interface ProjectDeepDive {
+  problem: string;
+  architecture: string;
+  impact: string;
+  highlights: string[];
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -16,6 +23,7 @@ export interface Project {
   stack: string[];
   live?: string | null;
   repo?: string | null;
+  deepDive?: ProjectDeepDive;
 }
 
 export interface LabItem {
