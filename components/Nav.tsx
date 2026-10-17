@@ -48,8 +48,23 @@ export default function Nav() {
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${scrolled || open ? 'bg-ink/20 backdrop-blur-md border-b border-white/[0.06] shadow-lg shadow-black/20' : ''}`}>
         <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-8">
-          <a href="#top" onClick={() => setOpen(false)} className="display text-xl tracking-tight">
-            Kamran<span className="text-signal">.</span>
+          <a
+            href="#top"
+            onClick={() => setOpen(false)}
+            className="group flex items-center gap-2 sm:gap-2.5 transition-all select-none"
+            aria-label="A Programmer Chemist's Portfolio"
+          >
+            <span className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl border border-emerald/30 bg-emerald/10 font-mono text-xs sm:text-sm font-semibold text-emerald-bright shadow-sm shadow-emerald/20 group-hover:border-emerald-bright group-hover:bg-emerald/20 transition-all">
+              <span className="text-base sm:text-lg">⚗️</span>
+            </span>
+            <div className="flex flex-col text-left">
+              <span className="font-serif text-sm sm:text-base font-normal tracking-tight text-paper group-hover:text-emerald-bright transition-colors whitespace-nowrap">
+                A Programmer Chemist&apos;s Portfolio
+              </span>
+              <span className="hidden md:inline font-mono text-[9px] uppercase tracking-widest text-paper-faint group-hover:text-gold transition-colors">
+                Muhammad Kamran Ashraf · QAU
+              </span>
+            </div>
           </a>
           <nav className="flex items-center gap-1 sm:gap-6 text-sm text-paper-dim">
             {LINKS.map(([l, h]) => (

@@ -44,13 +44,12 @@ export default function Hero() {
             </div>
 
             <h2 className="display text-3xl sm:text-6xl lg:text-7xl leading-[1.04] text-paper">
-              Chemist by training.<br />
-              <span className="text-emerald-bright">Builder</span> by habit.
+              Synthesizing Atoms.<br />
+              <span className="text-emerald-bright">Compiling Systems.</span>
             </h2>
 
             <p className="mt-4 sm:mt-6 text-sm sm:text-lg text-paper-dim max-w-xl leading-relaxed">
-              Supervised by <strong className="text-paper font-medium">Prof. Dr. Safeer Ahmed</strong> at Quaid-i-Azam University.
-              Bridging quantum mechanical simulation, bifunctional electrocatalysis, and high-throughput production systems.
+              Supervised by <strong className="text-paper font-medium">Prof. Dr. Safeer Ahmed</strong> in Physical Chemistry — investigating Ce-doped NiCo-MOF bifunctional electrocatalysts via Quantum ESPRESSO DFT, while architecting high-throughput production platforms and automation engines.
             </p>
 
             {/* CTAs */}
@@ -77,15 +76,15 @@ export default function Hero() {
             <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-line/70 grid grid-cols-3 gap-3 sm:gap-4 max-w-md">
               <div className="group transition-transform hover:-translate-y-1">
                 <div className="display text-xl sm:text-3xl text-paper">5</div>
-                <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">Flagships</div>
+                <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">Flagship Systems</div>
               </div>
               <div className="group transition-transform hover:-translate-y-1">
                 <div className="display text-xl sm:text-3xl text-emerald-bright">DFT</div>
                 <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">Quantum ESPRESSO</div>
               </div>
               <div className="group transition-transform hover:-translate-y-1">
-                <div className="display text-xl sm:text-3xl text-gold">QAU</div>
-                <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">MPhil Scholar</div>
+                <div className="display text-xl sm:text-3xl text-gold">MOF</div>
+                <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">Ce-doped NiCo Thesis</div>
               </div>
             </div>
           </div>
