@@ -27,7 +27,7 @@ function FlagshipCard({ project, index }: { project: Project; index: number }) {
   return (
     <article
       ref={tiltRef}
-      className={`card-3d-flip preserve-3d content-auto rounded-3xl border border-line bg-ink-1/85 backdrop-blur-md p-4 sm:p-8 transition-all duration-300 hover:border-emerald-bright/40 grid items-center gap-6 lg:gap-12 shadow-2xl shadow-black/40 ${
+      className={`card-3d-flip preserve-3d rounded-3xl border border-line bg-ink-1/85 backdrop-blur-md p-4 sm:p-8 transition-all duration-300 hover:border-emerald-bright/40 grid items-center gap-6 lg:gap-12 shadow-2xl shadow-black/40 ${
         flip ? 'lg:grid-cols-[1fr_1.15fr]' : 'lg:grid-cols-[1.15fr_1fr]'
       }`}
     >
@@ -106,7 +106,7 @@ function FlagshipCard({ project, index }: { project: Project; index: number }) {
 
 export default function Work() {
   return (
-    <section id="work" className="content-auto mx-auto max-w-[1280px] px-4 py-16 sm:px-8 sm:py-32">
+    <section id="work" className="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 sm:py-32">
       {/* Section Header */}
       <div className="mb-12 sm:mb-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-line pb-8">
         <div>

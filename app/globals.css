@@ -169,7 +169,9 @@ body {
   transform: perspective(1400px) rotateX(0deg) translateY(0) scale(1);
 }
 
-.card-3d-flip:hover {
+/* Once entered, remove transform transition delay on hover so useTilt spring is 100% responsive at 60fps */
+.card-3d-flip.in:hover {
+  transition: opacity 0.3s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
   box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(16, 185, 129, 0.15);
 }
 

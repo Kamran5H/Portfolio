@@ -146,7 +146,7 @@ export default function Research() {
   const researchDossiers = VAULT_ITEMS.filter((v) => ['Research', 'Profile'].includes(v.group));
 
   return (
-    <section id="research" className="content-auto border-t border-line py-16 sm:py-32">
+    <section id="research" className="border-t border-line py-16 sm:py-32">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-8">
         {/* Section Header */}
         <div className="mb-10 sm:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 border-b border-line pb-8">

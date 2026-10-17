@@ -45,6 +45,8 @@ export function useTilt<T extends HTMLElement>(max = 8) {
       el.style.transform = `perspective(1200px) rotateX(${cy}deg) rotateY(${cx}deg) translateZ(10px)`;
       if (Math.abs(tx - cx) > 0.01 || Math.abs(ty - cy) > 0.01) {
         raf = requestAnimationFrame(loop);
+      } else if (tx === 0 && ty === 0) {
+        el.style.transform = '';
       }
     };
 

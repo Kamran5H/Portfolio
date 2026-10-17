@@ -5,12 +5,14 @@ import * as THREE from 'three';
 
 /**
  * GlobalStage3D: Persistent, full-page WebGL Three.js background canvas.
- * Seamlessly choreographs a 3D journey across the portfolio as the user scrolls:
- *  - Hero: 3D Metallic Monogram ('MKA' / 'KAMRAN') & Authentic Ce-doped NiCo MOF crystal
- *  - Works: Holographic prism rings & rotating data circuits
- *  - Lab: Floating programming syntax tokens ({ }, </>, fn()) & benzene rings
- *  - Research: Quantum ESPRESSO orbital wavefields & crystal lattice planes
- *  - Universal: 350-particle ambient cyber-chemistry constellation reacting to mouse physics
+ * Seamlessly choreographs a high-end 3D journey across the portfolio as the user scrolls:
+ *  - Zone 1 (Hero): 3D Metallic "K" Gyroscopic Monogram with s/p/d orbital rings & Ce-catalyst nodes
+ *  - Zone 2 (Works): Holographic prism rings, energy lasers, & orbiting data octahedra
+ *  - Zone 3 (Lab): 3D Code syntax tokens ({ }, </>) & aromatic benzene rings with π-electron clouds
+ *  - Zone 4 (Stack & Research): Authentic Quantum ESPRESSO dz² d-band orbital & reciprocal lattice grid
+ *  - Zone 5 (Contact / Universe): 350-particle cyber-chemistry constellation reacting to physics
+ *
+ * Scrutinized for 60 FPS performance, mobile responsive framing, and section-locked keyframing.
  */
 export default function GlobalStage3D() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -19,250 +21,266 @@ export default function GlobalStage3D() {
     const el = mountRef.current;
     if (!el) return;
 
-    const isMobile = window.innerWidth < 768;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let isMobile = width < 768;
+    let aspect = width / height;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Renderer setup
+    // Renderer setup with battery & retina throttling
     const renderer = new THREE.WebGLRenderer({
       antialias: !isMobile,
       alpha: true,
       powerPreference: isMobile ? 'low-power' : 'high-performance',
     });
-    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.2 : 1.5));
+    renderer.setSize(width, height);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.15;
     el.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const fog = new THREE.FogExp2(0x070c18, 0.024);
+    const fog = new THREE.FogExp2(0x070c18, 0.022);
     scene.fog = fog;
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 120);
+    const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 140);
     camera.position.set(0, 0, 16);
 
-    // Trackers for materials, geometries, and textures for clean disposal
+    // Trackers for memory cleanup
     const materials: THREE.Material[] = [];
     const geometries: THREE.BufferGeometry[] = [];
     const textures: THREE.Texture[] = [];
 
-    // Lighting
-    const hemiLight = new THREE.HemisphereLight(0xe8f0ff, 0x070c18, 0.7);
+    // Lighting rig
+    const hemiLight = new THREE.HemisphereLight(0xe2e8f0, 0x070c18, 0.75);
     scene.add(hemiLight);
 
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(8, 12, 10);
+    dirLight.position.set(8, 14, 10);
     scene.add(dirLight);
 
-    const emeraldLight = new THREE.PointLight(0x10b981, 2.2, 40);
+    const emeraldLight = new THREE.PointLight(0x10b981, 2.4, 45);
     emeraldLight.position.set(-6, -2, 6);
     scene.add(emeraldLight);
 
-    const goldLight = new THREE.PointLight(0xf59e0b, 2.0, 35);
-    goldLight.position.set(7, 4, 4);
+    const goldLight = new THREE.PointLight(0xf59e0b, 2.2, 40);
+    goldLight.position.set(7, 4, 5);
     scene.add(goldLight);
 
-    const cyanLight = new THREE.PointLight(0x06b6d4, 1.8, 30);
+    const cyanLight = new THREE.PointLight(0x06b6d4, 2.0, 35);
     cyanLight.position.set(0, -8, 8);
     scene.add(cyanLight);
 
     /* -----------------------------------------------------------
-     * ZONE 1: HERO - 3D METALLIC MONOGRAM & Ce-doped NiCo MOF
+     * COMMON TEXTURE ASSETS
+     * ----------------------------------------------------------- */
+    const makeGlowTexture = (colorStop: string) => {
+      const c = document.createElement('canvas');
+      c.width = c.height = 64;
+      const ctx = c.getContext('2d')!;
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, colorStop);
+      grad.addColorStop(0.4, colorStop.replace('1)', '0.35)'));
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 64, 64);
+      const tex = new THREE.CanvasTexture(c);
+      textures.push(tex);
+      return tex;
+    };
+
+    const goldHaloTex = makeGlowTexture('rgba(245, 158, 11, 1)');
+    const emeraldHaloTex = makeGlowTexture('rgba(16, 185, 129, 1)');
+    const cyanHaloTex = makeGlowTexture('rgba(6, 182, 212, 1)');
+
+    /* -----------------------------------------------------------
+     * ZONE 1: HERO (Y = 0) - 3D METALLIC "KAMRAN" GYROSCOPE MONOGRAM
      * ----------------------------------------------------------- */
     const heroGroup = new THREE.Group();
     heroGroup.position.set(0, 0, 0);
     scene.add(heroGroup);
 
-    // 1A. 3D Metallic Monogram Emblem "MKA"
-    const emblemGroup = new THREE.Group();
-    emblemGroup.position.set(-3.2, 1.2, 2.5);
-    heroGroup.add(emblemGroup);
-
-    const metalMat = new THREE.MeshStandardMaterial({
-      color: 0xf8fafc,
-      metalness: 0.88,
-      roughness: 0.18,
-      emissive: 0x0e2418,
-    });
-    materials.push(metalMat);
+    // 1A. Gyroscopic Armillary Rings
+    const gyroGroup = new THREE.Group();
+    heroGroup.add(gyroGroup);
 
     const goldMetalMat = new THREE.MeshStandardMaterial({
       color: 0xf59e0b,
-      metalness: 0.92,
-      roughness: 0.15,
+      metalness: 0.94,
+      roughness: 0.14,
       emissive: 0x3d2402,
     });
-    materials.push(goldMetalMat);
+    const platinumMat = new THREE.MeshStandardMaterial({
+      color: 0xf8fafc,
+      metalness: 0.88,
+      roughness: 0.18,
+      emissive: 0x071e16,
+    });
+    const emeraldMetalMat = new THREE.MeshStandardMaterial({
+      color: 0x10b981,
+      metalness: 0.85,
+      roughness: 0.22,
+      emissive: 0x032a1b,
+    });
+    materials.push(goldMetalMat, platinumMat, emeraldMetalMat);
 
-    // Outer decorative faceted ring
-    const ringGeo = new THREE.TorusGeometry(1.6, 0.05, 16, 64);
-    geometries.push(ringGeo);
-    const emblemRing = new THREE.Mesh(ringGeo, goldMetalMat);
-    emblemGroup.add(emblemRing);
+    // Outer Ring (Gold)
+    const ring1Geo = new THREE.TorusGeometry(1.9, 0.045, 16, 72);
+    geometries.push(ring1Geo);
+    const ringOuter = new THREE.Mesh(ring1Geo, goldMetalMat);
+    gyroGroup.add(ringOuter);
 
-    // Monogram 'M' geometric bars
-    const barGeo = new THREE.BoxGeometry(0.12, 1.3, 0.12);
-    geometries.push(barGeo);
-    const barLeft = new THREE.Mesh(barGeo, metalMat);
-    barLeft.position.set(-0.55, 0, 0);
-    const barRight = new THREE.Mesh(barGeo, metalMat);
-    barRight.position.set(0.55, 0, 0);
-    const barCenterL = new THREE.Mesh(barGeo, metalMat);
-    barCenterL.position.set(-0.25, 0.1, 0);
-    barCenterL.rotation.z = -0.42;
-    const barCenterR = new THREE.Mesh(barGeo, metalMat);
-    barCenterR.position.set(0.25, 0.1, 0);
-    barCenterR.rotation.z = 0.42;
-    emblemGroup.add(barLeft, barRight, barCenterL, barCenterR);
+    // Middle Ring (Emerald)
+    const ring2Geo = new THREE.TorusGeometry(1.6, 0.038, 16, 64);
+    geometries.push(ring2Geo);
+    const ringMid = new THREE.Mesh(ring2Geo, emeraldMetalMat);
+    ringMid.rotation.x = Math.PI / 3;
+    gyroGroup.add(ringMid);
 
-    // 1B. Authentic Ce-doped NiCo-MOF Crystal Lattice
-    const mofLattice = new THREE.Group();
-    mofLattice.position.set(3.4, -0.6, 0);
-    heroGroup.add(mofLattice);
+    // Inner Ring (Platinum)
+    const ring3Geo = new THREE.TorusGeometry(1.3, 0.032, 16, 56);
+    geometries.push(ring3Geo);
+    const ringInner = new THREE.Mesh(ring3Geo, platinumMat);
+    ringInner.rotation.y = Math.PI / 3;
+    gyroGroup.add(ringInner);
 
-    const N = 3, A = 2.4, off = ((N - 1) * A) / 2;
-    const atoms: { p: THREE.Vector3; kind: 'Ni' | 'Co' | 'Ce' | 'O' | 'C'; r: number }[] = [];
-    const bonds: number[] = [];
-    const link = (a: THREE.Vector3, b: THREE.Vector3) => bonds.push(a.x, a.y, a.z, b.x, b.y, b.z);
+    // 1B. Sculpted 3D "K" Monogram Emblem (Centerpiece of the Gyroscope)
+    const kMonogram = new THREE.Group();
+    gyroGroup.add(kMonogram);
 
-    const node = (i: number, j: number, k: number) => new THREE.Vector3(i * A - off, j * A - off, k * A - off);
-    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) for (let k = 0; k < N; k++) {
-      const h = (i * 7 + j * 3 + k * 5) % 9;
-      atoms.push({ p: node(i, j, k), kind: h === 4 ? 'Ce' : h % 2 ? 'Co' : 'Ni', r: h === 4 ? 0.32 : 0.24 });
-    }
+    // Vertical spine of 'K'
+    const spineGeo = new THREE.BoxGeometry(0.14, 1.25, 0.14);
+    geometries.push(spineGeo);
+    const spine = new THREE.Mesh(spineGeo, platinumMat);
+    spine.position.set(-0.32, 0, 0);
 
-    const upVec = new THREE.Vector3(0, 1, 0);
-    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) for (let k = 0; k < N; k++) {
-      const a = node(i, j, k);
-      const dirs: [number, number, number][] = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
-      for (const [di, dj, dk] of dirs) {
-        if (i + di >= N || j + dj >= N || k + dk >= N) continue;
-        const b = node(i + di, j + dj, k + dk);
-        const axis = b.clone().sub(a).normalize();
-        const side = Math.abs(axis.dot(upVec)) > 0.9 ? new THREE.Vector3(1, 0, 0) : upVec.clone();
-        const perp = side.cross(axis).normalize();
-        const mid = a.clone().lerp(b, 0.5);
-        const o1 = a.clone().lerp(b, 0.18), o2 = a.clone().lerp(b, 0.82);
-        atoms.push({ p: o1, kind: 'O', r: 0.09 }, { p: o2, kind: 'O', r: 0.09 });
-        link(a, o1); link(b, o2);
+    // Upper diagonal arm of 'K'
+    const armUpGeo = new THREE.BoxGeometry(0.12, 0.82, 0.12);
+    geometries.push(armUpGeo);
+    const armUp = new THREE.Mesh(armUpGeo, goldMetalMat);
+    armUp.position.set(0.08, 0.32, 0);
+    armUp.rotation.z = -0.72;
 
-        const ring: THREE.Vector3[] = [];
-        for (let s = 0; s < 6; s++) {
-          const t = (s / 6) * Math.PI * 2;
-          const v = mid.clone().addScaledVector(axis, Math.cos(t) * 0.38).addScaledVector(perp, Math.sin(t) * 0.38);
-          ring.push(v);
-          atoms.push({ p: v, kind: 'C', r: 0.08 });
-        }
-        for (let s = 0; s < 6; s++) link(ring[s], ring[(s + 1) % 6]);
-        link(o1, ring[3]); link(o2, ring[0]);
-      }
-    }
+    // Lower diagonal arm of 'K'
+    const armDownGeo = new THREE.BoxGeometry(0.12, 0.86, 0.12);
+    geometries.push(armDownGeo);
+    const armDown = new THREE.Mesh(armDownGeo, goldMetalMat);
+    armDown.position.set(0.1, -0.32, 0);
+    armDown.rotation.z = 0.72;
 
-    const sphereGeo = new THREE.SphereGeometry(1, 16, 12);
-    geometries.push(sphereGeo);
+    kMonogram.add(spine, armUp, armDown);
 
-    const ATOM_COLORS = { Ni: 0x10b981, Co: 0xff5b1f, Ce: 0xf59e0b, O: 0xe2e8f0, C: 0x64748b };
-    (Object.keys(ATOM_COLORS) as (keyof typeof ATOM_COLORS)[]).forEach((kind) => {
-      const list = atoms.filter((a) => a.kind === kind);
-      const mat = new THREE.MeshStandardMaterial({
-        color: ATOM_COLORS[kind],
-        roughness: kind === 'C' ? 0.6 : 0.28,
-        metalness: kind === 'Ce' ? 0.75 : 0.25,
-        emissive: kind === 'Ce' ? 0x633d02 : kind === 'Ni' ? 0x032b1d : 0x000000,
-      });
-      materials.push(mat);
-      const mesh = new THREE.InstancedMesh(sphereGeo, mat, list.length);
-      const m = new THREE.Matrix4();
-      list.forEach((a, idx) => mesh.setMatrixAt(idx, m.makeScale(a.r, a.r, a.r).setPosition(a.p)));
-      mofLattice.add(mesh);
+    // 1C. Orbiting Catalyst Active-Site Polyhedra (Ce / Ni / Co cluster nodes)
+    const catalystGroup = new THREE.Group();
+    heroGroup.add(catalystGroup);
+
+    const octaGeo = new THREE.OctahedronGeometry(0.24, 0);
+    const tetraGeo = new THREE.TetrahedronGeometry(0.22, 0);
+    geometries.push(octaGeo, tetraGeo);
+
+    const ceMat = new THREE.MeshStandardMaterial({
+      color: 0xf59e0b,
+      metalness: 0.9,
+      roughness: 0.15,
+      emissive: 0x5a3903,
+    });
+    const niMat = new THREE.MeshStandardMaterial({
+      color: 0x10b981,
+      metalness: 0.85,
+      roughness: 0.2,
+      emissive: 0x053020,
+    });
+    const coMat = new THREE.MeshStandardMaterial({
+      color: 0xff5b1f,
+      metalness: 0.85,
+      roughness: 0.2,
+      emissive: 0x4d1604,
+    });
+    materials.push(ceMat, niMat, coMat);
+
+    const nodes: { mesh: THREE.Mesh; rad: number; speed: number; phase: number; incl: number }[] = [
+      { mesh: new THREE.Mesh(octaGeo, ceMat), rad: 2.7, speed: 0.65, phase: 0, incl: 0.3 },
+      { mesh: new THREE.Mesh(tetraGeo, niMat), rad: 3.1, speed: -0.5, phase: 2.1, incl: -0.4 },
+      { mesh: new THREE.Mesh(tetraGeo, coMat), rad: 2.4, speed: 0.75, phase: 4.2, incl: 0.5 },
+    ];
+    nodes.forEach((n) => {
+      catalystGroup.add(n.mesh);
     });
 
-    const bondGeo = new THREE.BufferGeometry();
-    bondGeo.setAttribute('position', new THREE.Float32BufferAttribute(bonds, 3));
-    geometries.push(bondGeo);
-
-    const lineMat = new THREE.LineBasicMaterial({ color: 0x94a3b8, transparent: true, opacity: 0.32 });
-    materials.push(lineMat);
-    mofLattice.add(new THREE.LineSegments(bondGeo, lineMat));
-
-    // Cerium Halo Texture
-    const haloCanvas = document.createElement('canvas');
-    haloCanvas.width = haloCanvas.height = 64;
-    const ctx = haloCanvas.getContext('2d')!;
-    const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grad.addColorStop(0, 'rgba(245, 158, 11, 0.9)');
-    grad.addColorStop(0.4, 'rgba(245, 158, 11, 0.35)');
-    grad.addColorStop(1, 'rgba(245, 158, 11, 0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 64, 64);
-    const haloTex = new THREE.CanvasTexture(haloCanvas);
-    textures.push(haloTex);
-
+    // Golden halo around Ce cluster
     const haloMat = new THREE.SpriteMaterial({
-      map: haloTex,
+      map: goldHaloTex,
       transparent: true,
       opacity: 0.3,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
     materials.push(haloMat);
-
-    atoms.filter((a) => a.kind === 'Ce').forEach((a) => {
-      const s = new THREE.Sprite(haloMat);
-      s.position.copy(a.p);
-      s.scale.setScalar(1.8);
-      mofLattice.add(s);
-    });
+    const ceHalo = new THREE.Sprite(haloMat);
+    ceHalo.scale.setScalar(1.5);
+    nodes[0].mesh.add(ceHalo);
 
     /* -----------------------------------------------------------
-     * ZONE 2: SELECTED WORK - HOLOGRAPHIC PRISM RINGS & CIRCUITS
+     * ZONE 2: SELECTED WORK (Y = -18) - HOLOGRAPHIC PRISM RINGS & CIRCUITS
      * ----------------------------------------------------------- */
     const workGroup = new THREE.Group();
-    workGroup.position.set(0, -18, -4);
+    workGroup.position.set(0, -18, -3.5);
     scene.add(workGroup);
 
     const torusGeo1 = new THREE.TorusGeometry(3.6, 0.03, 16, 80);
     const torusGeo2 = new THREE.TorusGeometry(4.8, 0.04, 16, 90);
     geometries.push(torusGeo1, torusGeo2);
 
-    const cyanWireMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.35 });
-    const emeraldWireMat = new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.35 });
+    const cyanWireMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.38 });
+    const emeraldWireMat = new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.38 });
     materials.push(cyanWireMat, emeraldWireMat);
 
     const prismRing1 = new THREE.Mesh(torusGeo1, cyanWireMat);
     const prismRing2 = new THREE.Mesh(torusGeo2, emeraldWireMat);
-    prismRing1.rotation.x = 1.2;
-    prismRing2.rotation.y = 0.8;
+    prismRing1.rotation.x = 1.15;
+    prismRing2.rotation.y = 0.85;
     workGroup.add(prismRing1, prismRing2);
 
-    // Orbiting data nodes
-    const nodeGeo = new THREE.OctahedronGeometry(0.35, 0);
-    geometries.push(nodeGeo);
+    // Orbiting data nodes with laser trace bonds
+    const workNodes: THREE.Mesh[] = [];
     const nodeMat = new THREE.MeshStandardMaterial({
       color: 0x34d399,
-      metalness: 0.8,
-      roughness: 0.2,
+      metalness: 0.85,
+      roughness: 0.18,
       emissive: 0x042f1f,
     });
     materials.push(nodeMat);
 
-    const workNodes: THREE.Mesh[] = [];
-    for (let i = 0; i < 5; i++) {
-      const m = new THREE.Mesh(nodeGeo, nodeMat);
-      const angle = (i / 5) * Math.PI * 2;
-      m.position.set(Math.cos(angle) * 4.2, Math.sin(angle) * 2.2, Math.sin(angle * 2) * 1.5);
+    for (let i = 0; i < 6; i++) {
+      const m = new THREE.Mesh(octaGeo, nodeMat);
       workGroup.add(m);
       workNodes.push(m);
     }
 
+    // Dynamic laser circuit beam line between work nodes
+    const beamGeo = new THREE.BufferGeometry();
+    const beamCoords = new Float32Array(6 * 3);
+    beamGeo.setAttribute('position', new THREE.BufferAttribute(beamCoords, 3));
+    geometries.push(beamGeo);
+
+    const beamMat = new THREE.LineBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.45,
+      blending: THREE.AdditiveBlending,
+    });
+    materials.push(beamMat);
+    const beamLine = new THREE.LineLoop(beamGeo, beamMat);
+    workGroup.add(beamLine);
+
     /* -----------------------------------------------------------
-     * ZONE 3: LAB - FLOATING CODE SYNTAX TOKENS & BENZENE LINKERS
+     * ZONE 3: LAB (Y = -36) - 3D CODE SYNTAX & AROMATIC BENZENE LINKERS
      * ----------------------------------------------------------- */
     const labGroup = new THREE.Group();
-    labGroup.position.set(0, -36, -2);
+    labGroup.position.set(0, -36, -2.5);
     scene.add(labGroup);
 
-    // Create 3D curly brace '{' and '}' wireframe geometry
+    // 3A. 3D Curly Braces '{' and '}'
     const makeBracketGeo = (flip = 1) => {
       const curve = new THREE.CatmullRomCurve3([
         new THREE.Vector3(0.5 * flip, 1.4, 0),
@@ -282,110 +300,157 @@ export default function GlobalStage3D() {
 
     const codeTokenMat = new THREE.MeshStandardMaterial({
       color: 0x38bdf8,
-      metalness: 0.6,
-      roughness: 0.25,
+      metalness: 0.7,
+      roughness: 0.22,
       emissive: 0x02293d,
     });
     materials.push(codeTokenMat);
 
     const bLeft = new THREE.Mesh(bracketLGeo, codeTokenMat);
-    bLeft.position.set(-2.8, 0, 1);
     const bRight = new THREE.Mesh(bracketRGeo, codeTokenMat);
-    bRight.position.set(2.8, 0, 1);
     labGroup.add(bLeft, bRight);
 
-    // Floating Benzene 6-Carbon Rings
+    // 3B. Floating Benzene 6-Carbon Rings with Delocalized π-Electron Circles
     const benzeneGroup = new THREE.Group();
     labGroup.add(benzeneGroup);
 
-    const cBondMat = new THREE.LineBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0.7 });
-    materials.push(cBondMat);
+    const cBondMat = new THREE.LineBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0.8 });
+    const piCloudMat = new THREE.LineBasicMaterial({ color: 0x34d399, transparent: true, opacity: 0.45 });
+    materials.push(cBondMat, piCloudMat);
 
     for (let b = 0; b < 3; b++) {
+      const bRing = new THREE.Group();
       const ringPts: THREE.Vector3[] = [];
-      const rad = 1.0;
+      const rad = 1.05;
       for (let s = 0; s < 6; s++) {
         const th = (s / 6) * Math.PI * 2;
         ringPts.push(new THREE.Vector3(Math.cos(th) * rad, Math.sin(th) * rad, 0));
       }
-      ringPts.push(ringPts[0]); // close loop
+      ringPts.push(ringPts[0]);
       const rGeo = new THREE.BufferGeometry().setFromPoints(ringPts);
       geometries.push(rGeo);
-      const rLine = new THREE.Line(rGeo, cBondMat);
-      rLine.position.set((b - 1) * 3.2, (b % 2 ? 1.4 : -1.2), (b - 1) * 1.5);
-      rLine.rotation.set(0.3 * b, 0.4 * b, 0);
-      benzeneGroup.add(rLine);
+      bRing.add(new THREE.Line(rGeo, cBondMat));
+
+      // Inner aromatic delocalized π-cloud circle
+      const piPts: THREE.Vector3[] = [];
+      const piRad = 0.62;
+      for (let s = 0; s < 32; s++) {
+        const th = (s / 32) * Math.PI * 2;
+        piPts.push(new THREE.Vector3(Math.cos(th) * piRad, Math.sin(th) * piRad, 0));
+      }
+      piPts.push(piPts[0]);
+      const piGeo = new THREE.BufferGeometry().setFromPoints(piPts);
+      geometries.push(piGeo);
+      bRing.add(new THREE.Line(piGeo, piCloudMat));
+
+      bRing.position.set((b - 1) * 3.4, (b % 2 ? 1.4 : -1.2), (b - 1) * 1.6);
+      bRing.rotation.set(0.3 * b, 0.4 * b, 0);
+      benzeneGroup.add(bRing);
     }
 
     /* -----------------------------------------------------------
-     * ZONE 4: RESEARCH - QUANTUM ESPRESSO ORBITAL WAVEFIELDS
+     * ZONE 4: STACK & RESEARCH (Y = -50 to -54) - QUANTUM ESPRESSO dz² ORBITAL
      * ----------------------------------------------------------- */
     const researchGroup = new THREE.Group();
-    researchGroup.position.set(0, -54, -3);
+    researchGroup.position.set(0, -52, -3);
     scene.add(researchGroup);
 
-    // Quantum d-band orbital (TorusKnot with wireframe + dielectric core)
-    const orbitalGeo = new THREE.TorusKnotGeometry(2.4, 0.45, 100, 16, 2, 3);
+    // 4A. Authentic dz² d-Orbital (Vertical Lobes + Equatorial Torus Ring)
+    const dz2Group = new THREE.Group();
+    researchGroup.add(dz2Group);
+
+    const lobeGeo = new THREE.SphereGeometry(0.85, 24, 18);
+    geometries.push(lobeGeo);
+    const orbitalGoldMat = new THREE.MeshStandardMaterial({
+      color: 0xf59e0b,
+      metalness: 0.85,
+      roughness: 0.2,
+      emissive: 0x4a2c03,
+      transparent: true,
+      opacity: 0.85,
+    });
+    materials.push(orbitalGoldMat);
+
+    // Upper lobe of dz²
+    const lobeTop = new THREE.Mesh(lobeGeo, orbitalGoldMat);
+    lobeTop.scale.set(0.7, 1.4, 0.7);
+    lobeTop.position.set(0, 1.25, 0);
+
+    // Lower lobe of dz²
+    const lobeBottom = new THREE.Mesh(lobeGeo, orbitalGoldMat);
+    lobeBottom.scale.set(0.7, 1.4, 0.7);
+    lobeBottom.position.set(0, -1.25, 0);
+
+    // Equatorial donut (torus) ring of dz²
+    const torusDonutGeo = new THREE.TorusGeometry(1.2, 0.28, 20, 60);
+    geometries.push(torusDonutGeo);
+    const donutMat = new THREE.MeshStandardMaterial({
+      color: 0x10b981,
+      metalness: 0.9,
+      roughness: 0.18,
+      emissive: 0x053020,
+      transparent: true,
+      opacity: 0.85,
+    });
+    materials.push(donutMat);
+    const donut = new THREE.Mesh(torusDonutGeo, donutMat);
+    donut.rotation.x = Math.PI / 2;
+
+    dz2Group.add(lobeTop, lobeBottom, donut);
+
+    // 4B. Torus Knot Wavefield Shell surrounding orbital
+    const orbitalGeo = new THREE.TorusKnotGeometry(2.6, 0.38, 100, 16, 2, 3);
     geometries.push(orbitalGeo);
 
     const orbitalWireMat = new THREE.MeshBasicMaterial({
-      color: 0xf59e0b,
+      color: 0x38bdf8,
       wireframe: true,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.3,
     });
-    const orbitalCoreMat = new THREE.MeshStandardMaterial({
-      color: 0x0f172a,
-      roughness: 0.2,
-      metalness: 0.9,
-      emissive: 0x10b981,
-    });
-    materials.push(orbitalWireMat, orbitalCoreMat);
-
+    materials.push(orbitalWireMat);
     const orbitalMesh = new THREE.Mesh(orbitalGeo, orbitalWireMat);
-    const orbitalCore = new THREE.Mesh(orbitalGeo, orbitalCoreMat);
-    orbitalCore.scale.setScalar(0.96);
-    researchGroup.add(orbitalMesh, orbitalCore);
+    researchGroup.add(orbitalMesh);
 
-    // Crystal lattice vector planes
-    const gridPlaneGeo = new THREE.PlaneGeometry(10, 10, 10, 10);
+    // 4C. Reciprocal Lattice Brillouin Plane Grid (representing k-points)
+    const gridPlaneGeo = new THREE.PlaneGeometry(12, 12, 12, 12);
     geometries.push(gridPlaneGeo);
     const gridPlaneMat = new THREE.MeshBasicMaterial({
       color: 0x06b6d4,
       wireframe: true,
       transparent: true,
-      opacity: 0.15,
+      opacity: 0.16,
     });
     materials.push(gridPlaneMat);
     const gridPlane = new THREE.Mesh(gridPlaneGeo, gridPlaneMat);
     gridPlane.rotation.x = Math.PI / 2;
-    gridPlane.position.y = -2.5;
+    gridPlane.position.y = -3.2;
     researchGroup.add(gridPlane);
 
     /* -----------------------------------------------------------
-     * ZONE 5: AMBIENT 350-PARTICLE CYBER-CHEMISTRY STARDUST
+     * ZONE 5: AMBIENT 350-PARTICLE CYBER-CHEMISTRY CONSTELLATION
      * ----------------------------------------------------------- */
-    const particleCount = isMobile ? 120 : 350;
+    const particleCount = isMobile ? 130 : 350;
     const particleGeo = new THREE.BufferGeometry();
     geometries.push(particleGeo);
 
     const pPositions = new Float32Array(particleCount * 3);
     const pColors = new Float32Array(particleCount * 3);
 
-    const colorChoices = [
+    const colorPalette = [
       new THREE.Color(0x10b981), // Emerald
       new THREE.Color(0xf59e0b), // Gold
       new THREE.Color(0x06b6d4), // Cyan
-      new THREE.Color(0xf8fafc), // White
+      new THREE.Color(0xf8fafc), // Platinum
     ];
 
     for (let i = 0; i < particleCount; i++) {
       const i3 = i * 3;
-      pPositions[i3] = (Math.random() - 0.5) * 26;
-      pPositions[i3 + 1] = Math.random() * -65 + 8; // span across entire vertical scroll journey
+      pPositions[i3] = (Math.random() - 0.5) * 28;
+      pPositions[i3 + 1] = Math.random() * -72 + 8; // span the entire scroll journey: top to contact footer
       pPositions[i3 + 2] = (Math.random() - 0.5) * 22;
 
-      const c = colorChoices[i % colorChoices.length];
+      const c = colorPalette[i % colorPalette.length];
       pColors[i3] = c.r;
       pColors[i3 + 1] = c.g;
       pColors[i3 + 2] = c.b;
@@ -394,7 +459,6 @@ export default function GlobalStage3D() {
     particleGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
     particleGeo.setAttribute('color', new THREE.BufferAttribute(pColors, 3));
 
-    // Particle Texture circle
     const pCanvas = document.createElement('canvas');
     pCanvas.width = pCanvas.height = 32;
     const pCtx = pCanvas.getContext('2d')!;
@@ -410,7 +474,7 @@ export default function GlobalStage3D() {
       vertexColors: true,
       map: pTex,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.72,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -420,7 +484,7 @@ export default function GlobalStage3D() {
     scene.add(particleField);
 
     /* -----------------------------------------------------------
-     * SCROLL & CURSOR PARALLAX CAMERA CHOREOGRAPHY
+     * SECTION-LOCKED SCROLL PROGRESS & RESPONSIVE FRAMING
      * ----------------------------------------------------------- */
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
     const onPointerMove = (e: PointerEvent) => {
@@ -429,25 +493,117 @@ export default function GlobalStage3D() {
     };
     window.addEventListener('pointermove', onPointerMove, { passive: true });
 
-    let currentScroll = 0;
-    let targetScroll = 0;
+    let currentCamY = 0;
+    let targetCamY = 0;
+    let currentScrollRatio = 0;
 
-    const onScroll = () => {
-      const docHeight = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight
-      );
-      const max = Math.max(docHeight - window.innerHeight, 1);
-      targetScroll = Math.min(Math.max(window.scrollY / max, 0), 1);
+    // Synchronize 3D zones precisely with document section offsets
+    const sectionTargets: { id: string; camY: number }[] = [
+      { id: 'top', camY: 0 },
+      { id: 'work', camY: -18 },
+      { id: 'lab', camY: -36 },
+      { id: 'stack', camY: -46 },
+      { id: 'research', camY: -52 },
+      { id: 'contact', camY: -64 },
+    ];
+
+    const updateScrollSync = () => {
+      const scrollMid = window.scrollY + window.innerHeight * 0.35;
+      const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      const maxScroll = Math.max(docHeight - window.innerHeight, 1);
+      currentScrollRatio = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
+
+      // Measure actual DOM elements
+      const offsets = sectionTargets.map((s) => {
+        const dom = document.getElementById(s.id);
+        return {
+          id: s.id,
+          camY: s.camY,
+          top: dom ? dom.offsetTop : 0,
+        };
+      });
+
+      if (scrollMid <= offsets[0].top) {
+        targetCamY = offsets[0].camY;
+        return;
+      }
+      const last = offsets[offsets.length - 1];
+      if (scrollMid >= last.top) {
+        targetCamY = last.camY;
+        return;
+      }
+
+      for (let i = 0; i < offsets.length - 1; i++) {
+        const cur = offsets[i];
+        const nxt = offsets[i + 1];
+        if (scrollMid >= cur.top && scrollMid < nxt.top) {
+          const span = nxt.top - cur.top;
+          const p = span > 0 ? (scrollMid - cur.top) / span : 0;
+          // Smooth Hermite interpolation (smoothstep)
+          const t = p * p * (3 - 2 * p);
+          targetCamY = cur.camY + (nxt.camY - cur.camY) * t;
+          return;
+        }
+      }
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    window.addEventListener('scroll', updateScrollSync, { passive: true });
+    updateScrollSync();
+
+    // Responsive layout adapter
+    const adaptLayout = (w: number, h: number) => {
+      width = w;
+      height = h;
+      aspect = w / h;
+      isMobile = w < 768;
+
+      renderer.setSize(w, h);
+      camera.aspect = aspect;
+
+      // Adjust camera distance and group scale on mobile portrait so 3D elements are never clipped
+      if (aspect < 1.0) {
+        const mobileScale = Math.min(1.0, Math.max(0.68, aspect / 1.15));
+        camera.position.z = 17;
+        
+        // Center hero monogram above typography
+        gyroGroup.position.set(0, 2.6, 0);
+        gyroGroup.scale.setScalar(mobileScale * 0.9);
+        catalystGroup.position.set(0, 2.6, 0);
+        catalystGroup.scale.setScalar(mobileScale * 0.9);
+
+        // Compact lab brackets
+        bLeft.position.set(-1.6, 0, 1);
+        bRight.position.set(1.6, 0, 1);
+        bLeft.scale.setScalar(mobileScale);
+        bRight.scale.setScalar(mobileScale);
+
+        workGroup.scale.setScalar(mobileScale);
+        researchGroup.scale.setScalar(mobileScale);
+      } else {
+        camera.position.z = 15;
+
+        // Desktop layout: Monogram crowns left hero column
+        gyroGroup.position.set(-3.2, 0.8, 2.5);
+        gyroGroup.scale.setScalar(1.0);
+        catalystGroup.position.set(-3.2, 0.8, 2.5);
+        catalystGroup.scale.setScalar(1.0);
+
+        // Full lab brackets
+        bLeft.position.set(-2.8, 0, 1);
+        bRight.position.set(2.8, 0, 1);
+        bLeft.scale.setScalar(1.0);
+        bRight.scale.setScalar(1.0);
+
+        workGroup.scale.setScalar(1.0);
+        researchGroup.scale.setScalar(1.0);
+      }
+
+      camera.updateProjectionMatrix();
+    };
+    adaptLayout(window.innerWidth, window.innerHeight);
 
     const onResize = () => {
-      const w = window.innerWidth, h = window.innerHeight;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
+      adaptLayout(window.innerWidth, window.innerHeight);
+      updateScrollSync();
     };
     window.addEventListener('resize', onResize);
 
@@ -470,57 +626,70 @@ export default function GlobalStage3D() {
 
       clock += 0.012;
 
-      // Smooth pointer lerp
+      // Pointer lerp spring
       pointer.x += (pointer.tx - pointer.x) * 0.06;
       pointer.y += (pointer.ty - pointer.y) * 0.06;
 
-      // Smooth scroll progress lerp
-      currentScroll += (targetScroll - currentScroll) * 0.08;
-
-      // Camera journey along Y trajectory
-      // Progress 0.0 -> Y: 0 (Hero)
-      // Progress 0.3 -> Y: -18 (Work)
-      // Progress 0.6 -> Y: -36 (Lab)
-      // Progress 0.85 -> Y: -54 (Research)
-      // Progress 1.0 -> Y: -62 (Contact)
-      const targetCamY = -currentScroll * 58;
-      camera.position.y += (targetCamY - camera.position.y) * 0.09;
+      // Smooth camera position lerp to section target
+      currentCamY += (targetCamY - currentCamY) * 0.085;
+      camera.position.y = currentCamY;
 
       // Subtle dynamic camera depth and lateral drift
-      camera.position.x = Math.sin(currentScroll * Math.PI * 2) * 2.2 + pointer.x * 0.8;
-      camera.position.z = 15 - Math.sin(currentScroll * Math.PI) * 2.5 - pointer.y * 0.6;
-      camera.lookAt(pointer.x * 0.5, camera.position.y, 0);
+      camera.position.x = Math.sin(currentScrollRatio * Math.PI * 2) * 1.8 + pointer.x * 0.7;
+      camera.lookAt(pointer.x * 0.4, camera.position.y, 0);
 
       if (!reduceMotion) {
-        // Hero MOF slow rotation & Cerium pulse
-        mofLattice.rotation.y = 0.6 + clock * 0.35 + pointer.x * 0.3;
-        mofLattice.rotation.x = 0.4 + pointer.y * 0.2;
-        emblemGroup.rotation.y = -clock * 0.25;
-        emblemRing.rotation.z = clock * 0.15;
-        haloMat.opacity = 0.25 + Math.sin(clock * 3) * 0.1;
+        // Hero Gyroscope & K Monogram
+        ringOuter.rotation.z = clock * 0.25;
+        ringMid.rotation.x = clock * 0.35;
+        ringMid.rotation.y = clock * 0.2;
+        ringInner.rotation.y = -clock * 0.4;
+        kMonogram.rotation.y = -clock * 0.18 + pointer.x * 0.3;
 
-        // Work prism rings
-        prismRing1.rotation.z += 0.008;
-        prismRing2.rotation.x += 0.006;
-        workNodes.forEach((n, idx) => {
-          n.rotation.x += 0.02;
-          n.rotation.y += 0.02;
-          n.position.y += Math.sin(clock * 2 + idx) * 0.005;
+        // Catalyst Nodes Orbit
+        nodes.forEach((n) => {
+          const t = clock * n.speed + n.phase;
+          n.mesh.position.set(
+            Math.cos(t) * n.rad,
+            Math.sin(t) * n.rad * 0.6 + Math.sin(t * 2) * n.incl,
+            Math.sin(t) * n.rad * 0.8
+          );
+          n.mesh.rotation.x += 0.02;
+          n.mesh.rotation.y += 0.02;
         });
 
-        // Lab bracket & benzene floating
-        bLeft.rotation.z = Math.sin(clock * 1.5) * 0.08;
-        bRight.rotation.z = -Math.sin(clock * 1.5) * 0.08;
-        benzeneGroup.rotation.y = clock * 0.2;
+        // Work Prism Rings
+        prismRing1.rotation.z += 0.007;
+        prismRing2.rotation.x += 0.005;
 
-        // Research orbital spin
-        orbitalMesh.rotation.x = clock * 0.4;
-        orbitalMesh.rotation.y = clock * 0.5;
-        orbitalCore.rotation.x = -clock * 0.3;
-        orbitalCore.rotation.y = -clock * 0.4;
+        // Work nodes orbit & laser circuit update
+        const posAttr = beamGeo.getAttribute('position') as THREE.BufferAttribute;
+        workNodes.forEach((n, idx) => {
+          const angle = (idx / 6) * Math.PI * 2 + clock * 0.2;
+          const x = Math.cos(angle) * 4.2;
+          const y = Math.sin(angle) * 2.2;
+          const z = Math.sin(angle * 2) * 1.4;
+          n.position.set(x, y, z);
+          n.rotation.x += 0.02;
+          n.rotation.y += 0.02;
 
-        // Stardust slow drift
-        particleField.rotation.y = clock * 0.04 + pointer.x * 0.02;
+          posAttr.setXYZ(idx, x, y, z);
+        });
+        posAttr.needsUpdate = true;
+
+        // Lab Brackets & Benzene Rings
+        bLeft.rotation.z = Math.sin(clock * 1.4) * 0.06;
+        bRight.rotation.z = -Math.sin(clock * 1.4) * 0.06;
+        benzeneGroup.rotation.y = clock * 0.22;
+
+        // Research dz² orbital & torus knot
+        dz2Group.rotation.y = clock * 0.45 + pointer.x * 0.3;
+        dz2Group.rotation.z = Math.sin(clock * 0.8) * 0.15;
+        orbitalMesh.rotation.x = clock * 0.35;
+        orbitalMesh.rotation.y = clock * 0.45;
+
+        // Constellation stardust slow drift
+        particleField.rotation.y = clock * 0.03 + pointer.x * 0.02;
       }
 
       renderer.render(scene, camera);
@@ -541,7 +710,7 @@ export default function GlobalStage3D() {
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('scroll', updateScrollSync);
       window.removeEventListener('resize', onResize);
       renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
 

@@ -186,7 +186,7 @@ export default function Lab() {
   };
 
   return (
-    <section id="lab" className="content-auto border-t border-line py-16 sm:py-32">
+    <section id="lab" className="border-t border-line py-16 sm:py-32">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-8">
         {/* Section Header */}
         <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between border-b border-line pb-8">
