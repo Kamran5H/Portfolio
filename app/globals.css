@@ -143,6 +143,49 @@ body {
   transform: none;
 }
 
+/* 3D Perspective & Scroll Flip Cards */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.perspective-1400 {
+  perspective: 1400px;
+}
+
+.card-3d-flip {
+  opacity: 0;
+  transform: perspective(1400px) rotateX(16deg) translateY(42px) scale(0.97);
+  transform-origin: center top;
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  will-change: transform, opacity;
+}
+
+.card-3d-flip.in {
+  opacity: 1;
+  transform: perspective(1400px) rotateX(0deg) translateY(0) scale(1);
+}
+
+.card-3d-flip:hover {
+  box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(16, 185, 129, 0.15);
+}
+
+/* Cyber-Chemistry subtle glow highlights */
+.glow-emerald {
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+}
+
+.glow-gold {
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.28);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.28);
+}
+
 @keyframes fadein {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: none; }
@@ -181,8 +224,9 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal {
-    opacity: 1;
-    transform: none;
+  .reveal, .card-3d-flip {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
+

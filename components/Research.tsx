@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { SITE, VAULT_ITEMS, type VaultItem } from '@/lib/site';
+import { useTilt } from '@/lib/hooks';
 import VaultModal from './VaultModal';
 
 interface ResearchField {
@@ -63,9 +64,72 @@ const RESEARCH_FIELDS: ResearchField[] = [
   },
 ];
 
+function ResearchCard({
+  rf,
+  onOpenVault,
+}: {
+  rf: ResearchField;
+  onOpenVault: (id: string) => void;
+}) {
+  const tiltRef = useTilt<HTMLElement>(4);
+
+  return (
+    <article
+      ref={tiltRef}
+      className="card-3d-flip preserve-3d rounded-2xl border border-line bg-ink-1/85 backdrop-blur-md p-5 sm:p-6 flex flex-col justify-between hover:border-emerald-bright/40 transition-all duration-300 shadow-xl shadow-black/30"
+    >
+      <div>
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <span className="font-mono text-[11px] text-paper-faint tracking-wider uppercase">
+            {rf.category}
+          </span>
+          <span className="font-mono text-[10px] rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 text-gold">
+            {rf.status}
+          </span>
+        </div>
+
+        <h3 className="display text-xl text-paper leading-snug">
+          {rf.title}
+        </h3>
+
+        <p className="mt-1 font-mono text-xs text-paper-faint">
+          {rf.affiliation}
+        </p>
+
+        <p className="mt-4 text-xs sm:text-sm text-paper-dim leading-relaxed">
+          {rf.summary}
+        </p>
+
+        <div className="mt-5 flex flex-wrap gap-1.5">
+          {rf.methods.map((m) => (
+            <span
+              key={m}
+              className="rounded border border-line bg-ink-2/60 px-2 py-0.5 font-mono text-[10px] text-paper-dim"
+            >
+              {m}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6 pt-4 border-t border-line/60">
+        <button
+          onClick={() => onOpenVault(rf.vaultTargetId)}
+          className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-emerald/30 bg-emerald/10 px-3.5 py-2 text-xs font-medium text-emerald-bright hover:bg-emerald/20 transition-all"
+        >
+          <span>Request Full Dossier</span>
+          <span className="font-mono text-xs">🔒</span>
+        </button>
+      </div>
+    </article>
+  );
+}
+
 export default function Research() {
   const [modalOpen, setModalOpen] = useState(false);
   const [activeVaultItem, setActiveVaultItem] = useState<VaultItem | null>(null);
+  const scholarTiltRef = useTilt<HTMLDivElement>(3);
+  const vaultTiltRef = useTilt<HTMLDivElement>(2);
 
   const openVault = (item?: VaultItem) => {
     setActiveVaultItem(item || null);
@@ -106,62 +170,18 @@ export default function Research() {
           </div>
         </div>
 
-        {/* Research Overview Cards (General Terms Only) */}
+        {/* Research Overview Cards with 3D Flip & Tilt */}
         <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-14 sm:mb-20">
           {RESEARCH_FIELDS.map((rf) => (
-            <article
-              key={rf.id}
-              className="rounded-2xl border border-line bg-ink-1/90 p-5 sm:p-6 flex flex-col justify-between hover:border-line-hover transition-colors"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="font-mono text-[11px] text-paper-faint tracking-wider uppercase">
-                    {rf.category}
-                  </span>
-                  <span className="font-mono text-[10px] rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 text-gold">
-                    {rf.status}
-                  </span>
-                </div>
-
-                <h3 className="display text-xl text-paper leading-snug">
-                  {rf.title}
-                </h3>
-
-                <p className="mt-1 font-mono text-xs text-paper-faint">
-                  {rf.affiliation}
-                </p>
-
-                <p className="mt-4 text-xs sm:text-sm text-paper-dim leading-relaxed">
-                  {rf.summary}
-                </p>
-
-                <div className="mt-5 flex flex-wrap gap-1.5">
-                  {rf.methods.map((m) => (
-                    <span
-                      key={m}
-                      className="rounded border border-line bg-ink-2/60 px-2 py-0.5 font-mono text-[10px] text-paper-dim"
-                    >
-                      {m}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-line/60">
-                <button
-                  onClick={() => openVaultById(rf.vaultTargetId)}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-emerald/30 bg-emerald/10 px-3.5 py-2 text-xs font-medium text-emerald-bright hover:bg-emerald/20 transition-all"
-                >
-                  <span>Request Full Dossier</span>
-                  <span className="font-mono text-xs">🔒</span>
-                </button>
-              </div>
-            </article>
+            <ResearchCard key={rf.id} rf={rf} onOpenVault={openVaultById} />
           ))}
         </div>
 
-        {/* Verified Academic Trajectory & Scholar Profile */}
-        <div className="mb-14 sm:mb-20 rounded-3xl border border-line bg-ink-1/90 p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 lg:gap-12 items-center">
+        {/* Verified Academic Trajectory & Scholar Profile with 3D Flip */}
+        <div
+          ref={scholarTiltRef}
+          className="card-3d-flip preserve-3d mb-14 sm:mb-20 rounded-3xl border border-line bg-ink-1/85 backdrop-blur-md p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 lg:gap-12 items-center shadow-2xl shadow-black/40"
+        >
           {/* Author Scholar Badge / Portrait */}
           <div className="flex flex-col items-center text-center p-4 sm:p-6 rounded-2xl border border-line bg-ink-2/60">
             <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-emerald/40 bg-ink-card p-1 shadow-lg mb-3 sm:mb-4">
@@ -215,8 +235,11 @@ export default function Research() {
           </div>
         </div>
 
-        {/* Confidential Document & Credential Vault */}
-        <div className="rounded-3xl border border-line bg-gradient-to-b from-ink-1 to-ink-card p-6 sm:p-10 shadow-2xl">
+        {/* Confidential Document & Credential Vault with 3D Flip */}
+        <div
+          ref={vaultTiltRef}
+          className="card-3d-flip preserve-3d rounded-3xl border border-line bg-gradient-to-b from-ink-1/90 to-ink-card/90 backdrop-blur-md p-6 sm:p-10 shadow-2xl shadow-black/50"
+        >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-line pb-6 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-1">

@@ -1,6 +1,7 @@
 'use client';
 
-import { FLAGSHIPS } from '@/lib/site';
+import { FLAGSHIPS, type Project } from '@/lib/site';
+import { useTilt } from '@/lib/hooks';
 import StatusBadge from './StatusBadge';
 import { ArticlesVisual, HumanizerVisual, KalamVisual, SubahVisual, VideosVisual } from './visuals';
 
@@ -16,6 +17,92 @@ const VISUALS: Record<string, () => JSX.Element> = {
   'quidian-media-downloader': VideosVisual,
   'videos': VideosVisual,
 };
+
+function FlagshipCard({ project, index }: { project: Project; index: number }) {
+  const tiltRef = useTilt<HTMLElement>(4);
+  const Visual = VISUALS[project.id];
+  const flip = index % 2 === 1;
+  const indexStr = (index + 1).toString().padStart(2, '0');
+
+  return (
+    <article
+      ref={tiltRef}
+      className={`card-3d-flip preserve-3d content-auto rounded-3xl border border-line bg-ink-1/85 backdrop-blur-md p-4 sm:p-8 transition-all duration-300 hover:border-emerald-bright/40 grid items-center gap-6 lg:gap-12 shadow-2xl shadow-black/40 ${
+        flip ? 'lg:grid-cols-[1fr_1.15fr]' : 'lg:grid-cols-[1.15fr_1fr]'
+      }`}
+    >
+      {/* 3D Motion Graphic Stage Container */}
+      <div
+        className={`w-full relative rounded-2xl border border-line/60 bg-ink-2/80 [transform-style:preserve-3d] min-h-[440px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden ${
+          flip ? 'lg:order-2' : 'lg:order-1'
+        }`}
+      >
+        {Visual ? <Visual /> : null}
+      </div>
+
+      {/* Text & Metadata Container */}
+      <div className={`${flip ? 'lg:order-1' : 'lg:order-2'} flex flex-col justify-center`}>
+        <div className="flex items-center gap-3 mb-2 sm:mb-3">
+          <span className="font-mono text-xs text-paper-faint tracking-widest">{indexStr}</span>
+          <StatusBadge status={project.status} />
+        </div>
+
+        <h3 className="display text-2xl sm:text-4xl lg:text-5xl text-paper tracking-tight">
+          {project.name}
+        </h3>
+
+        <p className="mt-4 text-sm sm:text-base leading-relaxed text-paper-dim">
+          {project.hook}
+        </p>
+
+        {/* Tech Stack Pills */}
+        <ul className="mt-6 flex flex-wrap gap-2">
+          {project.stack.map((s) => (
+            <li
+              key={s}
+              className="rounded-lg border border-line bg-ink-2/80 px-2.5 py-1 font-mono text-xs text-paper-dim"
+            >
+              {s}
+            </li>
+          ))}
+        </ul>
+
+        {/* Action Links */}
+        <div className="mt-8 flex flex-wrap items-center gap-5 text-sm font-medium">
+          {project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl bg-emerald/15 border border-emerald/30 px-4 py-2 text-emerald-bright transition-all hover:bg-emerald/25 hover:border-emerald-bright"
+            >
+              <span>Live App</span>
+              <span className="text-xs">↗</span>
+            </a>
+          )}
+
+          {project.repo && (
+            <a
+              href={project.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-line bg-ink-card px-4 py-2 text-paper transition-all hover:border-line-hover hover:text-white"
+            >
+              <span>GitHub</span>
+              <span className="text-xs">↗</span>
+            </a>
+          )}
+
+          {!project.live && !project.repo && (
+            <span className="font-mono text-xs text-paper-faint">
+              Source & Demo confidential
+            </span>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export default function Work() {
   return (
@@ -35,92 +122,11 @@ export default function Work() {
         </p>
       </div>
 
-      {/* Flagship Projects Grid / List */}
+      {/* Flagship Projects Grid / List with 3D Flip & Tilt */}
       <div className="space-y-16 sm:space-y-32">
-        {FLAGSHIPS.map((p, i) => {
-          const Visual = VISUALS[p.id];
-          const flip = i % 2 === 1;
-          const indexStr = (i + 1).toString().padStart(2, '0');
-
-          return (
-            <article
-              key={p.id}
-              className={`content-auto rounded-3xl border border-line bg-ink-1/90 p-4 sm:p-8 transition-colors duration-200 hover:border-line-hover grid items-center gap-6 lg:gap-12 ${
-                flip ? 'lg:grid-cols-[1fr_1.15fr]' : 'lg:grid-cols-[1.15fr_1fr]'
-              }`}
-            >
-              {/* 3D Motion Graphic Stage Container */}
-              <div
-                className={`w-full relative rounded-2xl border border-line/60 bg-ink-2/70 [transform-style:preserve-3d] min-h-[440px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden ${
-                  flip ? 'lg:order-2' : 'lg:order-1'
-                }`}
-              >
-                {Visual ? <Visual /> : null}
-              </div>
-
-              {/* Text & Metadata Container (Guaranteed No Overlap) */}
-              <div className={`${flip ? 'lg:order-1' : 'lg:order-2'} flex flex-col justify-center`}>
-                <div className="flex items-center gap-3 mb-2 sm:mb-3">
-                  <span className="font-mono text-xs text-paper-faint tracking-widest">{indexStr}</span>
-                  <StatusBadge status={p.status} />
-                </div>
-
-                <h3 className="display text-2xl sm:text-4xl lg:text-5xl text-paper tracking-tight">
-                  {p.name}
-                </h3>
-
-                <p className="mt-4 text-sm sm:text-base leading-relaxed text-paper-dim">
-                  {p.hook}
-                </p>
-
-                {/* Tech Stack Pills */}
-                <ul className="mt-6 flex flex-wrap gap-2">
-                  {p.stack.map((s) => (
-                    <li
-                      key={s}
-                      className="rounded-lg border border-line bg-ink-2/80 px-2.5 py-1 font-mono text-xs text-paper-dim"
-                    >
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Action Links */}
-                <div className="mt-8 flex flex-wrap items-center gap-5 text-sm font-medium">
-                  {p.live && (
-                    <a
-                      href={p.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-xl bg-emerald/15 border border-emerald/30 px-4 py-2 text-emerald-bright transition-all hover:bg-emerald/25 hover:border-emerald-bright"
-                    >
-                      <span>Live App</span>
-                      <span className="text-xs">↗</span>
-                    </a>
-                  )}
-
-                  {p.repo && (
-                    <a
-                      href={p.repo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-xl border border-line bg-ink-card px-4 py-2 text-paper transition-all hover:border-line-hover hover:text-white"
-                    >
-                      <span>GitHub</span>
-                      <span className="text-xs">↗</span>
-                    </a>
-                  )}
-
-                  {!p.live && !p.repo && (
-                    <span className="font-mono text-xs text-paper-faint">
-                      Source & Demo confidential
-                    </span>
-                  )}
-                </div>
-              </div>
-            </article>
-          );
-        })}
+        {FLAGSHIPS.map((p, i) => (
+          <FlagshipCard key={p.id} project={p} index={i} />
+        ))}
       </div>
     </section>
   );

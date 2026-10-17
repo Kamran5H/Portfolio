@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { REPOS, GITHUB, VAULT_ITEMS, type Category, type LabItem, type VaultItem } from '@/lib/site';
+import { useTilt } from '@/lib/hooks';
 import StatusBadge from './StatusBadge';
 import VaultModal from './VaultModal';
 
@@ -53,7 +54,7 @@ function Glyph({ cat }: { cat: Category }) {
         <svg viewBox="0 0 80 80" className="h-full w-full" fill="none" strokeWidth="1.2">
           {[0, 1, 2].map((i) => (
             <g key={i}>
-              <rect className={s} x={10 + i * 22} y="32" width="16" height="16" rx="3" />
+              <rect className={s} x="10 + i * 22" y="32" width="16" height="16" rx="3" />
               {i < 2 && <path className={s} d={`M${26 + i * 22} 40 h6`} strokeDasharray="2 2" />}
             </g>
           ))}
@@ -82,11 +83,9 @@ function Glyph({ cat }: { cat: Category }) {
       );
     case 'AI':
       return (
-        <svg viewBox="0 0 80 80" className="h-full w-full" fill="none" strokeWidth="1">
-          {[[20, 24], [20, 56], [40, 40], [60, 20], [60, 40], [60, 60]].map(([x, y], i, a) =>
-            i < 2
-              ? a.slice(2, 3).map(([x2, y2]) => <line key={`${i}-${x2}`} className={s} x1={x} y1={y} x2={x2} y2={y2} />)
-              : i > 2
+        <svg viewBox="0 0 80 80" className="h-full w-full" fill="none" strokeWidth="1.2">
+          {[[20, 24], [20, 56], [60, 20], [60, 40], [60, 60]].map(([x, y], i) =>
+            i % 2 === 0
               ? <line key={i} className={s} x1={40} y1={40} x2={x} y2={y} />
               : null
           )}
@@ -105,6 +104,73 @@ function Glyph({ cat }: { cat: Category }) {
     default:
       return null;
   }
+}
+
+function LabCard({
+  item,
+  onOpenVault,
+}: {
+  item: LabItem;
+  onOpenVault: (item: LabItem) => void;
+}) {
+  const tiltRef = useTilt<HTMLDivElement>(5);
+
+  return (
+    <div
+      ref={tiltRef}
+      className="card-3d-flip preserve-3d group relative flex flex-col justify-between rounded-2xl border border-line bg-ink-1/85 backdrop-blur-md p-5 sm:p-6 transition-all duration-300 hover:border-emerald-bright/40 hover:bg-ink-card shadow-xl shadow-black/30"
+    >
+      <div>
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div className="h-12 w-12 shrink-0">
+            <Glyph cat={item.category} />
+          </div>
+          <div>
+            {item.locked ? (
+              <span className="inline-flex items-center gap-1 rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 font-mono text-[10px] text-gold">
+                <span>🔒</span>
+                <span>Locked</span>
+              </span>
+            ) : item.repo ? (
+              <a
+                href={item.repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-xs text-paper-faint transition-colors group-hover:text-emerald-bright"
+              >
+                Code ↗
+              </a>
+            ) : (
+              <span className="font-mono text-[10px] text-paper-faint">Private</span>
+            )}
+          </div>
+        </div>
+
+        <h3 className="font-medium text-paper text-lg group-hover:text-emerald-bright transition-colors">
+          {item.name}
+        </h3>
+
+        <p className="mt-2 text-xs sm:text-sm text-paper-dim leading-relaxed">
+          {item.line}
+        </p>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between pt-4 border-t border-line/60">
+        <StatusBadge status={item.status} />
+
+        {item.locked ? (
+          <button
+            onClick={() => onOpenVault(item)}
+            className="font-mono text-[11px] text-gold hover:underline"
+          >
+            Request IP Access
+          </button>
+        ) : (
+          <span className="font-mono text-[11px] text-paper-faint">{item.lang}</span>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default function Lab() {
@@ -158,63 +224,10 @@ export default function Lab() {
           </div>
         </div>
 
-        {/* Repos Grid */}
+        {/* Repos Grid with 3D Scroll Flips & Mouse Tilt */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((r: LabItem) => (
-              <div
-                key={r.id}
-                className="group relative flex flex-col justify-between rounded-2xl border border-line bg-ink-1/90 p-5 sm:p-6 transition-colors duration-200 hover:border-line-hover hover:bg-ink-card"
-              >
-                <div>
-                  <div className="flex items-start justify-between gap-3 mb-4">
-                    <div className="h-12 w-12 shrink-0">
-                      <Glyph cat={r.category} />
-                    </div>
-                    <div>
-                      {r.locked ? (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-gold/40 bg-gold/10 px-2 py-0.5 font-mono text-[10px] text-gold">
-                          <span>🔒</span>
-                          <span>Locked</span>
-                        </span>
-                      ) : r.repo ? (
-                        <a
-                          href={r.repo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-mono text-xs text-paper-faint transition-colors group-hover:text-emerald-bright"
-                        >
-                          Code ↗
-                        </a>
-                      ) : (
-                        <span className="font-mono text-[10px] text-paper-faint">Private</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <h3 className="font-medium text-paper text-lg group-hover:text-emerald-bright transition-colors">
-                    {r.name}
-                  </h3>
-
-                  <p className="mt-2 text-xs sm:text-sm text-paper-dim leading-relaxed">
-                    {r.line}
-                  </p>
-                </div>
-
-                <div className="mt-6 flex items-center justify-between pt-4 border-t border-line/60">
-                  <StatusBadge status={r.status} />
-
-                  {r.locked ? (
-                    <button
-                      onClick={() => openVaultForLab(r)}
-                      className="font-mono text-[11px] text-gold hover:underline"
-                    >
-                      Request IP Access
-                    </button>
-                  ) : (
-                    <span className="font-mono text-[11px] text-paper-faint">{r.lang}</span>
-                  )}
-                </div>
-              </div>
+            <LabCard key={r.id} item={r} onOpenVault={openVaultForLab} />
           ))}
         </div>
 
