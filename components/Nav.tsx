@@ -29,6 +29,12 @@ export default function Nav() {
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
 
+  useEffect(() => {
+    if (open) document.body.classList.add('overflow-locked');
+    else document.body.classList.remove('overflow-locked');
+    return () => document.body.classList.remove('overflow-locked');
+  }, [open]);
+
   return (
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${scrolled || open ? 'bg-ink/95 backdrop-blur-md border-b border-line' : ''}`}>

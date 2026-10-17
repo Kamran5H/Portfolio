@@ -7,8 +7,7 @@ import VaultModal from './VaultModal';
 
 const CATS: ('All' | Category)[] = ['All', 'Research', 'Browser', 'Automation', 'Desktop', 'AI'];
 
-/** Interactive category indicator mark */
-function Glyph({ cat }: { cat: Category; seed?: number }) {
+function Glyph({ cat }: { cat: Category }) {
   const s = 'stroke-paper-dim group-hover:stroke-emerald-bright transition-colors duration-500';
   const spin = 'origin-center transition-transform duration-700 ease-out group-hover:rotate-[20deg]';
 
@@ -154,18 +153,15 @@ export default function Lab() {
 
         {/* Repos Grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((r: LabItem, i) => {
-            const isClickable = Boolean(r.repo && !r.locked);
-
-            return (
+          {list.map((r: LabItem) => (
               <div
-                key={r.name}
+                key={r.id}
                 className="group relative flex flex-col justify-between rounded-2xl border border-line bg-ink-1/70 p-6 backdrop-blur-sm transition-all duration-300 hover:border-line-hover hover:bg-ink-card/80"
               >
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-4">
                     <div className="h-12 w-12 shrink-0">
-                      <Glyph cat={r.category} seed={i} />
+                      <Glyph cat={r.category} />
                     </div>
                     <div>
                       {r.locked ? (
@@ -212,8 +208,7 @@ export default function Lab() {
                   )}
                 </div>
               </div>
-            );
-          })}
+          ))}
         </div>
 
         {/* GitHub link */}

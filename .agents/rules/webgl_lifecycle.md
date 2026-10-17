@@ -9,3 +9,7 @@
 
 3. **Hardware Acceleration & Battery Awareness**:
    - Avoid infinite full-screen procedural SVG fractal noise animations that force continuous GPU repainting on mobile devices.
+
+4. **Viewport-Gated Canvas Mounting (IntersectionObserver)**:
+   - For multi-canvas pages, defer mounting the `<Canvas>` component until the container enters the viewport using `IntersectionObserver` with an anticipatory margin (e.g., `rootMargin: '200px'`).
+   - Render a lightweight CSS spinner while off-screen. This avoids browser WebGL context limits (often capped at 8–16 simultaneous contexts) and eliminates cold-start GPU/CPU bottlenecks.

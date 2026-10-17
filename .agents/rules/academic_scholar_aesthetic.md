@@ -5,3 +5,7 @@ When designing or writing copy for research scholars, scientists, and university
 2. **No Typing Effects on Scholarly Titles**: Academic titles must render immediately without typing cursor delays or interval timers.
 3. **Zero Compositing Drag**: Avoid multiple `backdrop-filter: blur(...)` and large fixed `filter: blur(...)` elements on long scrollable pages. Use solid surface cards with subtle hairline borders (`1px solid rgba(255,255,255,0.08)` / `#e2e8f0`).
 4. **Pause 3D Rendering When Off-Screen**: Always attach an `IntersectionObserver` to WebGL canvases (Three.js) so that `requestAnimationFrame` halts when scrolled out of view, ensuring 0% idle CPU and GPU usage.
+5. **Progressive Reveal & Scroll Lock Ergonomics**:
+   - Always include a `<noscript>` stylesheet fallback for `.reveal` classes (`opacity: 1 !important; transform: none !important`) so that content is never hidden if JavaScript execution is delayed or disabled.
+   - Lock body scrolling (`overflow: hidden !important`) whenever full-screen drawers or modal dialogs are mounted, ensuring clean teardown on unmount.
+   - For film grain textures, use static SVG fractal noise overlays with `pointer-events: none`, `mix-blend-mode: overlay`, and low opacity (< 0.05) rather than dynamic animated canvases.
