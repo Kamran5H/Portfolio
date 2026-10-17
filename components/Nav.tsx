@@ -57,8 +57,8 @@ export default function Nav() {
             <span className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl border border-emerald/30 bg-emerald/10 font-mono text-xs sm:text-sm font-semibold text-emerald-bright shadow-sm shadow-emerald/20 group-hover:border-emerald-bright group-hover:bg-emerald/20 transition-all">
               <span className="text-base sm:text-lg">⚗️</span>
             </span>
-            <div className="flex flex-col text-left">
-              <span className="font-serif text-[11px] sm:text-sm md:text-base font-normal tracking-tight text-paper group-hover:text-emerald-bright transition-colors whitespace-nowrap">
+            <div className="flex flex-col text-left overflow-hidden">
+              <span className="font-serif text-[11px] sm:text-sm md:text-base font-normal tracking-tight text-paper group-hover:text-emerald-bright transition-colors whitespace-nowrap truncate max-w-[210px] xs:max-w-none">
                 A Programmer Chemist&apos;s Portfolio
               </span>
               <span className="hidden md:inline font-mono text-[9px] uppercase tracking-widest text-paper-faint group-hover:text-gold transition-colors">

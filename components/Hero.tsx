@@ -73,18 +73,18 @@ export default function Hero() {
             </div>
 
             {/* Quick Metrics Bar */}
-            <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-line/70 grid grid-cols-3 gap-3 sm:gap-4 max-w-md">
+            <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-line/70 grid grid-cols-3 gap-2 sm:gap-4 max-w-md w-full">
               <div className="group transition-transform hover:-translate-y-1">
-                <div className="display text-xl sm:text-3xl text-paper">5</div>
-                <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">Flagship Systems</div>
+                <div className="display text-lg sm:text-3xl text-paper">5</div>
+                <div className="font-mono text-[9px] sm:text-[11px] text-paper-faint truncate">Flagship Systems</div>
               </div>
               <div className="group transition-transform hover:-translate-y-1">
-                <div className="display text-xl sm:text-3xl text-emerald-bright">DFT</div>
-                <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">Quantum ESPRESSO</div>
+                <div className="display text-lg sm:text-3xl text-emerald-bright">DFT</div>
+                <div className="font-mono text-[9px] sm:text-[11px] text-paper-faint truncate">Quantum ESPRESSO</div>
               </div>
               <div className="group transition-transform hover:-translate-y-1">
-                <div className="display text-xl sm:text-3xl text-gold">MOF</div>
-                <div className="font-mono text-[10px] sm:text-[11px] text-paper-faint">Ce-doped NiCo Thesis</div>
+                <div className="display text-lg sm:text-3xl text-gold">MOF</div>
+                <div className="font-mono text-[9px] sm:text-[11px] text-paper-faint truncate">Ce-doped NiCo Thesis</div>
               </div>
             </div>
           </div>

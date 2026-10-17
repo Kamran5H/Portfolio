@@ -70,7 +70,7 @@ export default function Stack() {
   const [hover, setHover] = useState<string | null>(null);
 
   return (
-    <section id="stack" className="border-t border-line">
+    <section id="stack" className="border-t border-line overflow-hidden">
       <div className="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 sm:py-32">
         <div className="card-3d-flip in mb-10 sm:mb-14 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 sm:gap-4">
           <h2 className="display text-3xl sm:text-6xl lg:text-7xl">How it ships</h2>

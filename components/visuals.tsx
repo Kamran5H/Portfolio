@@ -93,16 +93,16 @@ export function SubahVisual() {
   const left = TASKS.filter((_, i) => !done[i]);
 
   return (
-    <div className="relative flex h-full items-center justify-center px-6 [perspective:1400px]">
+    <div className="relative flex h-full items-center justify-center px-3 sm:px-6 [perspective:1400px] overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_40%,rgba(255,170,90,0.16),transparent_60%)]" />
-      <div className="relative w-full max-w-[340px] [transform-style:preserve-3d] [transform:rotateX(18deg)_rotateZ(-4deg)]">
-        <div className="absolute inset-x-6 -top-10 rounded-2xl border border-white/[0.08] bg-ink-3/40 backdrop-blur-sm p-4 [transform:translateZ(-80px)]">
+      <div className="relative w-full max-w-[270px] xs:max-w-[300px] sm:max-w-[340px] [transform-style:preserve-3d] [transform:rotateX(18deg)_rotateZ(-4deg)]">
+        <div className="absolute inset-x-4 xs:inset-x-6 -top-10 rounded-2xl border border-white/[0.08] bg-ink-3/40 backdrop-blur-sm p-4 [transform:translateZ(-80px)]">
           <div className="meta text-paper-faint">Tomorrow · rolled over</div>
           <div className="mt-2 space-y-1 text-sm text-paper-dim">
             {left.length ? left.map((t) => <div key={t} className="animate-[fadein_0.6s_ease]">↻ {t}</div>) : <div>Nothing carried. Clean slate.</div>}
           </div>
         </div>
-        <div className="relative rounded-2xl border border-line-2 bg-[#f7efe1] p-5 text-[#2a2117] shadow-[0_50px_80px_-30px_rgba(0,0,0,0.9)]">
+        <div className="relative rounded-2xl border border-line-2 bg-[#f7efe1] p-4 sm:p-5 text-[#2a2117] shadow-[0_50px_80px_-30px_rgba(0,0,0,0.9)]">
           <div className="flex items-baseline justify-between">
             <span className="display text-2xl">Today</span>
             <span className="font-mono text-[11px] opacity-60">{count}/4 done</span>
@@ -126,7 +126,7 @@ export function SubahVisual() {
             ))}
           </ul>
         </div>
-        <div className={`absolute -bottom-6 right-0 rounded-full bg-signal px-3 py-1.5 font-mono text-[11px] text-ink shadow-lg transition-all duration-500 ease-out [transform:translateZ(60px)] ${count >= 3 ? 'opacity-100' : 'translate-y-2 opacity-0'}`}>
+        <div className={`absolute -bottom-6 right-1 sm:right-0 rounded-full bg-signal px-3 py-1.5 font-mono text-[11px] text-ink shadow-lg transition-all duration-500 ease-out [transform:translateZ(60px)] ${count >= 3 ? 'opacity-100' : 'translate-y-2 opacity-0'}`}>
           {REWARDS[count % REWARDS.length]}
         </div>
       </div>
@@ -191,8 +191,8 @@ export function HumanizerVisual() {
   const scoreColor = score <= 25 ? '#8fbf6a' : score <= 55 ? '#d9b45a' : '#ff5b1f';
 
   return (
-    <div className="relative flex h-full flex-col items-center justify-center gap-5 p-6">
-      <div className="group relative w-full max-w-[460px] select-none overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-2/40 backdrop-blur-sm text-[15px] leading-relaxed transition-all focus-within:ring-2 focus-within:ring-signal/80">
+    <div className="relative flex h-full flex-col items-center justify-center gap-4 sm:gap-5 p-3 sm:p-6">
+      <div className="group relative w-full max-w-[460px] select-none overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-2/40 backdrop-blur-sm text-xs sm:text-[15px] leading-relaxed transition-all focus-within:ring-2 focus-within:ring-signal/80">
         {/* Base layer: Raw Machine Text */}
         <div className="p-6 text-paper-dim">
           <div className="meta mb-3 flex items-center justify-between text-signal">
@@ -282,8 +282,8 @@ export function VideosVisual() {
   const total = Math.round(segs.reduce((a, b) => a + b, 0) / segs.length);
 
   return (
-    <div ref={ref} className="relative flex h-full items-center justify-center p-6">
-      <div className="w-full max-w-[460px] rounded-2xl border border-white/[0.08] bg-ink-2/40 backdrop-blur-sm p-5 shadow-2xl">
+    <div ref={ref} className="relative flex h-full items-center justify-center p-3 sm:p-6">
+      <div className="w-full max-w-[460px] rounded-2xl border border-white/[0.08] bg-ink-2/40 backdrop-blur-sm p-3.5 sm:p-5 shadow-2xl">
         <div className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2 font-mono text-[11px] text-paper-dim">
           <div className="flex items-center gap-2 truncate">
             <span className="text-signal">▶</span>
@@ -292,7 +292,7 @@ export function VideosVisual() {
           <span className="ml-2 rounded bg-signal/20 px-1.5 py-0.5 text-[9px] font-bold text-signal">{currentFmt.badge}</span>
         </div>
 
-        <div className="mt-4 flex gap-2" role="group" aria-label="Media format selection">
+        <div className="mt-4 flex flex-wrap gap-1.5 sm:gap-2" role="group" aria-label="Media format selection">
           {FORMAT_CONFIG.map((f, i) => (
             <button
               key={f.label}

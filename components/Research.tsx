@@ -146,7 +146,7 @@ export default function Research() {
   const researchDossiers = VAULT_ITEMS.filter((v) => ['Research', 'Profile'].includes(v.group));
 
   return (
-    <section id="research" className="border-t border-line py-16 sm:py-32">
+    <section id="research" className="border-t border-line py-16 sm:py-32 overflow-hidden">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-8">
         {/* Section Header */}
         <div className="mb-10 sm:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 border-b border-line pb-8">
@@ -180,7 +180,7 @@ export default function Research() {
         {/* Verified Academic Trajectory & Scholar Profile with 3D Flip */}
         <div
           ref={scholarTiltRef}
-          className="card-3d-flip preserve-3d mb-14 sm:mb-20 rounded-3xl border border-white/[0.08] bg-ink-1/10 backdrop-blur-sm p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 lg:gap-12 items-center shadow-2xl shadow-black/30"
+          className="card-3d-flip preserve-3d mb-14 sm:mb-20 rounded-3xl border border-white/[0.08] bg-ink-1/10 backdrop-blur-sm p-4 sm:p-10 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 lg:gap-12 items-center shadow-2xl shadow-black/30"
         >
           {/* Author Scholar Badge / Portrait */}
           <div className="flex flex-col items-center text-center p-4 sm:p-6 rounded-2xl border border-white/[0.06] bg-white/[0.02]">
@@ -193,7 +193,7 @@ export default function Research() {
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <div className="display text-lg sm:text-xl text-paper font-normal whitespace-nowrap">
+            <div className="display text-base sm:text-xl text-paper font-normal break-words text-center">
               {SITE.name.first} {SITE.name.middle} {SITE.name.last}
             </div>
             <div

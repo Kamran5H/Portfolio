@@ -186,7 +186,7 @@ export default function Lab() {
   };
 
   return (
-    <section id="lab" className="border-t border-line py-16 sm:py-32">
+    <section id="lab" className="border-t border-line py-16 sm:py-32 overflow-hidden">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-8">
         {/* Section Header */}
         <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between border-b border-line pb-8">
@@ -201,7 +201,7 @@ export default function Lab() {
           <div
             role="tablist"
             aria-label="Repository Categories"
-            className="-mx-4 px-4 sm:mx-0 sm:px-0 flex overflow-x-auto no-scrollbar pb-1 sm:pb-0 sm:flex-wrap gap-2 touch-pan-x"
+            className="flex overflow-x-auto no-scrollbar pb-1 sm:pb-0 sm:flex-wrap gap-1.5 sm:gap-2 touch-pan-x max-w-full"
           >
             {CATS.map((c) => (
               <button

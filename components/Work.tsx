@@ -35,7 +35,7 @@ function FlagshipCard({ project, index }: { project: Project; index: number }) {
     >
       {/* 3D Motion Graphic Stage Container */}
       <div
-        className={`w-full relative rounded-2xl border border-white/[0.06] bg-white/[0.02] [transform-style:preserve-3d] min-h-[440px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden ${
+        className={`w-full relative rounded-2xl border border-white/[0.06] bg-white/[0.02] [transform-style:preserve-3d] min-h-[360px] xs:min-h-[420px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden ${
           flip ? 'lg:order-2' : 'lg:order-1'
         }`}
       >
@@ -45,7 +45,7 @@ function FlagshipCard({ project, index }: { project: Project; index: number }) {
       {/* Text & Metadata Container */}
       <div className={`${flip ? 'lg:order-1' : 'lg:order-2'} flex flex-col justify-center`}>
         {/* Top Badges & Mode Switcher */}
-        <div className="flex items-center justify-between gap-3 mb-2 sm:mb-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 mb-2 sm:mb-3">
           <div className="flex items-center gap-2.5">
             <span className="font-mono text-xs text-paper-faint tracking-widest">{indexStr}</span>
             <StatusBadge status={project.status} />
@@ -216,7 +216,7 @@ function FlagshipCard({ project, index }: { project: Project; index: number }) {
 
 export default function Work() {
   return (
-    <section id="work" className="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 sm:py-32">
+    <section id="work" className="mx-auto max-w-[1280px] px-4 py-16 sm:px-8 sm:py-32 overflow-hidden">
       {/* Section Header with Engaging Portfolio Guide */}
       <div className="mb-12 sm:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 border-b border-line pb-8">
         <div>
