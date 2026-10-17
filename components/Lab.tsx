@@ -120,7 +120,7 @@ export default function Lab() {
   };
 
   return (
-    <section id="lab" className="border-t border-line py-20 sm:py-32">
+    <section id="lab" className="content-auto border-t border-line py-16 sm:py-32">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-8">
         {/* Section Header */}
         <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between border-b border-line pb-8">
@@ -128,14 +128,14 @@ export default function Lab() {
             <div className="meta mb-2 text-emerald-bright font-mono text-xs tracking-wider uppercase">
               Micro-Tools & Experiments
             </div>
-            <h2 className="display text-4xl sm:text-6xl text-paper">The Lab</h2>
+            <h2 className="display text-3xl sm:text-6xl text-paper">The Lab</h2>
           </div>
 
           {/* Category Tabs */}
           <div
             role="tablist"
             aria-label="Repository Categories"
-            className="flex overflow-x-auto no-scrollbar pb-1 sm:pb-0 sm:flex-wrap gap-2"
+            className="-mx-4 px-4 sm:mx-0 sm:px-0 flex overflow-x-auto no-scrollbar pb-1 sm:pb-0 sm:flex-wrap gap-2 touch-pan-x"
           >
             {CATS.map((c) => (
               <button
@@ -143,7 +143,7 @@ export default function Lab() {
                 role="tab"
                 aria-selected={cat === c}
                 onClick={() => setCat(c)}
-                className={`whitespace-nowrap rounded-xl px-4 py-2 text-xs sm:text-sm font-medium transition-all ${
+                className={`whitespace-nowrap rounded-xl px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium transition-all ${
                   cat === c
                     ? 'bg-emerald text-ink shadow-md shadow-emerald/20 font-semibold'
                     : 'bg-ink-card border border-line text-paper-dim hover:text-paper hover:border-line-hover'
@@ -163,7 +163,7 @@ export default function Lab() {
           {list.map((r: LabItem) => (
               <div
                 key={r.id}
-                className="group relative flex flex-col justify-between rounded-2xl border border-line bg-ink-1/70 p-6 backdrop-blur-sm transition-all duration-300 hover:border-line-hover hover:bg-ink-card/80"
+                className="group relative flex flex-col justify-between rounded-2xl border border-line bg-ink-1/90 p-5 sm:p-6 transition-colors duration-200 hover:border-line-hover hover:bg-ink-card"
               >
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-4">

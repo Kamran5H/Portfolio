@@ -2,7 +2,7 @@ import { CV } from '@/lib/site';
 
 export default function CVButton({ variant = 'ghost', label = 'Download CV' }: { variant?: 'solid' | 'ghost'; label?: string }) {
   return (
-    <div className="inline-flex items-center rounded-full border border-line bg-ink-2/90 p-0.5 backdrop-blur-md shadow-sm transition-all hover:border-line-hover">
+    <div className="inline-flex items-center rounded-full border border-line bg-ink-2/95 p-0.5 shadow-sm transition-all hover:border-line-hover">
       <a
         href={CV.href}
         download={CV.filename}

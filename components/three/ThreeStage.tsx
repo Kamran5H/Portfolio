@@ -13,10 +13,12 @@ export default function ThreeStage({ children, className = '', fallbackIcon = 'â
   const [hasWebGL, setHasWebGL] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [inView, setInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
+    setIsMobile(window.innerWidth < 768 || ('ontouchstart' in window));
     try {
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
@@ -33,7 +35,7 @@ export default function ThreeStage({ children, className = '', fallbackIcon = 'â
       ([entry]) => {
         setInView(entry.isIntersecting);
       },
-      { rootMargin: '100px' }
+      { rootMargin: '50px' }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -42,7 +44,7 @@ export default function ThreeStage({ children, className = '', fallbackIcon = 'â
   if (!mounted) {
     return (
       <div className={`relative flex items-center justify-center bg-ink-card/60 rounded-2xl border border-line ${className}`}>
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-bright border-t-transparent opacity-60" />
+        <span className="text-xl opacity-20">{fallbackIcon}</span>
       </div>
     );
   }
@@ -50,8 +52,8 @@ export default function ThreeStage({ children, className = '', fallbackIcon = 'â
   if (!hasWebGL) {
     return (
       <div className={`relative flex flex-col items-center justify-center bg-ink-card rounded-2xl border border-line p-6 ${className}`}>
-        <span className="text-4xl">{fallbackIcon}</span>
-        <span className="mt-2 font-mono text-xs text-paper-dim">Interactive 3D Preview</span>
+        <span className="text-3xl">{fallbackIcon}</span>
+        <span className="mt-2 font-mono text-[11px] text-paper-dim">3D Architecture</span>
       </div>
     );
   }
@@ -59,18 +61,24 @@ export default function ThreeStage({ children, className = '', fallbackIcon = 'â
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden rounded-2xl border border-line/80 bg-gradient-to-b from-ink-card to-ink-2 shadow-xl shadow-black/40 ${className}`}
+      className={`relative overflow-hidden rounded-2xl border border-line/80 bg-gradient-to-b from-ink-card to-ink-2 shadow-lg shadow-black/30 ${className}`}
     >
-      <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-emerald/10 blur-2xl" />
-      <div className="pointer-events-none absolute -left-12 -bottom-12 h-36 w-36 rounded-full bg-gold/10 blur-2xl" />
+      <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-emerald/10 blur-xl" />
+      <div className="pointer-events-none absolute -left-12 -bottom-12 h-32 w-32 rounded-full bg-gold/10 blur-xl" />
 
-      <div className="relative h-full w-full">
+      <div className="relative h-full w-full pointer-events-none">
         {inView ? (
           <Canvas
             frameloop="always"
             camera={{ position: [0, 0, 4.5], fov: 45 }}
-            dpr={[1, 1.5]}
-            gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+            dpr={isMobile ? 1 : [1, 1.5]}
+            gl={{
+              antialias: !isMobile,
+              alpha: true,
+              powerPreference: isMobile ? 'low-power' : 'default',
+              stencil: false,
+              depth: true,
+            }}
           >
             <ambientLight intensity={0.7} />
             <directionalLight position={[5, 8, 5]} intensity={1.2} />
@@ -83,7 +91,7 @@ export default function ThreeStage({ children, className = '', fallbackIcon = 'â
           </Canvas>
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-bright border-t-transparent opacity-40" />
+            <span className="text-xl opacity-20">{fallbackIcon}</span>
           </div>
         )}
       </div>

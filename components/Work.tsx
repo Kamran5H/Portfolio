@@ -7,24 +7,24 @@ import ModelRegistry from './three/ModelRegistry';
 
 export default function Work() {
   return (
-    <section id="work" className="mx-auto max-w-[1280px] px-4 py-20 sm:px-8 sm:py-32">
+    <section id="work" className="content-auto mx-auto max-w-[1280px] px-4 py-16 sm:px-8 sm:py-32">
       {/* Section Header */}
-      <div className="mb-14 sm:mb-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-line pb-8">
+      <div className="mb-10 sm:mb-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-line pb-8">
         <div>
           <div className="meta mb-2 text-emerald-bright font-mono text-xs tracking-wider uppercase">
             Interactive Artifacts • 01 — 08
           </div>
-          <h2 className="display text-4xl sm:text-6xl text-paper">
+          <h2 className="display text-3xl sm:text-6xl text-paper">
             Selected Work
           </h2>
         </div>
-        <p className="max-w-md text-sm sm:text-base text-paper-dim">
+        <p className="max-w-md text-xs sm:text-base text-paper-dim">
           Each project is paired with an isolated real-time 3D artifact representing its architecture, data flow, or system mechanics.
         </p>
       </div>
 
       {/* Flagship Projects Grid / List */}
-      <div className="space-y-16 sm:space-y-28">
+      <div className="space-y-12 sm:space-y-28">
         {FLAGSHIPS.map((p, i) => {
           const flip = i % 2 === 1;
           const indexStr = (i + 1).toString().padStart(2, '0');
@@ -32,13 +32,13 @@ export default function Work() {
           return (
             <article
               key={p.id}
-              className={`rounded-3xl border border-line bg-ink-1/60 p-5 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:border-line-hover grid items-center gap-8 lg:gap-12 ${
+              className={`content-auto rounded-3xl border border-line bg-ink-1/90 p-4 sm:p-8 transition-colors duration-200 hover:border-line-hover grid items-center gap-6 lg:gap-12 ${
                 flip ? 'lg:grid-cols-[1fr_1.1fr]' : 'lg:grid-cols-[1.1fr_1fr]'
               }`}
             >
               {/* 3D Model Stage Container */}
               <div
-                className={`w-full h-[280px] sm:h-[360px] lg:h-[400px] ${
+                className={`w-full h-[210px] sm:h-[320px] lg:h-[400px] ${
                   flip ? 'lg:order-2' : 'lg:order-1'
                 }`}
               >
@@ -49,12 +49,12 @@ export default function Work() {
 
               {/* Text & Metadata Container (Guaranteed No Overlap) */}
               <div className={`${flip ? 'lg:order-1' : 'lg:order-2'} flex flex-col justify-center`}>
-                <div className="flex items-center gap-3 mb-3">
+                <div className="flex items-center gap-3 mb-2 sm:mb-3">
                   <span className="font-mono text-xs text-paper-faint tracking-widest">{indexStr}</span>
                   <StatusBadge status={p.status} />
                 </div>
 
-                <h3 className="display text-3xl sm:text-4xl lg:text-5xl text-paper tracking-tight">
+                <h3 className="display text-2xl sm:text-4xl lg:text-5xl text-paper tracking-tight">
                   {p.name}
                 </h3>
 

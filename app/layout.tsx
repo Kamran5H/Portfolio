@@ -37,7 +37,11 @@ export const metadata: Metadata = {
   icons: { icon: '/favicon.ico' },
 };
 
-export const viewport: Viewport = { themeColor: '#070c18' };
+export const viewport: Viewport = {
+  themeColor: '#070c18',
+  width: 'device-width',
+  initialScale: 1,
+};
 
 
 const jsonLd = {
@@ -78,7 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style dangerouslySetInnerHTML={{ __html: '.reveal{opacity:1!important;transform:none!important}' }} />
         </noscript>
       </head>
-      <body className="grain">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

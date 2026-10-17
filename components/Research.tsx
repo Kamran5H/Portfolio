@@ -82,19 +82,19 @@ export default function Research() {
   const researchDossiers = VAULT_ITEMS.filter((v) => ['Research', 'Profile'].includes(v.group));
 
   return (
-    <section id="research" className="border-t border-line py-20 sm:py-32">
+    <section id="research" className="content-auto border-t border-line py-16 sm:py-32">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-8">
         {/* Section Header */}
-        <div className="mb-14 sm:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 border-b border-line pb-8">
+        <div className="mb-10 sm:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 border-b border-line pb-8">
           <div>
             <div className="meta mb-2 text-emerald-bright font-mono text-xs tracking-wider uppercase">
               Computational Physics & Physical Chemistry
             </div>
-            <h2 className="display text-4xl sm:text-6xl text-paper">
+            <h2 className="display text-3xl sm:text-6xl text-paper">
               Scientific Research
             </h2>
           </div>
-          <div className="max-w-md text-sm text-paper-dim">
+          <div className="max-w-md text-xs sm:text-sm text-paper-dim">
             <p>
               Electrocatalytic systems and quantum chemical calculations at Quaid-i-Azam University under{' '}
               <strong className="text-paper">Prof. Dr. Safeer Ahmed</strong>.
@@ -107,11 +107,11 @@ export default function Research() {
         </div>
 
         {/* Research Overview Cards (General Terms Only) */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-20">
+        <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-14 sm:mb-20">
           {RESEARCH_FIELDS.map((rf) => (
             <article
               key={rf.id}
-              className="rounded-2xl border border-line bg-ink-1/60 p-6 backdrop-blur-sm flex flex-col justify-between hover:border-line-hover transition-colors"
+              className="rounded-2xl border border-line bg-ink-1/90 p-5 sm:p-6 flex flex-col justify-between hover:border-line-hover transition-colors"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -161,10 +161,10 @@ export default function Research() {
         </div>
 
         {/* Verified Academic Trajectory & Scholar Profile */}
-        <div className="mb-20 rounded-3xl border border-line bg-ink-1/70 p-6 sm:p-10 backdrop-blur-sm grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-12 items-center">
+        <div className="mb-14 sm:mb-20 rounded-3xl border border-line bg-ink-1/90 p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 lg:gap-12 items-center">
           {/* Author Scholar Badge / Portrait */}
-          <div className="flex flex-col items-center text-center p-6 rounded-2xl border border-line bg-ink-2/60">
-            <div className="relative w-36 h-36 rounded-full overflow-hidden border-2 border-emerald/40 bg-ink-card p-1 shadow-xl mb-4">
+          <div className="flex flex-col items-center text-center p-4 sm:p-6 rounded-2xl border border-line bg-ink-2/60">
+            <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-emerald/40 bg-ink-card p-1 shadow-lg mb-3 sm:mb-4">
               <Image
                 src="/assets/images/kamran_nobg.png"
                 alt="Muhammad Kamran Ashraf"
@@ -173,13 +173,13 @@ export default function Research() {
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <div className="display text-xl text-paper font-normal">
+            <div className="display text-lg sm:text-xl text-paper font-normal">
               {SITE.name.first} {SITE.name.middle} {SITE.name.last}
             </div>
-            <div className="font-serif text-sm text-gold/90 mt-0.5">
+            <div className="font-serif text-xs sm:text-sm text-gold/90 mt-0.5">
               {SITE.name.urdu}
             </div>
-            <div className="meta text-[10px] text-emerald-bright mt-2 px-3 py-1 rounded-full border border-emerald/30 bg-emerald/10">
+            <div className="meta text-[9px] sm:text-[10px] text-emerald-bright mt-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full border border-emerald/30 bg-emerald/10">
               MPhil Scholar · QAU
             </div>
           </div>
