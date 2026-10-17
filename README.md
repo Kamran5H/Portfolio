@@ -130,15 +130,13 @@ In the Azure Portal, navigate to **Static Web App > Configuration > Application 
 
 ## 🌐 Custom Domain Setup
 
-When you acquire your domain (e.g. `kamranashraf.com`, `kamranchem.com`, or any chosen domain), configure your DNS provider with the following records:
+When configuring your custom subdomain (e.g. `kamranashraf.is-a.dev`):
 
 | Record Type | Host / Name | Value / Target | Notes |
 |:---|:---|:---|:---|
-| **CNAME** | `www` | `<your-azure-app-name>.azurestaticapps.net` | Points `www.yourdomain.com` |
-| **ALIAS / ANAME** (or **A**) | `@` (root) | `<your-azure-app-name>.azurestaticapps.net` | Points apex domain |
-| **TXT** (if requested) | `_dnsauth` | `<verification-token-from-azure>` | Automatic SSL certificate validation |
+| **CNAME** | `@` / `kamranashraf` | `zealous-wave-0fa444a00.5.azurestaticapps.net` | Points `kamranashraf.is-a.dev` directly to Azure Static Web Apps |
 
-Then, add the domain in the Azure Portal under **Static Web App > Custom Domains**. Azure will automatically issue and renew a free TLS/SSL certificate.
+Then, add the domain in the Azure Portal under **Static Web App > Custom Domains > Add** (select **CNAME validation**). Azure validates the DNS and automatically issues a free TLS/SSL certificate.
 
 ---
 
