@@ -196,7 +196,11 @@ export default function Research() {
             <div className="display text-lg sm:text-xl text-paper font-normal whitespace-nowrap">
               {SITE.name.first} {SITE.name.middle} {SITE.name.last}
             </div>
-            <div className="font-serif text-xs sm:text-sm text-gold/90 mt-0.5">
+            <div
+              dir="rtl"
+              lang="ur"
+              className="font-urdu text-sm sm:text-base text-gold/90 mt-1 select-none drop-shadow-[0_1px_8px_rgba(245,158,11,0.2)]"
+            >
               {SITE.name.urdu}
             </div>
             <div className="meta text-[9px] sm:text-[10px] text-emerald-bright mt-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full border border-emerald/30 bg-emerald/10">

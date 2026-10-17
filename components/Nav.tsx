@@ -58,7 +58,7 @@ export default function Nav() {
               <span className="text-base sm:text-lg">⚗️</span>
             </span>
             <div className="flex flex-col text-left">
-              <span className="font-serif text-xs sm:text-sm md:text-base font-normal tracking-tight text-paper group-hover:text-emerald-bright transition-colors whitespace-nowrap">
+              <span className="font-serif text-[11px] sm:text-sm md:text-base font-normal tracking-tight text-paper group-hover:text-emerald-bright transition-colors whitespace-nowrap">
                 A Programmer Chemist&apos;s Portfolio
               </span>
               <span className="hidden md:inline font-mono text-[9px] uppercase tracking-widest text-paper-faint group-hover:text-gold transition-colors">

@@ -26,7 +26,7 @@ export function KalamVisual() {
         <div className="relative h-[440px] w-[220px] rounded-[38px] border border-white/15 bg-[#0b1a12] p-2.5 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] sm:h-[500px] sm:w-[250px]">
           <div className="flex h-full flex-col overflow-hidden rounded-[30px] bg-[#f4f1e8] text-[#13241a]">
             <div className="flex items-center justify-between bg-[#0f3d26] px-4 pb-3 pt-5 text-[#f4f1e8]">
-              <span className="display text-lg">Kalam <span className="text-gold">کلام</span></span>
+              <span className="display text-lg">Kalam <span className="font-urdu text-gold font-normal">کلام</span></span>
               <span className="rounded-full bg-gold/90 px-1.5 text-[9px] font-bold text-[#0f3d26]">PRO</span>
             </div>
             <div className="flex gap-1 overflow-hidden px-3 py-2 text-[9px] font-medium">
@@ -46,7 +46,7 @@ export function KalamVisual() {
                     } ${i === 0 ? 'animate-[none] opacity-100' : 'opacity-90'}`}
                   >
                     <div className="mb-1 text-[8px] font-bold uppercase tracking-wider opacity-50">{p.kind}</div>
-                    <div dir="auto" className={`whitespace-pre-line ${p.kind === 'Verse' ? 'display text-[14px]' : p.kind === 'Line' ? 'font-semibold text-[13px]' : ''}`}>{p.body}</div>
+                    <div dir="auto" className={`whitespace-pre-line ${p.kind === 'Verse' ? 'font-urdu text-[15px] leading-relaxed py-0.5' : p.kind === 'Line' ? 'font-semibold text-[13px]' : ''}`}>{p.body}</div>
                     <div className="mt-2 flex items-center justify-between text-[9px] opacity-60">
                       <span>{p.who}</span>
                       <button

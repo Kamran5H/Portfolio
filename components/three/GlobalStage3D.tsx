@@ -109,18 +109,24 @@ export default function GlobalStage3D() {
       metalness: 0.94,
       roughness: 0.14,
       emissive: 0x3d2402,
+      transparent: true,
+      opacity: 0.85,
     });
     const platinumMat = new THREE.MeshStandardMaterial({
       color: 0xf8fafc,
       metalness: 0.88,
       roughness: 0.18,
       emissive: 0x071e16,
+      transparent: true,
+      opacity: 0.85,
     });
     const emeraldMetalMat = new THREE.MeshStandardMaterial({
       color: 0x10b981,
       metalness: 0.85,
       roughness: 0.22,
       emissive: 0x032a1b,
+      transparent: true,
+      opacity: 0.85,
     });
     materials.push(goldMetalMat, platinumMat, emeraldMetalMat);
 
@@ -551,11 +557,11 @@ export default function GlobalStage3D() {
         const mobileScale = Math.min(1.0, Math.max(0.68, aspect / 1.15));
         camera.position.z = 17;
         
-        // Center hero monogram above typography
-        gyroGroup.position.set(0, 2.6, 0);
-        gyroGroup.scale.setScalar(mobileScale * 0.9);
-        catalystGroup.position.set(0, 2.6, 0);
-        catalystGroup.scale.setScalar(mobileScale * 0.9);
+        // Center hero monogram deeper in background above typography
+        gyroGroup.position.set(0, 2.2, -1.0);
+        gyroGroup.scale.setScalar(mobileScale * 0.85);
+        catalystGroup.position.set(0, 2.2, -1.0);
+        catalystGroup.scale.setScalar(mobileScale * 0.85);
 
         // Compact lab brackets
         bLeft.position.set(-1.6, 0, 1);
@@ -568,11 +574,11 @@ export default function GlobalStage3D() {
       } else {
         camera.position.z = 15;
 
-        // Desktop layout: Monogram crowns left hero column
-        gyroGroup.position.set(-3.2, 0.8, 2.5);
-        gyroGroup.scale.setScalar(1.0);
-        catalystGroup.position.set(-3.2, 0.8, 2.5);
-        catalystGroup.scale.setScalar(1.0);
+        // Desktop layout: Monogram crowns left hero column with comfortable depth
+        gyroGroup.position.set(-3.6, 0.4, 0.5);
+        gyroGroup.scale.setScalar(0.95);
+        catalystGroup.position.set(-3.6, 0.4, 0.5);
+        catalystGroup.scale.setScalar(0.95);
 
         // Full lab brackets
         bLeft.position.set(-2.8, 0, 1);
