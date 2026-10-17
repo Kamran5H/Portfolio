@@ -193,7 +193,7 @@ export default function Research() {
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <div className="display text-lg sm:text-xl text-paper font-normal">
+            <div className="display text-lg sm:text-xl text-paper font-normal whitespace-nowrap">
               {SITE.name.first} {SITE.name.middle} {SITE.name.last}
             </div>
             <div className="font-serif text-xs sm:text-sm text-gold/90 mt-0.5">

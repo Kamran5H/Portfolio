@@ -33,7 +33,7 @@ export default function GlobalStage3D() {
       alpha: true,
       powerPreference: isMobile ? 'low-power' : 'high-performance',
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.2 : 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.25));
     renderer.setSize(width, height);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.15;
@@ -496,6 +496,10 @@ export default function GlobalStage3D() {
     let currentCamY = 0;
     let targetCamY = 0;
     let currentScrollRatio = 0;
+    let latestScrollY = typeof window !== 'undefined' ? window.scrollY : 0;
+    let cachedOffsets: { id: string; camY: number; top: number }[] = [];
+    let cachedMaxScroll = 1;
+    let cachedWindowH = typeof window !== 'undefined' ? window.innerHeight : 800;
 
     // Synchronize 3D zones precisely with document section offsets
     const sectionTargets: { id: string; camY: number }[] = [
@@ -507,14 +511,12 @@ export default function GlobalStage3D() {
       { id: 'contact', camY: -64 },
     ];
 
-    const updateScrollSync = () => {
-      const scrollMid = window.scrollY + window.innerHeight * 0.35;
+    // Measure section offsets once on mount/resize — NEVER on scroll
+    const measureSectionOffsets = () => {
+      cachedWindowH = window.innerHeight;
       const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-      const maxScroll = Math.max(docHeight - window.innerHeight, 1);
-      currentScrollRatio = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
-
-      // Measure actual DOM elements
-      const offsets = sectionTargets.map((s) => {
+      cachedMaxScroll = Math.max(docHeight - cachedWindowH, 1);
+      cachedOffsets = sectionTargets.map((s) => {
         const dom = document.getElementById(s.id);
         return {
           id: s.id,
@@ -522,32 +524,17 @@ export default function GlobalStage3D() {
           top: dom ? dom.offsetTop : 0,
         };
       });
-
-      if (scrollMid <= offsets[0].top) {
-        targetCamY = offsets[0].camY;
-        return;
-      }
-      const last = offsets[offsets.length - 1];
-      if (scrollMid >= last.top) {
-        targetCamY = last.camY;
-        return;
-      }
-
-      for (let i = 0; i < offsets.length - 1; i++) {
-        const cur = offsets[i];
-        const nxt = offsets[i + 1];
-        if (scrollMid >= cur.top && scrollMid < nxt.top) {
-          const span = nxt.top - cur.top;
-          const p = span > 0 ? (scrollMid - cur.top) / span : 0;
-          // Smooth Hermite interpolation (smoothstep)
-          const t = p * p * (3 - 2 * p);
-          targetCamY = cur.camY + (nxt.camY - cur.camY) * t;
-          return;
-        }
-      }
     };
-    window.addEventListener('scroll', updateScrollSync, { passive: true });
-    updateScrollSync();
+    measureSectionOffsets();
+
+    // Re-measure after fonts and dynamic elements settle
+    const settleTimer = setTimeout(measureSectionOffsets, 400);
+
+    // Frictionless scroll listener: 0 DOM queries, 0 reflows, purely records scroll offset
+    const onScroll = () => {
+      latestScrollY = window.scrollY;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     // Responsive layout adapter
     const adaptLayout = (w: number, h: number) => {
@@ -603,7 +590,7 @@ export default function GlobalStage3D() {
 
     const onResize = () => {
       adaptLayout(window.innerWidth, window.innerHeight);
-      updateScrollSync();
+      measureSectionOffsets();
     };
     window.addEventListener('resize', onResize);
 
@@ -629,6 +616,30 @@ export default function GlobalStage3D() {
       // Pointer lerp spring
       pointer.x += (pointer.tx - pointer.x) * 0.06;
       pointer.y += (pointer.ty - pointer.y) * 0.06;
+
+      // Update camera target smoothly from cached section positions (zero DOM reflows)
+      if (cachedOffsets.length > 0) {
+        currentScrollRatio = Math.min(Math.max(latestScrollY / cachedMaxScroll, 0), 1);
+        const scrollMid = latestScrollY + cachedWindowH * 0.35;
+
+        if (scrollMid <= cachedOffsets[0].top) {
+          targetCamY = cachedOffsets[0].camY;
+        } else if (scrollMid >= cachedOffsets[cachedOffsets.length - 1].top) {
+          targetCamY = cachedOffsets[cachedOffsets.length - 1].camY;
+        } else {
+          for (let i = 0; i < cachedOffsets.length - 1; i++) {
+            const cur = cachedOffsets[i];
+            const nxt = cachedOffsets[i + 1];
+            if (scrollMid >= cur.top && scrollMid < nxt.top) {
+              const span = nxt.top - cur.top;
+              const p = span > 0 ? (scrollMid - cur.top) / span : 0;
+              const t = p * p * (3 - 2 * p);
+              targetCamY = cur.camY + (nxt.camY - cur.camY) * t;
+              break;
+            }
+          }
+        }
+      }
 
       // Responsive, brisk camera lerp tracking scroll targets without drag
       currentCamY += (targetCamY - currentCamY) * 0.18;
@@ -707,10 +718,11 @@ export default function GlobalStage3D() {
     renderer.domElement.addEventListener('webglcontextlost', onContextLost, false);
 
     return () => {
+      clearTimeout(settleTimer);
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('scroll', updateScrollSync);
+      window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
       renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
 

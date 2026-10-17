@@ -14,12 +14,14 @@ export default function Masthead() {
           </span>
         </div>
 
-        {/* Centered Name */}
-        <h1 className="display text-[clamp(2.1rem,6.5vw,5.5rem)] leading-[1.05] tracking-tight text-paper font-normal">
-          <span className="bg-gradient-to-r from-paper via-[#fbf8ee] to-emerald-bright bg-clip-text text-transparent">
-            {SITE.name.first} {SITE.name.middle} {SITE.name.last}
-          </span>
-        </h1>
+        {/* Centered Name: guaranteed ONE single line on all screen sizes with responsive clamp */}
+        <div className="w-full max-w-full overflow-hidden flex justify-center items-center">
+          <h1 className="display whitespace-nowrap text-[clamp(1.15rem,5.2vw,4.5rem)] leading-[1.1] tracking-tight sm:tracking-normal text-paper font-normal max-w-full select-none">
+            <span className="bg-gradient-to-r from-paper via-[#fbf8ee] to-emerald-bright bg-clip-text text-transparent">
+              {SITE.name.first} {SITE.name.middle} {SITE.name.last}
+            </span>
+          </h1>
+        </div>
 
         {/* Urdu signature line + subtitle */}
         <div className="mt-2.5 sm:mt-3 flex items-center justify-center gap-2.5 sm:gap-3 text-paper-dim">
