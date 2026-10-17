@@ -11,7 +11,7 @@
     "content:check": "node scripts/check-content.mjs",
     "export:check": "node scripts/check-export.mjs",
     "start": "node scripts/serve.mjs",
-    "test": "node --test tests/content-validation.test.mjs tests/export-validation.test.mjs",
+    "test": "node --test tests/content-validation.test.mjs tests/export-validation.test.mjs tests/collection.test.mjs",
     "format": "prettier --write app components content lib scripts/*.mjs tests/*.mjs *.json *.mjs *.js docs/*.md"
   },
   "dependencies": {
