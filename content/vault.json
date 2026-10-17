@@ -11,5 +11,8 @@
   { "id": "research-dossier", "label": "Research dossier", "group": "Research", "blurb": "Current research. Shared case by case." },
   { "id": "manuscripts", "label": "Manuscripts", "group": "Research", "blurb": "Drafts and submissions. Shared case by case." },
   { "id": "capstone", "label": "Capstone research", "group": "Research", "blurb": "Undergraduate research project." },
-  { "id": "cv-extended", "label": "Extended CV", "group": "Profile", "blurb": "Full version with references." }
+  { "id": "cv-extended", "label": "Extended CV", "group": "Profile", "blurb": "Full version with references." },
+  { "id": "private-comp-chem", "label": "Computational Chemistry Workspace", "group": "Software", "blurb": "Private DFT & surface kinetics modeling suite." },
+  { "id": "private-lab-panel", "label": "Lab Notes Panel", "group": "Software", "blurb": "Private browser tool for lab references and data extraction." },
+  { "id": "aura", "label": "AURA Chief-of-Staff Agent", "group": "Software", "blurb": "Personal AI agent for tasks, research workflows, and mail automation." }
 ]

@@ -16,12 +16,12 @@ const USED_IN: Record<string, string> = {
 export default function Stack() {
   const [hover, setHover] = useState<string | null>(null);
   return (
-    <section className="border-t border-line">
+    <section id="stack" className="border-t border-line">
       <div className="mx-auto max-w-[1280px] px-4 py-24 sm:px-8 sm:py-32">
         <div className="reveal mb-14 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
           <h2 className="display text-5xl sm:text-7xl">How it ships</h2>
           <span className="meta min-h-[1.25rem] text-emerald-bright transition-opacity duration-300">
-            {hover ? `${hover} → ${USED_IN[hover]}` : 'tap or hover a tool'}
+            {hover ? `${hover} → ${USED_IN[hover] || 'production tool'}` : 'tap or hover a tool'}
           </span>
         </div>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">

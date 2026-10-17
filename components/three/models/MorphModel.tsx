@@ -10,7 +10,7 @@ export default function MorphModel() {
   const organicRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (cubeRef.current) {
       cubeRef.current.rotation.x += delta * 0.4;
       cubeRef.current.rotation.y += delta * 0.3;
@@ -20,7 +20,7 @@ export default function MorphModel() {
       organicRef.current.rotation.z += delta * 0.2;
     }
     if (coreRef.current) {
-      const scale = 0.9 + Math.sin(Date.now() * 0.003) * 0.15;
+      const scale = 0.9 + Math.sin(state.clock.elapsedTime * 3) * 0.15;
       coreRef.current.scale.set(scale, scale, scale);
     }
   });

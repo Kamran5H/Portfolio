@@ -30,8 +30,10 @@ export default function ThreeStage({ children, className = '', fallbackIcon = 'â
     const el = containerRef.current;
     if (!el || !mounted) return;
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
-      { rootMargin: '200px' }
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { rootMargin: '100px' }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -65,6 +67,7 @@ export default function ThreeStage({ children, className = '', fallbackIcon = 'â
       <div className="relative h-full w-full">
         {inView ? (
           <Canvas
+            frameloop="always"
             camera={{ position: [0, 0, 4.5], fov: 45 }}
             dpr={[1, 1.5]}
             gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}

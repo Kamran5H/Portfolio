@@ -37,3 +37,4 @@ scratch/
 private_upload/
 .env*
 !.env.example
+*.tsbuildinfo

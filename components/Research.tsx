@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { VAULT_ITEMS, type VaultItem } from '@/lib/site';
+import Image from 'next/image';
+import { SITE, VAULT_ITEMS, type VaultItem } from '@/lib/site';
 import VaultModal from './VaultModal';
 
 interface ResearchField {
@@ -157,6 +158,61 @@ export default function Research() {
               </div>
             </article>
           ))}
+        </div>
+
+        {/* Verified Academic Trajectory & Scholar Profile */}
+        <div className="mb-20 rounded-3xl border border-line bg-ink-1/70 p-6 sm:p-10 backdrop-blur-sm grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-12 items-center">
+          {/* Author Scholar Badge / Portrait */}
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl border border-line bg-ink-2/60">
+            <div className="relative w-36 h-36 rounded-full overflow-hidden border-2 border-emerald/40 bg-ink-card p-1 shadow-xl mb-4">
+              <Image
+                src="/assets/images/kamran_nobg.png"
+                alt="Muhammad Kamran Ashraf"
+                width={144}
+                height={144}
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div className="display text-xl text-paper font-normal">
+              {SITE.name.first} {SITE.name.middle} {SITE.name.last}
+            </div>
+            <div className="font-serif text-sm text-gold/90 mt-0.5">
+              {SITE.name.urdu}
+            </div>
+            <div className="meta text-[10px] text-emerald-bright mt-2 px-3 py-1 rounded-full border border-emerald/30 bg-emerald/10">
+              MPhil Scholar · QAU
+            </div>
+          </div>
+
+          {/* Chronological Timeline */}
+          <div>
+            <div className="meta mb-2 text-paper-faint uppercase tracking-wider text-xs">
+              Verified Chronology · 2019 — Present
+            </div>
+            <h3 className="display text-2xl sm:text-3xl text-paper mb-6">
+              Academic &amp; Teaching Trajectory
+            </h3>
+            <div className="space-y-4">
+              {SITE.path.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 pb-3.5 border-b border-line/60 last:border-b-0"
+                >
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-mono text-xs text-emerald-bright shrink-0 w-24">
+                      {item.years}
+                    </span>
+                    <span className="font-medium text-sm sm:text-base text-paper">
+                      {item.title}
+                    </span>
+                  </div>
+                  <span className="font-mono text-xs text-paper-dim">
+                    {item.where}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Confidential Document & Credential Vault */}

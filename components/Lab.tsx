@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { REPOS, GITHUB, type Category, type LabItem } from '@/lib/site';
+import { REPOS, GITHUB, VAULT_ITEMS, type Category, type LabItem, type VaultItem } from '@/lib/site';
 import StatusBadge from './StatusBadge';
 import VaultModal from './VaultModal';
 
@@ -110,7 +110,14 @@ function Glyph({ cat }: { cat: Category }) {
 export default function Lab() {
   const [cat, setCat] = useState<(typeof CATS)[number]>('All');
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedVaultItem, setSelectedVaultItem] = useState<VaultItem | null>(null);
   const list = REPOS.filter((r) => cat === 'All' || r.category === cat);
+
+  const openVaultForLab = (item: LabItem) => {
+    const found = VAULT_ITEMS.find((v) => v.id === item.id);
+    setSelectedVaultItem(found || null);
+    setModalOpen(true);
+  };
 
   return (
     <section id="lab" className="border-t border-line py-20 sm:py-32">
@@ -198,7 +205,7 @@ export default function Lab() {
 
                   {r.locked ? (
                     <button
-                      onClick={() => setModalOpen(true)}
+                      onClick={() => openVaultForLab(r)}
                       className="font-mono text-[11px] text-gold hover:underline"
                     >
                       Request IP Access
@@ -231,6 +238,7 @@ export default function Lab() {
       <VaultModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
+        selectedItem={selectedVaultItem}
       />
     </section>
   );

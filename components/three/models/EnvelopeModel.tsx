@@ -9,13 +9,13 @@ export default function EnvelopeModel() {
   const groupRef = useRef<THREE.Group>(null);
   const flapRef = useRef<THREE.Group>(null);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += delta * 0.45;
-      groupRef.current.rotation.x = Math.sin(Date.now() * 0.001) * 0.07;
+      groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 1.2) * 0.07;
     }
     if (flapRef.current) {
-      flapRef.current.rotation.x = -0.4 + Math.sin(Date.now() * 0.002) * 0.2;
+      flapRef.current.rotation.x = -0.4 + Math.sin(state.clock.elapsedTime * 2.0) * 0.2;
     }
   });
 

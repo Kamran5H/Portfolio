@@ -14,11 +14,17 @@ export default function Contact() {
     <footer id="contact" className="border-t border-line">
       <div className="mx-auto max-w-[1280px] px-4 pb-10 pt-24 sm:px-8 sm:pt-36">
         <p className="meta reveal text-paper-faint">Have something worth building?</p>
-        <button onClick={copy} className="reveal group mt-6 block text-left">
+        <button
+          onClick={copy}
+          aria-label="Copy email address to clipboard"
+          className="reveal group mt-6 block text-left"
+        >
           <span className="display block break-all text-[clamp(2rem,6.5vw,6rem)] leading-none transition-colors duration-500 group-hover:text-signal">
             {EMAIL}
           </span>
-          <span className="meta mt-4 block text-paper-dim">{copied ? '✓ copied to clipboard' : 'click to copy'}</span>
+          <span aria-live="polite" className="meta mt-4 block text-paper-dim">
+            {copied ? '✓ copied to clipboard' : 'click to copy'}
+          </span>
         </button>
 
         <div className="mt-16 flex flex-wrap items-center gap-3">

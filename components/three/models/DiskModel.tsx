@@ -10,7 +10,7 @@ export default function DiskModel() {
   const platterRef = useRef<THREE.Mesh>(null);
   const armRef = useRef<THREE.Group>(null);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += delta * 0.35;
     }
@@ -18,7 +18,7 @@ export default function DiskModel() {
       platterRef.current.rotation.y += delta * 4.0; // High speed rotation
     }
     if (armRef.current) {
-      armRef.current.rotation.z = Math.sin(Date.now() * 0.003) * 0.35 - 0.2;
+      armRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 3) * 0.35 - 0.2;
     }
   });
 
@@ -56,8 +56,10 @@ export default function DiskModel() {
 
         {/* Actuator Arm Base & Pivot */}
         <group position={[0.78, 0.85, 0.14]}>
-          <cylinderGeometry args={[0.2, 0.2, 0.08, 20]} />
-          <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.3} />
+          <mesh>
+            <cylinderGeometry args={[0.2, 0.2, 0.08, 20]} />
+            <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.3} />
+          </mesh>
 
           {/* Sweeping Read/Write Arm */}
           <group ref={armRef}>

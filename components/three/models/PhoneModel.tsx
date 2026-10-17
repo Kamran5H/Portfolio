@@ -8,10 +8,10 @@ import * as THREE from 'three';
 export default function PhoneModel() {
   const groupRef = useRef<THREE.Group>(null);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += delta * 0.4;
-      groupRef.current.rotation.x = Math.sin(Date.now() * 0.001) * 0.08;
+      groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 1.2) * 0.08;
     }
   });
 

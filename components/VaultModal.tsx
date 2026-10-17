@@ -16,6 +16,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
   const [institution, setInstitution] = useState('');
   const [purpose, setPurpose] = useState('Academic Review');
   const [submitted, setSubmitted] = useState(false);
+  const [copied, setCopied] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
 
   // Sync targetId when selectedItem changes or modal opens
@@ -23,6 +24,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
     if (isOpen) {
       setTargetId(selectedItem?.id || VAULT_ITEMS[0].id);
       setSubmitted(false);
+      setCopied(false);
     }
   }, [isOpen, selectedItem]);
 
@@ -67,11 +69,12 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
 
   const activeItem = VAULT_ITEMS.find((v) => v.id === targetId) || VAULT_ITEMS[0];
 
-  const buildMailto = useCallback(() => {
-    const subject = encodeURIComponent(
-      `Confidential Document Access Request: ${activeItem.label} — ${name}`
-    );
-    const body = encodeURIComponent(
+  const getSubjectText = useCallback(() => {
+    return `Confidential Document Access Request: ${activeItem.label} — ${name}`;
+  }, [activeItem.label, name]);
+
+  const getBodyText = useCallback(() => {
+    return (
       `Hello Kamran,\n\nI am requesting confidential access to: ${activeItem.label} (${activeItem.group})\n\n` +
       `Requester Details:\n` +
       `- Name: ${name}\n` +
@@ -80,8 +83,30 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
       `- Stated Purpose: ${purpose}\n\n` +
       `Thank you.`
     );
+  }, [activeItem.label, activeItem.group, name, email, institution, purpose]);
+
+  const buildMailto = useCallback(() => {
+    const subject = encodeURIComponent(getSubjectText());
+    const body = encodeURIComponent(getBodyText());
     return `mailto:${SITE.email}?subject=${subject}&body=${body}`;
-  }, [activeItem, name, email, institution, purpose]);
+  }, [getSubjectText, getBodyText]);
+
+  const getGmailUrl = useCallback(() => {
+    const su = encodeURIComponent(getSubjectText());
+    const body = encodeURIComponent(getBodyText());
+    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SITE.email)}&su=${su}&body=${body}`;
+  }, [getSubjectText, getBodyText]);
+
+  const copyRequestText = async () => {
+    const full = `To: ${SITE.email}\nSubject: ${getSubjectText()}\n\n${getBodyText()}`;
+    try {
+      await navigator.clipboard.writeText(full);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {
+      // fallback
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,19 +157,39 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
               <p>Documents are watermarked and not publicly downloadable.</p>
             </div>
 
-            <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => { window.location.href = buildMailto(); }}
-                className="flex-1 rounded-xl border border-emerald/30 bg-emerald/15 px-4 py-2.5 text-xs font-medium text-emerald-bright hover:bg-emerald/25 transition-colors"
-              >
-                Resend via Mail Client
-              </button>
-              <button
-                onClick={onClose}
-                className="rounded-xl border border-line bg-ink-2 px-5 py-2.5 text-xs font-medium text-paper hover:bg-ink-card transition-colors"
-              >
-                Done
-              </button>
+            <div className="mt-6 flex flex-col gap-2.5">
+              <div className="flex flex-col sm:flex-row gap-2.5">
+                <a
+                  href={getGmailUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald/20 border border-emerald/40 px-4 py-2.5 text-xs font-semibold text-emerald-bright hover:bg-emerald/30 transition-colors"
+                >
+                  <span>Compose in Gmail Web</span>
+                  <span className="text-xs">↗</span>
+                </a>
+                <button
+                  onClick={() => { window.location.href = buildMailto(); }}
+                  className="flex-1 rounded-xl border border-line bg-ink-2 px-4 py-2.5 text-xs font-medium text-paper hover:bg-ink-card transition-colors"
+                >
+                  Open Mail App
+                </button>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2.5">
+                <button
+                  onClick={copyRequestText}
+                  className="flex-1 rounded-xl border border-line bg-ink-card px-4 py-2.5 text-xs font-mono text-paper-dim hover:text-paper hover:border-line-hover transition-colors"
+                >
+                  {copied ? '✓ Request Copied to Clipboard' : '📋 Copy Full Request Text'}
+                </button>
+                <button
+                  onClick={onClose}
+                  className="rounded-xl border border-line bg-ink-2 px-5 py-2.5 text-xs font-medium text-paper hover:bg-ink-card transition-colors"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         ) : (

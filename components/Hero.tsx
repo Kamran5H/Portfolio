@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { SITE } from '@/lib/site';
 import Masthead from './Masthead';
 import CVButton from './CVButton';
 import ThreeStage from './three/ThreeStage';
@@ -20,14 +21,16 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] items-center gap-10 lg:gap-14">
           {/* Left Text / Value Prop */}
           <div className="flex flex-col justify-center order-2 lg:order-1">
-            <div className="mb-4 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald/30 bg-emerald/10 px-3 py-1 font-mono text-xs text-emerald-bright">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-bright animate-ping" />
-                Physical Chemistry & Systems Engineer
-              </span>
-              <span className="font-mono text-xs text-paper-faint">
-                · Quaid-i-Azam University
-              </span>
+            {/* Research Focus Pills */}
+            <div className="mb-5 flex flex-wrap items-center gap-2">
+              {SITE.focus.map((f) => (
+                <span
+                  key={f}
+                  className="rounded-full border border-emerald/30 bg-emerald/10 px-3 py-1 font-mono text-[11px] text-emerald-bright"
+                >
+                  {f}
+                </span>
+              ))}
             </div>
 
             <h2 className="display text-4xl sm:text-6xl lg:text-7xl leading-[1.02] text-paper">
@@ -36,9 +39,8 @@ export default function Hero() {
             </h2>
 
             <p className="mt-6 text-base sm:text-lg text-paper-dim max-w-xl leading-relaxed">
-              Computational physical chemist researching bifunctional electrocatalysts and energy materials under{' '}
-              <strong className="text-paper font-medium">Prof. Dr. Safeer Ahmed</strong> at QAU Islamabad.
-              Designing high-throughput campus networks, desktop automation, and scientific software.
+              Supervised by <strong className="text-paper font-medium">Prof. Dr. Safeer Ahmed</strong> at Quaid-i-Azam University.
+              Bridging quantum mechanical simulation, bifunctional electrocatalysis, and high-throughput production systems.
             </p>
 
             {/* CTAs */}

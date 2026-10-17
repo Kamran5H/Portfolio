@@ -69,12 +69,18 @@ export default function Nav() {
 
       {/* Mobile Drawer Menu */}
       {open && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile Navigation"
-          className="fixed inset-x-0 top-16 z-40 flex flex-col border-b border-line bg-ink/98 px-6 py-8 shadow-2xl backdrop-blur-xl sm:hidden animate-[fadein_0.3s_cubic-bezier(0.22,1,0.36,1)_both]"
-        >
+        <>
+          <div
+            className="fixed inset-0 top-16 z-30 bg-ink/70 backdrop-blur-sm sm:hidden"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation"
+            className="fixed inset-x-0 top-16 z-40 flex flex-col border-b border-line bg-ink/98 px-6 py-8 shadow-2xl backdrop-blur-xl sm:hidden animate-[fadein_0.3s_cubic-bezier(0.22,1,0.36,1)_both]"
+          >
           <div className="flex flex-col space-y-5 text-lg font-medium text-paper">
             {LINKS.map(([l, h]) => (
               <a
@@ -102,6 +108,7 @@ export default function Nav() {
             </p>
           </div>
         </div>
+        </>
       )}
     </>
   );

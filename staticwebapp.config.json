@@ -2,7 +2,7 @@
   "trailingSlash": "never",
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/*.{png,jpg,jpeg,svg,ico,json,js,css}"]
+    "exclude": ["/assets/*", "/cv/*", "/images/*", "/*.{png,jpg,jpeg,svg,ico,json,js,css,pdf,docx}"]
   },
   "globalHeaders": {
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
@@ -14,6 +14,8 @@
   "mimeTypes": {
     ".json": "application/json",
     ".svg": "image/svg+xml",
-    ".woff2": "font/woff2"
+    ".woff2": "font/woff2",
+    ".pdf": "application/pdf",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   }
 }

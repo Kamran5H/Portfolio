@@ -9,10 +9,10 @@ export default function BookModel() {
   const groupRef = useRef<THREE.Group>(null);
   const sunRef = useRef<THREE.Mesh>(null);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += delta * 0.4;
-      groupRef.current.rotation.x = 0.2 + Math.sin(Date.now() * 0.001) * 0.05;
+      groupRef.current.rotation.x = 0.2 + Math.sin(state.clock.elapsedTime * 1.2) * 0.05;
     }
     if (sunRef.current) {
       sunRef.current.rotation.z += delta * 0.6;
