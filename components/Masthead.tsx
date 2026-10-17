@@ -7,7 +7,7 @@ export default function Masthead() {
     <header className="relative w-full pt-16 pb-6 sm:pt-28 sm:pb-12 text-center overflow-hidden">
       <div className="mx-auto max-w-4xl px-4 flex flex-col items-center">
         {/* Academic / Scholar pill */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald/30 bg-ink-2/40 backdrop-blur-sm px-3.5 py-1 sm:px-4 sm:py-1.5 mb-4 sm:mb-6 shadow-sm">
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald/30 bg-white/[0.03] backdrop-blur-sm px-3.5 py-1 sm:px-4 sm:py-1.5 mb-4 sm:mb-6 shadow-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald animate-pulse" />
           <span className="meta text-[10px] sm:text-[11px] text-paper-dim">
             QAU Islamabad · MPhil Chemistry Researcher

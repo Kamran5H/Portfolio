@@ -76,7 +76,7 @@ export function KalamVisual() {
 
 function Chip({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`absolute hidden whitespace-nowrap rounded-full border border-line bg-ink-2/90 px-3 py-1.5 font-mono text-[11px] text-paper shadow-xl backdrop-blur sm:block ${className}`}>
+    <div className={`absolute hidden whitespace-nowrap rounded-full border border-white/[0.08] bg-ink-2/60 px-3 py-1.5 font-mono text-[11px] text-paper shadow-xl backdrop-blur-sm sm:block ${className}`}>
       {children}
     </div>
   );
@@ -96,7 +96,7 @@ export function SubahVisual() {
     <div className="relative flex h-full items-center justify-center px-6 [perspective:1400px]">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_40%,rgba(255,170,90,0.16),transparent_60%)]" />
       <div className="relative w-full max-w-[340px] [transform-style:preserve-3d] [transform:rotateX(18deg)_rotateZ(-4deg)]">
-        <div className="absolute inset-x-6 -top-10 rounded-2xl border border-line bg-ink-3/70 p-4 [transform:translateZ(-80px)]">
+        <div className="absolute inset-x-6 -top-10 rounded-2xl border border-white/[0.08] bg-ink-3/40 backdrop-blur-sm p-4 [transform:translateZ(-80px)]">
           <div className="meta text-paper-faint">Tomorrow · rolled over</div>
           <div className="mt-2 space-y-1 text-sm text-paper-dim">
             {left.length ? left.map((t) => <div key={t} className="animate-[fadein_0.6s_ease]">↻ {t}</div>) : <div>Nothing carried. Clean slate.</div>}
@@ -192,7 +192,7 @@ export function HumanizerVisual() {
 
   return (
     <div className="relative flex h-full flex-col items-center justify-center gap-5 p-6">
-      <div className="group relative w-full max-w-[460px] select-none overflow-hidden rounded-2xl border border-line-2 bg-ink-2 text-[15px] leading-relaxed transition-all focus-within:ring-2 focus-within:ring-signal/80">
+      <div className="group relative w-full max-w-[460px] select-none overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-2/40 backdrop-blur-sm text-[15px] leading-relaxed transition-all focus-within:ring-2 focus-within:ring-signal/80">
         {/* Base layer: Raw Machine Text */}
         <div className="p-6 text-paper-dim">
           <div className="meta mb-3 flex items-center justify-between text-signal">
@@ -283,8 +283,8 @@ export function VideosVisual() {
 
   return (
     <div ref={ref} className="relative flex h-full items-center justify-center p-6">
-      <div className="w-full max-w-[460px] rounded-2xl border border-line-2 bg-ink-2 p-5 shadow-2xl">
-        <div className="flex items-center justify-between rounded-lg bg-ink-3 px-3 py-2 font-mono text-[11px] text-paper-dim">
+      <div className="w-full max-w-[460px] rounded-2xl border border-white/[0.08] bg-ink-2/40 backdrop-blur-sm p-5 shadow-2xl">
+        <div className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2 font-mono text-[11px] text-paper-dim">
           <div className="flex items-center gap-2 truncate">
             <span className="text-signal">▶</span>
             <span className="truncate">youtube.com/watch?v=electrocatalysis_lecture</span>

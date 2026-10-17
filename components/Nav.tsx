@@ -46,7 +46,7 @@ export default function Nav() {
 
   return (
     <>
-      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${scrolled || open ? 'bg-ink/40 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/20' : ''}`}>
+      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${scrolled || open ? 'bg-ink/20 backdrop-blur-md border-b border-white/[0.06] shadow-lg shadow-black/20' : ''}`}>
         <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-8">
           <a href="#top" onClick={() => setOpen(false)} className="display text-xl tracking-tight">
             Kamran<span className="text-signal">.</span>
@@ -88,7 +88,7 @@ export default function Nav() {
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
-            className="fixed inset-x-0 top-16 z-40 flex flex-col border-b border-white/10 bg-ink/70 px-6 py-8 shadow-2xl backdrop-blur-2xl sm:hidden animate-[fadein_0.3s_cubic-bezier(0.22,1,0.36,1)_both]"
+            className="fixed inset-x-0 top-16 z-40 flex flex-col border-b border-white/10 bg-ink/60 px-6 py-8 shadow-2xl backdrop-blur-xl sm:hidden animate-[fadein_0.3s_cubic-bezier(0.22,1,0.36,1)_both]"
           >
           <div className="flex flex-col space-y-5 text-lg font-medium text-paper">
             {LINKS.map(([l, h]) => (

@@ -630,8 +630,8 @@ export default function GlobalStage3D() {
       pointer.x += (pointer.tx - pointer.x) * 0.06;
       pointer.y += (pointer.ty - pointer.y) * 0.06;
 
-      // Smooth camera position lerp to section target
-      currentCamY += (targetCamY - currentCamY) * 0.085;
+      // Responsive, brisk camera lerp tracking scroll targets without drag
+      currentCamY += (targetCamY - currentCamY) * 0.18;
       camera.position.y = currentCamY;
 
       // Subtle dynamic camera depth and lateral drift

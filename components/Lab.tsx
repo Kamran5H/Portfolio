@@ -118,7 +118,7 @@ function LabCard({
   return (
     <div
       ref={tiltRef}
-      className="card-3d-flip preserve-3d group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-ink-1/30 backdrop-blur-md p-5 sm:p-6 transition-all duration-300 hover:border-emerald-bright/40 hover:bg-ink-card/40 shadow-xl shadow-black/30"
+      className="card-3d-flip preserve-3d group relative flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-ink-1/10 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-emerald-bright/40 hover:bg-white/[0.04] shadow-xl shadow-black/20"
     >
       <div>
         <div className="flex items-start justify-between gap-3 mb-4">
@@ -212,7 +212,7 @@ export default function Lab() {
                 className={`whitespace-nowrap rounded-xl px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium transition-all ${
                   cat === c
                     ? 'bg-emerald text-ink shadow-md shadow-emerald/20 font-semibold'
-                    : 'bg-ink-card/40 border border-white/10 text-paper-dim hover:text-paper hover:border-line-hover backdrop-blur-sm'
+                    : 'bg-white/[0.03] border border-white/[0.08] text-paper-dim hover:text-paper hover:border-line-hover backdrop-blur-sm'
                 }`}
               >
                 {c}

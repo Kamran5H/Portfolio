@@ -118,7 +118,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/60 backdrop-blur-lg animate-[fadein_0.2s_ease-out]"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/50 backdrop-blur-md animate-[fadein_0.2s_ease-out]"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -126,13 +126,13 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
     >
       <div
         ref={dialogRef}
-        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-ink-1/80 p-6 sm:p-8 shadow-2xl shadow-black/80 backdrop-blur-xl"
+        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border border-white/[0.08] bg-ink-1/75 p-6 sm:p-8 shadow-2xl shadow-black/80 backdrop-blur-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 h-8 w-8 rounded-full border border-white/10 bg-ink-card/60 flex items-center justify-center text-paper-dim hover:text-white hover:border-line-hover transition-colors"
+          className="absolute top-5 right-5 h-8 w-8 rounded-full border border-white/[0.08] bg-white/[0.04] flex items-center justify-center text-paper-dim hover:text-white hover:border-white/20 transition-colors"
           aria-label="Close"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -148,7 +148,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
               A pre-filled request for <strong className="text-paper">{activeItem.label}</strong> has been
               composed in your default mail client. Please review and send it.
             </p>
-            <div className="mt-5 rounded-2xl border border-line bg-ink-card p-4 text-left text-xs text-paper-dim space-y-1">
+            <div className="mt-5 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 text-left text-xs text-paper-dim space-y-1">
               <div className="font-mono text-paper-faint uppercase text-[10px] tracking-wider mb-1">
                 What Happens Next
               </div>
@@ -170,7 +170,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
                 </a>
                 <button
                   onClick={() => { window.location.href = buildMailto(); }}
-                  className="flex-1 rounded-xl border border-line bg-ink-2 px-4 py-2.5 text-xs font-medium text-paper hover:bg-ink-card transition-colors"
+                  className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-xs font-medium text-paper hover:bg-white/[0.08] transition-colors"
                 >
                   Open Mail App
                 </button>
@@ -179,13 +179,13 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
               <div className="flex flex-col sm:flex-row gap-2.5">
                 <button
                   onClick={copyRequestText}
-                  className="flex-1 rounded-xl border border-line bg-ink-card px-4 py-2.5 text-xs font-mono text-paper-dim hover:text-paper hover:border-line-hover transition-colors"
+                  className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-xs font-mono text-paper-dim hover:text-paper hover:border-white/20 transition-colors"
                 >
                   {copied ? '✓ Request Copied to Clipboard' : '📋 Copy Full Request Text'}
                 </button>
                 <button
                   onClick={onClose}
-                  className="rounded-xl border border-line bg-ink-2 px-5 py-2.5 text-xs font-medium text-paper hover:bg-ink-card transition-colors"
+                  className="rounded-xl border border-white/[0.08] bg-white/[0.04] px-5 py-2.5 text-xs font-medium text-paper hover:bg-white/[0.08] transition-colors"
                 >
                   Close
                 </button>
@@ -217,10 +217,10 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
                 id="vault-target"
                 value={targetId}
                 onChange={(e) => setTargetId(e.target.value)}
-                className="w-full rounded-xl border border-line bg-ink-2 px-3.5 py-2.5 text-sm text-paper focus:border-emerald focus:outline-none transition-colors"
+                className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2.5 text-sm text-paper focus:border-emerald-bright focus:outline-none transition-colors"
               >
                 {VAULT_ITEMS.map((item) => (
-                  <option key={item.id} value={item.id}>
+                  <option key={item.id} value={item.id} className="bg-ink-1 text-paper">
                     [{item.group}] {item.label}
                   </option>
                 ))}
@@ -240,7 +240,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Prof. / Dr. / Researcher Name"
-                  className="w-full rounded-xl border border-line bg-ink-2 px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald focus:outline-none transition-colors"
+                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald-bright focus:outline-none transition-colors"
                 />
               </div>
 
@@ -255,7 +255,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@university.edu or name@institution.org"
-                  className="w-full rounded-xl border border-line bg-ink-2 px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald focus:outline-none transition-colors"
+                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald-bright focus:outline-none transition-colors"
                 />
               </div>
 
@@ -271,7 +271,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
                     value={institution}
                     onChange={(e) => setInstitution(e.target.value)}
                     placeholder="e.g. QAU, Cambridge, Industry"
-                    className="w-full rounded-xl border border-line bg-ink-2 px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald focus:outline-none transition-colors"
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald-bright focus:outline-none transition-colors"
                   />
                 </div>
 
@@ -283,12 +283,12 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
                     id="vault-purpose"
                     value={purpose}
                     onChange={(e) => setPurpose(e.target.value)}
-                    className="w-full rounded-xl border border-line bg-ink-2 px-3 py-2 text-sm text-paper focus:border-emerald focus:outline-none transition-colors"
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-sm text-paper focus:border-emerald-bright focus:outline-none transition-colors"
                   >
-                    <option value="Academic Review">Academic Review</option>
-                    <option value="Faculty / Graduate Admissions">Faculty / Graduate Admissions</option>
-                    <option value="Research Collaboration">Research Collaboration</option>
-                    <option value="Verification / Employment">Verification / Employment</option>
+                    <option value="Academic Review" className="bg-ink-1 text-paper">Academic Review</option>
+                    <option value="Faculty / Graduate Admissions" className="bg-ink-1 text-paper">Faculty / Graduate Admissions</option>
+                    <option value="Research Collaboration" className="bg-ink-1 text-paper">Research Collaboration</option>
+                    <option value="Verification / Employment" className="bg-ink-1 text-paper">Verification / Employment</option>
                   </select>
                 </div>
               </div>

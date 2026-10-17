@@ -27,13 +27,13 @@ function FlagshipCard({ project, index }: { project: Project; index: number }) {
   return (
     <article
       ref={tiltRef}
-      className={`card-3d-flip preserve-3d rounded-3xl border border-white/10 bg-ink-1/30 backdrop-blur-md p-4 sm:p-8 transition-all duration-300 hover:border-emerald-bright/40 grid items-center gap-6 lg:gap-12 shadow-2xl shadow-black/40 ${
+      className={`card-3d-flip preserve-3d rounded-3xl border border-white/[0.08] bg-ink-1/10 backdrop-blur-sm p-4 sm:p-8 transition-all duration-300 hover:border-emerald-bright/40 grid items-center gap-6 lg:gap-12 shadow-2xl shadow-black/30 ${
         flip ? 'lg:grid-cols-[1fr_1.15fr]' : 'lg:grid-cols-[1.15fr_1fr]'
       }`}
     >
       {/* 3D Motion Graphic Stage Container */}
       <div
-        className={`w-full relative rounded-2xl border border-white/10 bg-ink-2/25 backdrop-blur-sm [transform-style:preserve-3d] min-h-[440px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden ${
+        className={`w-full relative rounded-2xl border border-white/[0.06] bg-white/[0.02] [transform-style:preserve-3d] min-h-[440px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden ${
           flip ? 'lg:order-2' : 'lg:order-1'
         }`}
       >
@@ -60,7 +60,7 @@ function FlagshipCard({ project, index }: { project: Project; index: number }) {
           {project.stack.map((s) => (
             <li
               key={s}
-              className="rounded-lg border border-white/10 bg-ink-2/40 px-2.5 py-1 font-mono text-xs text-paper-dim"
+              className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 font-mono text-xs text-paper-dim"
             >
               {s}
             </li>
@@ -86,7 +86,7 @@ function FlagshipCard({ project, index }: { project: Project; index: number }) {
               href={project.repo}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-ink-card/40 px-4 py-2 text-paper transition-all hover:border-line-hover hover:text-white hover:bg-ink-card/60"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-paper transition-all hover:border-line-hover hover:text-white hover:bg-white/[0.08]"
             >
               <span>GitHub</span>
               <span className="text-xs">↗</span>
