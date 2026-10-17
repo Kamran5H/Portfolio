@@ -13,7 +13,6 @@ try {
   assert(fs.existsSync(root), "Missing out/; run the production build first.");
   fs.copyFileSync(
     "staticwebapp.config.json",
-    "images/certificate-presentation.jpg",
     path.join(root, "staticwebapp.config.json"),
   );
   const files = walk(root);
@@ -26,6 +25,7 @@ try {
     "og-image.png",
     "favicon.ico",
     "staticwebapp.config.json",
+    "images/certificate-presentation.jpg",
   ])
     assert(
       fs.existsSync(path.join(root, required)),

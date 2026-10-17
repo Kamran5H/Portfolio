@@ -32,7 +32,7 @@ The Azure workflow now installs, lints, builds, and validates before uploading t
 
 ## Release validation
 
-The final production export passes compilation, TypeScript, content validation, and local-asset checks. ESLint reports no errors or warnings. All five content-contract regression tests pass, and Prettier checks pass.
+Release validation covers production compilation, TypeScript, content validation, and local assets. The regression suite now contains eight content-contract checks and three export-contract checks, including complete hosting configuration, project workflow coverage, and the certificate photo. ESLint and formatting checks cover the maintained sources.
 
 Browser checks covered 320px mobile, 768px tablet, and 1440px desktop layouts; no horizontal overflow was observed. The portrait loaded successfully. Checked document target selection, native modal focus, Escape dismissal and focus restoration, mobile menu scroll locking and background isolation, case-study expansion, software category filtering and empty search results. The optional schematic loaded, animated on request, and removed its canvas on collapse. No browser errors were reported during these checks.
 
