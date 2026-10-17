@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { SITE } from "@/lib/site";
 import CVButton from "./CVButton";
+import FrameworkLink from "./FrameworkLink";
 
 export default function Hero() {
   return (
@@ -46,9 +47,7 @@ export default function Hero() {
             <span aria-hidden="true">↗</span>
           </a>
           <br />
-          <a href="#framework-viewer">
-            Explore the 3D molecular model <span aria-hidden="true">↘</span>
-          </a>
+          <FrameworkLink />
         </div>
       </div>
       <figure className="hero-portrait hero-portrait--event">

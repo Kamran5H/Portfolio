@@ -3,6 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
+type Focus = "all" | "metals" | "cerium" | "linkers";
+const FOCUS_COPY: Record<Focus, string> = {
+  all: "The complete conceptual framework: metal nodes connected by an organic linker sketch.",
+  metals:
+    "Nickel, cobalt and cerium nodes are shown together. Their positions and proportions are illustrative.",
+  cerium:
+    "Gold spheres mark the illustrative cerium sites. This view does not represent a measured dopant concentration.",
+  linkers:
+    "Carbon and oxygen spheres outline the illustrative organic linkers. This is not a refined atomic structure.",
+};
+
 /**
  * A slowly turning Ce-doped NiCo metal–organic framework: metal nodes on a cubic
  * lattice joined by benzene-dicarboxylate (BDC) linkers. Drag or use the turn controls;
@@ -16,6 +27,9 @@ export default function Framework3D() {
   );
   const [paused, setPaused] = useState(true);
   const [unsupported, setUnsupported] = useState(false);
+  const [focus, setFocus] = useState<Focus>("all");
+  const [zoom, setZoom] = useState(100);
+  const display = useRef<((focus: Focus, zoom: number) => void) | null>(null);
 
   useEffect(() => {
     const el = mount.current!;
@@ -147,6 +161,7 @@ export default function Framework3D() {
     const geo = new THREE.SphereGeometry(1, 20, 14);
     geometries.push(geo);
 
+    const atomMeshes = new Map<keyof typeof COLORS, THREE.InstancedMesh>();
     (Object.keys(COLORS) as (keyof typeof COLORS)[]).forEach((kind) => {
       const list = atoms.filter((a) => a.kind === kind);
       const mat = new THREE.MeshStandardMaterial({
@@ -162,6 +177,7 @@ export default function Framework3D() {
         mesh.setMatrixAt(idx, m.makeScale(a.r, a.r, a.r).setPosition(a.p)),
       );
       lattice.add(mesh);
+      atomMeshes.set(kind, mesh);
     });
 
     const bondGeo = new THREE.BufferGeometry();
@@ -177,7 +193,8 @@ export default function Framework3D() {
       opacity: 0.55,
     });
     materials.push(lineMat);
-    lattice.add(new THREE.LineSegments(bondGeo, lineMat));
+    const bondLines = new THREE.LineSegments(bondGeo, lineMat);
+    lattice.add(bondLines);
 
     // Cerium glow halos
     const glow = document.createElement("canvas");
@@ -200,17 +217,21 @@ export default function Framework3D() {
       blending: THREE.AdditiveBlending,
     });
     materials.push(halo);
+    const halos = new THREE.Group();
+    lattice.add(halos);
     atoms
       .filter((a) => a.kind === "Ce")
       .forEach((a) => {
         const s = new THREE.Sprite(halo);
         s.position.copy(a.p);
         s.scale.setScalar(1.6);
-        lattice.add(s);
+        halos.add(s);
       });
 
     lattice.rotation.set(0.5, 0.6, 0);
 
+    let zoomLevel = 100;
+    let lost = false;
     const resize = () => {
       const w = el.clientWidth,
         h = el.clientHeight;
@@ -222,28 +243,33 @@ export default function Framework3D() {
         6.2 /
         Math.tan((camera.fov * Math.PI) / 360) /
         Math.min(1, camera.aspect * 1.4);
-      camera.position.z = Math.max(11, fit);
+      camera.position.z = Math.max(11, fit) / (zoomLevel / 100);
       fog.near = camera.position.z - 4;
       fog.far = camera.position.z + 7;
       camera.updateProjectionMatrix();
-      renderer.render(scene, camera);
+      if (!lost) renderer.render(scene, camera);
+    };
+    display.current = (nextFocus, nextZoom) => {
+      zoomLevel = Math.max(80, Math.min(140, nextZoom));
+      atomMeshes.forEach((mesh, kind) => {
+        mesh.visible =
+          nextFocus === "all" ||
+          (nextFocus === "metals" && ["Ni", "Co", "Ce"].includes(kind)) ||
+          (nextFocus === "cerium" && kind === "Ce") ||
+          (nextFocus === "linkers" && ["C", "O"].includes(kind));
+      });
+      bondLines.visible = nextFocus === "all";
+      halos.visible = nextFocus !== "linkers";
+      resize();
     };
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(el);
 
-    const target = { x: 0, y: 0 };
-    const move = (e: PointerEvent) => {
-      target.x = (e.clientX / window.innerWidth - 0.5) * 0.8;
-      target.y = (e.clientY / window.innerHeight - 0.5) * 0.6;
-    };
-    window.addEventListener("pointermove", move, { passive: true });
-
     let raf = 0,
       visible = false,
       t = 0,
-      isPaused = true,
-      lost = false;
+      isPaused = true;
     const manual = { y: 0 };
     view.current = (direction) => {
       if (direction === "reset") {
@@ -276,6 +302,7 @@ export default function Framework3D() {
     canvas.addEventListener("pointermove", drag);
     canvas.addEventListener("pointerup", upDrag);
     canvas.addEventListener("pointercancel", upDrag);
+    canvas.addEventListener("lostpointercapture", upDrag);
     const syncPalette = () => {
       fog.color.set(palette().getPropertyValue("--model-bg").trim());
       lineMat.color.set(palette().getPropertyValue("--muted").trim());
@@ -286,19 +313,23 @@ export default function Framework3D() {
       attributes: true,
       attributeFilter: ["data-theme"],
     });
-    const loop = () => {
+    let lastFrame: number | null = null;
+    const loop = (now: number) => {
       cancelAnimationFrame(raf);
       if (!visible || isPaused || lost || document.hidden) return;
-      t += 0.0035;
-      lattice.rotation.y = 0.6 + t + manual.y + target.x;
-      lattice.rotation.x += (0.5 + target.y - lattice.rotation.x) * 0.04;
+      const elapsed = lastFrame === null ? 0 : Math.min(50, now - lastFrame);
+      lastFrame = now;
+      t += elapsed * 0.00021;
+      lattice.rotation.y = 0.6 + t + manual.y;
       halo.opacity = 0.16 + Math.sin(t * 8) * 0.08;
       renderer.render(scene, camera);
       raf = requestAnimationFrame(loop);
     };
     const sync = () => {
       cancelAnimationFrame(raf);
-      if (visible && !isPaused && !lost && !document.hidden) loop();
+      lastFrame = null;
+      if (visible && !isPaused && !lost && !document.hidden)
+        raf = requestAnimationFrame(loop);
     };
     control.current = (next) => {
       isPaused = next;
@@ -339,13 +370,14 @@ export default function Framework3D() {
       ro.disconnect();
       control.current = null;
       view.current = null;
+      display.current = null;
       themeObserver.disconnect();
       canvas.removeEventListener("pointerdown", down);
       canvas.removeEventListener("pointermove", drag);
       canvas.removeEventListener("pointerup", upDrag);
       canvas.removeEventListener("pointercancel", upDrag);
+      canvas.removeEventListener("lostpointercapture", upDrag);
       document.removeEventListener("visibilitychange", sync);
-      window.removeEventListener("pointermove", move);
       renderer.domElement.removeEventListener(
         "webglcontextlost",
         onContextLost,
@@ -356,6 +388,9 @@ export default function Framework3D() {
       );
       canvas.removeEventListener("webglcontextcreationerror", onCreationError);
       scene.clear();
+      lattice.clear();
+      halos.clear();
+      atomMeshes.forEach((mesh) => mesh.dispose());
       materials.forEach((m) => m.dispose());
       geometries.forEach((g) => g.dispose());
       textures.forEach((tex) => tex.dispose());
@@ -367,55 +402,128 @@ export default function Framework3D() {
   }, []);
 
   return (
-    <div className="h-full w-full relative">
-      <div
-        ref={mount}
-        aria-hidden="true"
-        className="model-canvas h-full w-full"
-      />
-      {unsupported ? (
-        <p className="absolute inset-0 flex items-center justify-center p-8 text-sm text-paper-dim">
-          The schematic needs WebGL. Research details are available above.
-        </p>
-      ) : (
+    <div className="framework-explorer">
+      <div className="model-viewport">
         <div
-          className="model-controls"
-          role="group"
-          aria-label="3D model controls"
-        >
-          <span className="model-hint">Drag to turn</span>
-          <button
-            className="model-turn"
-            aria-label="Rotate model left"
-            onClick={() => view.current?.("left")}
+          ref={mount}
+          aria-hidden="true"
+          className="model-canvas h-full w-full"
+        />
+        {unsupported ? (
+          <p className="absolute inset-0 flex items-center justify-center p-8 text-sm text-paper-dim">
+            The schematic needs WebGL. Research details are available above.
+          </p>
+        ) : (
+          <div
+            className="model-controls"
+            role="group"
+            aria-label="3D model controls"
           >
-            ←
-          </button>
-          <button
-            className="model-turn"
-            aria-label="Rotate model right"
-            onClick={() => view.current?.("right")}
-          >
-            →
-          </button>
-          <button
-            className="model-turn"
-            aria-label="Reset model view"
-            onClick={() => view.current?.("reset")}
-          >
-            ↺
-          </button>
-          <button
-            className="btn btn-ghost model-animate"
-            aria-label={paused ? "Animate schematic" : "Pause animation"}
-            aria-pressed={!paused}
-            onClick={() => {
-              control.current?.(!paused);
-              setPaused(!paused);
-            }}
-          >
-            {paused ? "Animate" : "Pause"}
-          </button>
+            <span className="model-hint">Drag to turn</span>
+            <button
+              className="model-turn"
+              aria-label="Rotate model left"
+              onClick={() => view.current?.("left")}
+            >
+              ←
+            </button>
+            <button
+              className="model-turn"
+              aria-label="Rotate model right"
+              onClick={() => view.current?.("right")}
+            >
+              →
+            </button>
+            <button
+              className="model-turn"
+              aria-label="Reset model view"
+              onClick={() => {
+                view.current?.("reset");
+                control.current?.(true);
+                setPaused(true);
+                setFocus("all");
+                setZoom(100);
+                display.current?.("all", 100);
+              }}
+            >
+              ↺
+            </button>
+            <button
+              className="btn btn-ghost model-animate"
+              aria-label={paused ? "Animate schematic" : "Pause animation"}
+              aria-pressed={!paused}
+              onClick={() => {
+                control.current?.(!paused);
+                setPaused(!paused);
+              }}
+            >
+              {paused ? "Animate" : "Pause"}
+            </button>
+          </div>
+        )}
+      </div>
+      {!unsupported && (
+        <div className="model-explorer-options">
+          <div className="model-view-options">
+            <label htmlFor="framework-focus">
+              Explore a layer
+              <select
+                id="framework-focus"
+                value={focus}
+                onChange={(e) => {
+                  const next = e.target.value as Focus;
+                  setFocus(next);
+                  display.current?.(next, zoom);
+                }}
+              >
+                <option value="all">Complete framework</option>
+                <option value="metals">Metal nodes</option>
+                <option value="cerium">Cerium sites</option>
+                <option value="linkers">Organic linker sketch</option>
+              </select>
+            </label>
+            <label htmlFor="framework-zoom">
+              Zoom · {zoom}%
+              <input
+                id="framework-zoom"
+                type="range"
+                min="80"
+                max="140"
+                step="5"
+                value={zoom}
+                aria-label="Molecular model zoom"
+                aria-valuetext={`${zoom} percent of the default view`}
+                onChange={(e) => {
+                  const next = Number(e.target.value);
+                  setZoom(next);
+                  display.current?.(focus, next);
+                }}
+              />
+            </label>
+          </div>
+          <p className="caption" role="status">
+            {FOCUS_COPY[focus]}
+          </p>
+          <ul className="model-legend" aria-label="Schematic atom colors">
+            <li>
+              <span className="atom-ni" aria-hidden="true" />
+              Ni · nickel
+            </li>
+            <li>
+              <span className="atom-co" aria-hidden="true" />
+              Co · cobalt
+            </li>
+            <li>
+              <span className="atom-ce" aria-hidden="true" />
+              Ce · cerium
+            </li>
+            <li>
+              <span className="atom-o" aria-hidden="true" />O · oxygen
+            </li>
+            <li>
+              <span className="atom-c" aria-hidden="true" />C · carbon
+            </li>
+          </ul>
         </div>
       )}
     </div>

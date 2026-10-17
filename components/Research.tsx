@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import research from "@/content/research.json";
 import { SITE, VAULT_ITEMS, type VaultItem } from "@/lib/site";
@@ -13,6 +13,17 @@ const Framework3D = dynamic(() => import("./Framework3D"), {
 });
 
 export default function Research() {
+  const framework = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const openLinkedModel = () => {
+      if (window.location.hash === "#framework-viewer" && framework.current) {
+        framework.current.open = true;
+      }
+    };
+    openLinkedModel();
+    window.addEventListener("hashchange", openLinkedModel);
+    return () => window.removeEventListener("hashchange", openLinkedModel);
+  }, []);
   const [selected, setSelected] = useState<VaultItem | null>(null);
   const [open, setOpen] = useState(false);
   const [model, setModel] = useState(false);
@@ -69,6 +80,7 @@ export default function Research() {
       </div>
       <details
         id="framework-viewer"
+        ref={framework}
         className="model-disclosure"
         onToggle={(e) => setModel(e.currentTarget.open)}
       >

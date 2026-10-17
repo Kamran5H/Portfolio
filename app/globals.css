@@ -625,9 +625,80 @@ summary:hover {
   color: var(--accent);
 }
 .model-stage {
-  height: 350px;
+  min-height: 350px;
   position: relative;
   background: var(--model-bg);
+}
+.model-viewport {
+  height: 350px;
+  position: relative;
+}
+.model-explorer-options {
+  padding: 1.25rem;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.model-view-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-bottom: 1rem;
+}
+.model-view-options label {
+  display: grid;
+  gap: 0.5rem;
+  flex: 1 1 220px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.model-view-options select {
+  min-width: 0;
+  padding: 0.7rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--control-border);
+  border-radius: 4px;
+}
+.model-view-options input {
+  width: 100%;
+  accent-color: var(--accent);
+  min-height: 44px;
+}
+.model-legend {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.model-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.model-legend span {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  border: 1px solid var(--control-border);
+}
+.atom-ni {
+  background: #3f8069;
+}
+.atom-co {
+  background: #9b5a40;
+}
+.atom-ce {
+  background: #b38c45;
+}
+.atom-o {
+  background: #77969b;
+}
+.atom-c {
+  background: #525b54;
 }
 .model-canvas canvas {
   cursor: grab;
@@ -1750,7 +1821,7 @@ a.contact-channel:hover {
     flex-wrap: wrap;
     gap: 5px;
   }
-  .model-stage {
+  .model-viewport {
     height: 300px;
   }
   .background-block {
