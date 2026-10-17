@@ -1,53 +1,78 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { EMAIL, SOCIALS } from '@/lib/site';
-import { useTilt } from '@/lib/hooks';
-import CVButton from './CVButton';
+import { useEffect, useRef, useState } from "react";
+import { EMAIL, SOCIALS } from "@/lib/site";
+import CVButton from "./CVButton";
 
 export default function Contact() {
-  const [copied, setCopied] = useState(false);
-  const cardTiltRef = useTilt<HTMLDivElement>(3);
+  const [message, setMessage] = useState("");
+  const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(timeout.current), []);
   const copy = async () => {
-    try { await navigator.clipboard.writeText(EMAIL); setCopied(true); setTimeout(() => setCopied(false), 1800); } catch { window.location.href = `mailto:${EMAIL}`; }
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setMessage("Email address copied.");
+    } catch {
+      setMessage(
+        `Copy unavailable. Please use the email link or select ${EMAIL}.`,
+      );
+    }
+    clearTimeout(timeout.current);
+    timeout.current = setTimeout(() => setMessage(""), 4000);
   };
-
   return (
-    <footer id="contact" className="border-t border-line">
-      <div className="mx-auto max-w-[1280px] px-4 pb-10 pt-16 sm:px-8 sm:pt-36">
-        <p className="meta reveal text-paper-faint tracking-wider uppercase">Have something worth building?</p>
-        
-        <div
-          ref={cardTiltRef}
-          className="card-3d-flip preserve-3d mt-6 rounded-3xl border border-white/[0.08] bg-ink-1/10 backdrop-blur-sm p-6 sm:p-10 transition-all duration-300 hover:border-emerald-bright/40 shadow-2xl shadow-black/30"
+    <footer id="contact" className="section-shell contact-section">
+      <div className="contact-top">
+        <div>
+          <p className="eyebrow">05 / Get in touch</p>
+          <h2 className="display">
+            Let’s move good
+            <br />
+            <em>questions forward.</em>
+          </h2>
+        </div>
+        <div className="contact-context">
+          <p>
+            For research opportunities, graduate study, scientific software, or
+            a project worth discussing.
+          </p>
+          <p>Based in Islamabad, Pakistan.</p>
+        </div>
+      </div>
+      <a className="contact-email display" href={`mailto:${EMAIL}`}>
+        {EMAIL}
+        <span aria-hidden="true">↗</span>
+      </a>
+      <div className="contact-actions">
+        <a
+          className="btn btn-emerald"
+          href={`mailto:${EMAIL}?subject=${encodeURIComponent("Research / collaboration enquiry")}`}
         >
-          <button
-            onClick={copy}
-            aria-label="Copy email address to clipboard"
-            className="group block text-left w-full"
-          >
-            <span className="display block break-all text-[clamp(1.75rem,6.2vw,5.5rem)] leading-none transition-colors duration-500 group-hover:text-emerald-bright">
-              {EMAIL}
-            </span>
-            <span aria-live="polite" className="meta mt-3 sm:mt-5 block text-paper-dim">
-              {copied ? '✓ copied to clipboard' : 'click to copy'}
-            </span>
-          </button>
-        </div>
-
-        <div className="mt-10 sm:mt-16 flex flex-wrap items-center gap-3">
-          <CVButton variant="solid" />
-          <a href={`mailto:${EMAIL}`} className="btn btn-ghost">Write an email</a>
-        </div>
-
-        <div className="mt-14 sm:mt-24 flex flex-col gap-6 border-t border-line pt-8 text-sm text-paper-faint sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} Muhammad Kamran Ashraf · Islamabad</span>
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {SOCIALS.map(([label, href]) => (
-              <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="link-arrow hover:text-paper">{label} <span>↗</span></a>
-            ))}
-          </div>
-        </div>
+          Start a conversation <span aria-hidden="true">↗</span>
+        </a>
+        <button className="btn btn-ghost" onClick={copy}>
+          Copy email
+        </button>
+        <CVButton />
+      </div>
+      <p className="copy-status" role="status">
+        {message}
+      </p>
+      <div className="footer-bottom">
+        <p>© {new Date().getFullYear()} Muhammad Kamran Ashraf</p>
+        <nav aria-label="Professional profiles">
+          {SOCIALS.map(([label, href]) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {label} <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </nav>
+        <a href="#top">Back to top ↑</a>
       </div>
     </footer>
   );

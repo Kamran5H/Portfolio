@@ -1,123 +1,87 @@
-'use client';
-
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-import { SITE } from '@/lib/site';
-import { useTilt } from '@/lib/hooks';
-import Masthead from './Masthead';
-import CVButton from './CVButton';
-import VaultModal from './VaultModal';
-
-const Framework3D = dynamic(() => import('./Framework3D'), { ssr: false });
-
-const LEGEND: [string, string][] = [
-  ['Ni', '#10b981'],
-  ['Co', '#ff5b1f'],
-  ['Ce', '#f59e0b'],
-  ['BDC', '#64748b'],
-];
+import Image from "next/image";
+import { SITE } from "@/lib/site";
+import CVButton from "./CVButton";
 
 export default function Hero() {
-  const [vaultOpen, setVaultOpen] = useState(false);
-  const cardTiltRef = useTilt<HTMLDivElement>(6);
-
   return (
-    <section id="top" className="relative min-h-[92svh] flex flex-col justify-between overflow-hidden">
-      {/* Centered Masthead at the very top */}
-      <Masthead />
-
-      {/* Main Hero Body */}
-      <div className="relative mx-auto max-w-[1280px] w-full px-4 sm:px-8 pb-12 sm:pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] items-center gap-6 sm:gap-10 lg:gap-14">
-          {/* Left Text / Value Prop */}
-          <div className="flex flex-col justify-center order-2 lg:order-1 card-3d-flip in">
-            {/* Research Focus Pills */}
-            <div className="mb-4 sm:mb-5 flex flex-wrap items-center gap-2">
-              {SITE.focus.map((f) => (
-                <span
-                  key={f}
-                  className="rounded-full border border-emerald/30 bg-emerald/10 px-2.5 py-0.5 sm:px-3 sm:py-1 font-mono text-[10px] sm:text-[11px] text-emerald-bright shadow-sm shadow-emerald/20"
-                >
-                  {f}
-                </span>
-              ))}
-            </div>
-
-            <h2 className="display text-3xl sm:text-6xl lg:text-7xl leading-[1.04] text-paper">
-              Synthesizing Atoms.<br />
-              <span className="text-emerald-bright">Compiling Systems.</span>
-            </h2>
-
-            <p className="mt-4 sm:mt-6 text-sm sm:text-lg text-paper-dim max-w-xl leading-relaxed">
-              Investigating Ce-doped NiCo-MOF bifunctional electrocatalysts for OER/HER through Quantum ESPRESSO DFT simulations, while engineering high-throughput production platforms, desktop engines, and scientific automation.
-            </p>
-
-            {/* CTAs */}
-            <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
-              <a
-                href="#work"
-                className="inline-flex items-center gap-2 rounded-xl bg-emerald hover:bg-emerald-bright px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-ink transition-all shadow-lg shadow-emerald/25 hover:shadow-emerald/40"
-              >
-                <span>Explore Works</span>
-                <span>↓</span>
-              </a>
-
-              <CVButton />
-
-              <button
-                onClick={() => setVaultOpen(true)}
-                className="inline-flex items-center gap-2 rounded-xl border border-gold/40 bg-gold/10 hover:bg-gold/20 px-3.5 py-2 text-xs font-mono text-gold transition-all shadow-sm shadow-gold/20"
-              >
-                <span>🔒 Vault</span>
-              </button>
-            </div>
-
-            {/* Quick Metrics Bar */}
-            <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-line/70 grid grid-cols-3 gap-2 sm:gap-4 max-w-md w-full">
-              <div className="group transition-transform hover:-translate-y-1">
-                <div className="display text-lg sm:text-3xl text-paper">5</div>
-                <div className="font-mono text-[9px] sm:text-[11px] text-paper-faint truncate">Flagship Systems</div>
-              </div>
-              <div className="group transition-transform hover:-translate-y-1">
-                <div className="display text-lg sm:text-3xl text-emerald-bright">DFT</div>
-                <div className="font-mono text-[9px] sm:text-[11px] text-paper-faint truncate">Quantum ESPRESSO</div>
-              </div>
-              <div className="group transition-transform hover:-translate-y-1">
-                <div className="display text-lg sm:text-3xl text-gold">MOF</div>
-                <div className="font-mono text-[9px] sm:text-[11px] text-paper-faint truncate">Ce-doped NiCo Thesis</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Authentic MPhil Thesis 3D MOF Crystal Structure with 3D Tilt */}
-          <div
-            ref={cardTiltRef}
-            className="preserve-3d relative w-full h-[280px] sm:h-[400px] lg:h-[480px] order-1 lg:order-2 rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.01] overflow-hidden shadow-2xl shadow-black/40 backdrop-blur-sm transition-all duration-300 hover:border-emerald-bright/50"
-          >
-            <div className="absolute inset-0">
-              <Framework3D />
-            </div>
-
-            {/* Thesis Structure Legend & Tag */}
-            <div className="pointer-events-none absolute bottom-3 inset-x-4 flex items-center justify-between text-paper-faint bg-black/30 px-3 py-1.5 rounded-xl border border-white/[0.08] backdrop-blur-sm">
-              <span className="font-mono text-[10px] text-paper-dim">Ce-doped NiCo-MOF · Thesis</span>
-              <span className="flex items-center gap-2.5 font-mono text-[10px]">
-                {LEGEND.map(([k, c]) => (
-                  <span key={k} className="flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full" style={{ background: c }} />
-                    <span>{k}</span>
-                  </span>
-                ))}
-              </span>
-            </div>
-          </div>
+    <section
+      id="top"
+      className="hero section-shell"
+      aria-labelledby="intro-title"
+    >
+      <div className="hero-copy">
+        <p className="eyebrow">
+          <span className="status-dot" /> Physical chemistry · Scientific
+          software
+        </p>
+        <h1 id="intro-title" className="display hero-name">
+          Muhammad
+          <br />
+          <span>Kamran Ashraf</span>
+        </h1>
+        <p lang="ur" dir="rtl" className="font-urdu hero-signature">
+          {SITE.name.urdu}
+        </p>
+        <p className="hero-role">
+          MPhil Chemistry Researcher
+          <br />
+          <span>Quaid-i-Azam University, Islamabad</span>
+        </p>
+        <p className="hero-intro">
+          I study materials for electrochemical energy systems and build
+          software that makes research and everyday work more manageable.
+        </p>
+        <div className="action-row">
+          <a className="btn btn-emerald" href="#research">
+            Explore my research <span aria-hidden="true">↓</span>
+          </a>
+          <CVButton />
+        </div>
+        <div className="hero-context">
+          <p>
+            Supervised by <strong>Prof. Dr. Safeer Ahmed</strong>
+          </p>
+          <a href="#contact">
+            Research, scientific software &amp; collaboration{" "}
+            <span aria-hidden="true">↗</span>
+          </a>
         </div>
       </div>
-
-      <VaultModal
-        isOpen={vaultOpen}
-        onClose={() => setVaultOpen(false)}
-      />
+      <figure className="hero-portrait">
+        <div className="portrait-index">
+          <span>01 / Researcher &amp; developer</span>
+          <span>ISB, PK</span>
+        </div>
+        <div className="portrait-frame">
+          <div className="portrait-orbit" aria-hidden="true" />
+          <Image
+            src="/images/portrait.webp"
+            alt="Portrait of Muhammad Kamran Ashraf"
+            width={433}
+            height={577}
+            priority
+            sizes="(max-width: 760px) 90vw, 40vw"
+            className="portrait-image"
+          />
+        </div>
+        <figcaption>
+          <span>
+            From materials questions
+            <br />
+            to practical tools.
+          </span>
+          <span className="portrait-mark" aria-hidden="true">
+            K.
+          </span>
+        </figcaption>
+      </figure>
+      <div className="hero-strip">
+        <span className="eyebrow">Areas of focus</span>
+        <p>{SITE.focus.join(" / ")}</p>
+        <a href="#work">
+          Selected software <span aria-hidden="true">↘</span>
+        </a>
+      </div>
     </section>
   );
 }

@@ -1,139 +1,128 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { CV } from '@/lib/site';
+import { useEffect, useRef, useState } from "react";
+import { CV } from "@/lib/site";
 
 const LINKS = [
-  ['Work', '#work'],
-  ['Lab', '#lab'],
-  ['Research', '#research'],
-  ['Contact', '#contact'],
+  ["Research", "#research"],
+  ["Software", "#work"],
+  ["Background", "#background"],
+  ["Contact", "#contact"],
 ];
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLElement>(null);
   useEffect(() => {
-    let ticking = false;
-    const on = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 24);
-          ticking = false;
-        });
-        ticking = true;
+    if (!open) return;
+    const media = window.matchMedia("(min-width: 761px)");
+    const closeOnResize = () => {
+      if (media.matches) setOpen(false);
+    };
+    media.addEventListener("change", closeOnResize);
+    const previous = document.body.style.overflow;
+    const background = Array.from(
+      document.querySelectorAll<HTMLElement>("main, footer"),
+    );
+    const previousInert = background.map((element) => element.inert);
+    background.forEach((element) => {
+      element.inert = true;
+    });
+    document.body.style.overflow = "hidden";
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+      if (e.key === "Tab") {
+        const links = menuRef.current?.querySelectorAll<HTMLAnchorElement>("a");
+        const first = toggleRef.current;
+        const last = links?.[links.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
       }
     };
-    on();
-    window.addEventListener('scroll', on, { passive: true });
-    return () => window.removeEventListener('scroll', on);
-  }, []);
-
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = previous;
+      background.forEach((element, index) => {
+        element.inert = previousInert[index];
+      });
+      media.removeEventListener("change", closeOnResize);
+      document.removeEventListener("keydown", handleKey);
     };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, []);
-
-  useEffect(() => {
-    if (open) document.body.classList.add('overflow-locked');
-    else document.body.classList.remove('overflow-locked');
-    return () => document.body.classList.remove('overflow-locked');
   }, [open]);
-
   return (
-    <>
-      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out ${scrolled || open ? 'bg-ink/20 backdrop-blur-md border-b border-white/[0.06] shadow-lg shadow-black/20' : ''}`}>
-        <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-8">
+    <header className="site-header">
+      <div className="nav-shell">
+        <a
+          className="brand"
+          href="#top"
+          onClick={() => setOpen(false)}
+          aria-label="Muhammad Kamran Ashraf, home"
+        >
+          <span className="brand-mark" aria-hidden="true">
+            K<span>.</span>
+          </span>
+          <span className="brand-caption">
+            A Programmer Chemist’s Portfolio
+          </span>
+        </a>
+        <nav className="desktop-nav" aria-label="Primary navigation">
+          {LINKS.map(([label, href]) => (
+            <a key={href} href={href}>
+              {label}
+            </a>
+          ))}
           <a
-            href="#top"
-            onClick={() => setOpen(false)}
-            className="group flex items-center gap-2 sm:gap-2.5 transition-all select-none"
-            aria-label="A Programmer Chemist's Portfolio"
+            className="nav-cv"
+            href={CV.href}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <span className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl border border-emerald/30 bg-emerald/10 font-mono text-xs sm:text-sm font-semibold text-emerald-bright shadow-sm shadow-emerald/20 group-hover:border-emerald-bright group-hover:bg-emerald/20 transition-all">
-              <span className="text-base sm:text-lg">⚗️</span>
-            </span>
-            <div className="flex flex-col text-left overflow-hidden">
-              <span className="font-serif text-[11px] sm:text-sm md:text-base font-normal tracking-tight text-paper group-hover:text-emerald-bright transition-colors whitespace-nowrap truncate max-w-[210px] xs:max-w-none">
-                A Programmer Chemist&apos;s Portfolio
-              </span>
-              <span className="hidden md:inline font-mono text-[9px] uppercase tracking-widest text-paper-faint group-hover:text-gold transition-colors">
-                Muhammad Kamran Ashraf · QAU
-              </span>
-            </div>
+            CV <span aria-hidden="true">↗</span>
           </a>
-          <nav className="flex items-center gap-1 sm:gap-6 text-sm text-paper-dim">
-            {LINKS.map(([l, h]) => (
-              <a key={h} href={h} className="hidden sm:inline hover:text-paper transition-colors">{l}</a>
-            ))}
-            <a href={CV.href} download={CV.filename} className="hidden sm:inline-flex rounded-full border border-line px-3.5 py-1.5 text-paper hover:border-paper transition-colors">
-              CV ↓
-            </a>
-
-            {/* Mobile Hamburger Button */}
-            <button
-              onClick={() => setOpen(!open)}
-              aria-expanded={open}
-              aria-label={open ? 'Close Navigation Menu' : 'Open Navigation Menu'}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-line text-paper hover:bg-ink-2 sm:hidden transition-colors"
-            >
-              {open ? (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-              )}
-            </button>
-          </nav>
-        </div>
-      </header>
-
-      {/* Mobile Drawer Menu */}
+        </nav>
+        <button
+          ref={toggleRef}
+          className="menu-toggle"
+          aria-expanded={open}
+          aria-controls={open ? "mobile-navigation" : undefined}
+          onClick={() => setOpen(!open)}
+        >
+          {open ? "Close −" : "Menu +"}
+        </button>
+      </div>
       {open && (
-        <>
-          <div
-            className="fixed inset-0 top-16 z-30 bg-ink/50 backdrop-blur-md sm:hidden"
-            onClick={() => setOpen(false)}
-            aria-hidden="true"
-          />
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile Navigation"
-            className="fixed inset-x-0 top-16 z-40 flex flex-col border-b border-white/10 bg-ink/60 px-6 py-8 shadow-2xl backdrop-blur-xl sm:hidden animate-[fadein_0.3s_cubic-bezier(0.22,1,0.36,1)_both]"
-          >
-          <div className="flex flex-col space-y-5 text-lg font-medium text-paper">
-            {LINKS.map(([l, h]) => (
-              <a
-                key={h}
-                href={h}
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-line/50 pb-3 hover:text-signal transition-colors"
-              >
-                <span>{l}</span>
-                <span className="text-paper-faint font-mono text-xs">↗</span>
-              </a>
-            ))}
-          </div>
-          <div className="mt-8 flex flex-col gap-3">
-            <a
-              href={CV.href}
-              download={CV.filename}
-              onClick={() => setOpen(false)}
-              className="btn btn-solid justify-center text-sm"
-            >
-              Download Official CV (PDF)
+        <nav
+          ref={menuRef}
+          id="mobile-navigation"
+          className="mobile-nav"
+          aria-label="Mobile navigation"
+        >
+          {LINKS.map(([label, href], i) => (
+            <a key={href} href={href} onClick={() => setOpen(false)}>
+              <span className="eyebrow">0{i + 1}</span>
+              {label}
+              <span aria-hidden="true">↗</span>
             </a>
-            <p className="meta mt-2 text-center text-[10px] text-paper-faint">
-              QAU Islamabad · MPhil Physical Chemistry
-            </p>
-          </div>
-        </div>
-        </>
+          ))}
+          <a
+            href={CV.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+          >
+            View CV (PDF) <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
       )}
-    </>
+    </header>
   );
 }

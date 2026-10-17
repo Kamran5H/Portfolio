@@ -1,45 +1,47 @@
 name: Azure Static Web Apps CI/CD
-
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
     types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
-
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: write
+concurrency:
+  group: azure-portfolio-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
     runs-on: ubuntu-latest
-    name: Build and Deploy Next.js Web App
+    name: Validate and deploy static portfolio
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          submodules: true
-          lfs: false
-
-      - name: Build And Deploy
-        id: builddeploy
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm run build
+      - name: Deploy verified static export
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "/"
+          action: upload
+          app_location: out
           api_location: ""
-          output_location: "out"
-          app_build_command: "npm run build"
-
+          output_location: ""
+          skip_app_build: true
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
-    name: Close Pull Request
     steps:
-      - name: Close Pull Request Job
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v1
+      - uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          action: "close"
+          action: close

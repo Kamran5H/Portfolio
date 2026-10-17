@@ -1,20 +1,173 @@
 [
-  { "id": "reviewforge", "name": "ReviewForge", "line": "Config-driven pipeline for reproducible academic review drafts.", "category": "Research", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/ReviewForge" },
-  { "id": "research-daybook", "name": "Research Daybook", "line": "Single-file offline lab journal on localStorage.", "category": "Research", "lang": "HTML", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/ResearchDaybook" },
-  { "id": "private-comp-chem", "name": "Computational Chemistry Workspace", "line": "Private modelling workspace. Details open on request.", "category": "Research", "lang": "Python", "status": "PRIVATE", "locked": true },
-  { "id": "private-lab-panel", "name": "Lab Notes Panel", "line": "Private browser tool for lab references. Details open on request.", "category": "Research", "lang": "JavaScript", "status": "PRIVATE", "locked": true },
-  { "id": "source-genius", "name": "Source Genius", "line": "Finds the real website behind any Amazon brand.", "category": "Browser", "lang": "JavaScript", "status": "PRODUCTION", "repo": "https://github.com/Kamran5H/SourceGenius" },
-  { "id": "source-genius-ext", "name": "Source Genius Extension", "line": "MV3 side panel front-end for Source Genius.", "category": "Browser", "lang": "JavaScript", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/SourceGenius-Extension" },
-  { "id": "auto-clear", "name": "Auto Clear & Optimize", "line": "One-click cache, cookie and history cleanup.", "category": "Browser", "lang": "JavaScript", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/AutoClearExtension" },
-  { "id": "tiktok-hunter", "name": "TikTok Product Hunter", "line": "Matches Amazon products to TikTok Shop listings.", "category": "Automation", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/TikTokProductHunter" },
-  { "id": "brand-scrapers", "name": "Brand Scrapers", "line": "ASIN scrapers, Keepa lookups, multi-thread cleaners.", "category": "Automation", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/BrandScrapers" },
-  { "id": "chrome-monitor", "name": "Chrome Monitor", "line": "Watches Chrome profiles, extensions and memory.", "category": "Desktop", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/ChromeMonitor" },
-  { "id": "urdu-poetry-studio", "name": "Urdu Poetry Studio", "line": "Nastaliq typography designer with 4K export.", "category": "Desktop", "lang": "JavaScript", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/Urdu-Poetry-Studio" },
-  { "id": "early-coding", "name": "Early Coding Archive", "line": "First Tkinter tools and a boiling-point ML model.", "category": "Desktop", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/Early-Coding-Archive" },
-  { "id": "ai-coding", "name": "AI-Coding", "line": "Local coding agent with SSE streaming and approval gates.", "category": "AI", "lang": "JavaScript", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/AI-Coding" },
-  { "id": "videostudio", "name": "VideoStudio", "line": "Text- and image-to-video on free cloud GPUs.", "category": "AI", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/VideoStudio" },
-  { "id": "aura", "name": "AURA", "line": "Personal chief-of-staff agent for tasks and mail.", "category": "AI", "lang": "Python", "status": "PRIVATE", "locked": true },
-  { "id": "gmail-zenith", "name": "Gmail Zenith", "line": "Rule-based inbox cleanup and automated triaging on the official Gmail API.", "category": "Automation", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/GmailZenith" },
-  { "id": "disk-cleaner", "name": "Disk Cleaner Pro", "line": "High-performance duplicate hunter and cleanup for Windows drives.", "category": "Desktop", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/DiskOptimizerPro" },
-  { "id": "facebook-cleaner", "name": "Facebook Cleaner", "line": "Bulk-triage friends, groups, and pages from an automated web GUI.", "category": "Automation", "lang": "Python", "status": "OPEN SOURCE", "repo": "https://github.com/Kamran5H/FacebookCleaner" }
+  {
+    "id": "reviewforge",
+    "name": "ReviewForge",
+    "line": "Config-driven pipeline for reproducible academic review drafts.",
+    "category": "Research",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/ReviewForge"
+  },
+  {
+    "id": "research-daybook",
+    "name": "Research Daybook",
+    "line": "Single-file offline lab journal on localStorage.",
+    "category": "Research",
+    "lang": "HTML",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/ResearchDaybook"
+  },
+  {
+    "id": "private-comp-chem",
+    "name": "Computational Chemistry Workspace",
+    "line": "Private modelling workspace. Details open on request.",
+    "category": "Research",
+    "lang": "Python",
+    "status": "PRIVATE",
+    "locked": true
+  },
+  {
+    "id": "source-genius",
+    "name": "Source Genius",
+    "line": "Finds candidate brand websites from product and marketplace information.",
+    "category": "Browser",
+    "lang": "JavaScript",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/SourceGenius"
+  },
+  {
+    "id": "source-genius-ext",
+    "name": "Source Genius Extension",
+    "line": "MV3 side panel front-end for Source Genius.",
+    "category": "Browser",
+    "lang": "JavaScript",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/SourceGenius-Extension"
+  },
+  {
+    "id": "auto-clear",
+    "name": "Auto Clear & Optimize",
+    "line": "One-click cache, cookie and history cleanup.",
+    "category": "Browser",
+    "lang": "JavaScript",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/AutoClearExtension"
+  },
+  {
+    "id": "tiktok-hunter",
+    "name": "TikTok Product Hunter",
+    "line": "Matches Amazon products to TikTok Shop listings.",
+    "category": "Automation",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/TikTokProductHunter"
+  },
+  {
+    "id": "brand-scrapers",
+    "name": "Brand Scrapers",
+    "line": "ASIN scrapers, Keepa lookups, multi-thread cleaners.",
+    "category": "Automation",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/BrandScrapers"
+  },
+  {
+    "id": "chrome-monitor",
+    "name": "Chrome Monitor",
+    "line": "Watches Chrome profiles, extensions and memory.",
+    "category": "Desktop",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/ChromeMonitor"
+  },
+  {
+    "id": "urdu-poetry-studio",
+    "name": "Urdu Poetry Studio",
+    "line": "Nastaliq typography designer with 4K export.",
+    "category": "Desktop",
+    "lang": "JavaScript",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/Urdu-Poetry-Studio"
+  },
+  {
+    "id": "early-coding",
+    "name": "Early Coding Archive",
+    "line": "First Tkinter tools and a boiling-point ML model.",
+    "category": "Desktop",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/Early-Coding-Archive"
+  },
+  {
+    "id": "ai-coding",
+    "name": "AI-Coding",
+    "line": "Local coding agent with SSE streaming and approval gates.",
+    "category": "AI",
+    "lang": "JavaScript",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/AI-Coding"
+  },
+  {
+    "id": "videostudio",
+    "name": "VideoStudio",
+    "line": "Experiments with text- and image-to-video workflows and media processing.",
+    "category": "AI",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/VideoStudio"
+  },
+  {
+    "id": "aura",
+    "name": "AURA",
+    "line": "Personal chief-of-staff agent for tasks and mail.",
+    "category": "AI",
+    "lang": "Python",
+    "status": "PRIVATE",
+    "locked": true
+  },
+  {
+    "id": "gmail-zenith",
+    "name": "Gmail Zenith",
+    "line": "Rule-based inbox cleanup and automated triaging on the official Gmail API.",
+    "category": "Automation",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/GmailZenith"
+  },
+  {
+    "id": "disk-cleaner",
+    "name": "Disk Cleaner Pro",
+    "line": "Duplicate-file discovery and disk cleanup utilities for Windows.",
+    "category": "Desktop",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/DiskOptimizerPro"
+  },
+  {
+    "id": "facebook-cleaner",
+    "name": "Facebook Cleaner",
+    "line": "Bulk-triage friends, groups, and pages from an automated web GUI.",
+    "category": "Automation",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/FacebookCleaner"
+  },
+  {
+    "id": "quidian-media-downloader",
+    "name": "Quidian Media Downloader",
+    "line": "Media and playlist workflows using yt-dlp, optional aria2c downloads, and FFmpeg processing.",
+    "category": "Desktop",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/Quidian-MediaDownloader"
+  },
+  {
+    "id": "humanizer-pro",
+    "name": "Humanizer Pro",
+    "line": "A text-editing experiment with document processing and configurable language-model providers.",
+    "category": "AI",
+    "lang": "Python",
+    "status": "OPEN SOURCE",
+    "repo": "https://github.com/Kamran5H/Humanizer"
+  }
 ]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "electrocatalysis",
+    "category": "MPhil research",
+    "title": "Ce-doped NiCo metal–organic frameworks for electrocatalysis",
+    "status": "Ongoing",
+    "summary": "Investigating how cerium incorporation in NiCo metal–organic frameworks relates to electrocatalytic behaviour, with oxygen and hydrogen evolution as the water-splitting reactions of interest. Supervised by Prof. Dr. Safeer Ahmed at QAU.",
+    "methods": [
+      "Electrocatalysis",
+      "Metal–organic frameworks",
+      "Structure–property relationships"
+    ],
+    "vaultTargetId": "research-dossier"
+  },
+  {
+    "id": "dft-modelling",
+    "category": "Computational chemistry",
+    "title": "Electronic structure & adsorption energetics",
+    "status": "Ongoing",
+    "summary": "Using density functional theory workflows in Quantum ESPRESSO to explore catalyst electronic structure and adsorbate interactions. The aim is to connect atomistic modelling with experimental questions about catalytic activity.",
+    "methods": ["Quantum ESPRESSO", "DFT modelling", "Electronic structure"],
+    "vaultTargetId": "research-dossier"
+  },
+  {
+    "id": "energy-storage",
+    "category": "Research interest",
+    "title": "Rechargeable zinc–air energy systems",
+    "status": "Literature & analysis",
+    "summary": "Examining the literature on air-electrode activity and degradation in rechargeable zinc–air batteries, including the distinction between oxygen reduction/evolution at the air electrode and zinc-electrode failure mechanisms.",
+    "methods": ["ORR / OER", "Literature synthesis", "Electrode stability"],
+    "vaultTargetId": "research-dossier"
+  },
+  {
+    "id": "nanomaterials",
+    "category": "Undergraduate projects",
+    "title": "Green-synthesized oxides for environmental & sensing applications",
+    "status": "Previous work",
+    "summary": "Undergraduate projects at the University of the Punjab included green synthesis of calcium oxide nanoparticles for dye degradation and urea sensing, and copper-supported titanium oxide catalysts for methyl orange degradation.",
+    "methods": [
+      "Green synthesis",
+      "Metal oxides",
+      "Dye degradation",
+      "Electrochemical sensing"
+    ],
+    "vaultTargetId": "capstone"
+  }
+]

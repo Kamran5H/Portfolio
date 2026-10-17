@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
 
 /**
  * A slowly turning Ce-doped NiCo metal–organic framework: metal nodes on a cubic
@@ -9,17 +9,31 @@ import * as THREE from 'three';
  */
 export default function Framework3D() {
   const mount = useRef<HTMLDivElement>(null);
+  const control = useRef<((paused: boolean) => void) | null>(null);
+  const [paused, setPaused] = useState(true);
+  const [unsupported, setUnsupported] = useState(false);
 
   useEffect(() => {
     const el = mount.current!;
     const isMobile = window.innerWidth < 768;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const renderer = new THREE.WebGLRenderer({
-      antialias: !isMobile,
-      alpha: true,
-      powerPreference: isMobile ? 'low-power' : 'default',
-    });
-    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
+    const canvas = document.createElement("canvas");
+    const onCreationError = () => setUnsupported(true);
+    canvas.addEventListener("webglcontextcreationerror", onCreationError);
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: !isMobile,
+        alpha: true,
+        powerPreference: isMobile ? "low-power" : "default",
+      });
+    } catch {
+      canvas.removeEventListener("webglcontextcreationerror", onCreationError);
+      return;
+    }
+    renderer.setPixelRatio(
+      isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5),
+    );
     el.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -39,118 +53,191 @@ export default function Framework3D() {
     const lattice = new THREE.Group();
     scene.add(lattice);
 
-    const N = 3, A = 2.6, off = ((N - 1) * A) / 2;
-    const atoms: { p: THREE.Vector3; kind: 'Ni' | 'Co' | 'Ce' | 'O' | 'C'; r: number }[] = [];
+    const N = 3,
+      A = 2.6,
+      off = ((N - 1) * A) / 2;
+    const atoms: {
+      p: THREE.Vector3;
+      kind: "Ni" | "Co" | "Ce" | "O" | "C";
+      r: number;
+    }[] = [];
     const bonds: number[] = [];
-    const link = (a: THREE.Vector3, b: THREE.Vector3) => bonds.push(a.x, a.y, a.z, b.x, b.y, b.z);
+    const link = (a: THREE.Vector3, b: THREE.Vector3) =>
+      bonds.push(a.x, a.y, a.z, b.x, b.y, b.z);
 
     // Metal nodes
-    const node = (i: number, j: number, k: number) => new THREE.Vector3(i * A - off, j * A - off, k * A - off);
-    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) for (let k = 0; k < N; k++) {
-      const h = (i * 7 + j * 3 + k * 5) % 9;
-      atoms.push({ p: node(i, j, k), kind: h === 4 ? 'Ce' : h % 2 ? 'Co' : 'Ni', r: h === 4 ? 0.34 : 0.26 });
-    }
+    const node = (i: number, j: number, k: number) =>
+      new THREE.Vector3(i * A - off, j * A - off, k * A - off);
+    for (let i = 0; i < N; i++)
+      for (let j = 0; j < N; j++)
+        for (let k = 0; k < N; k++) {
+          const h = (i * 7 + j * 3 + k * 5) % 9;
+          atoms.push({
+            p: node(i, j, k),
+            kind: h === 4 ? "Ce" : h % 2 ? "Co" : "Ni",
+            r: h === 4 ? 0.34 : 0.26,
+          });
+        }
 
     // BDC linkers along every edge: carboxylate O, then a benzene ring
     const up = new THREE.Vector3(0, 1, 0);
-    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) for (let k = 0; k < N; k++) {
-      const a = node(i, j, k);
-      const dirs: [number, number, number][] = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
-      for (const [di, dj, dk] of dirs) {
-        if (i + di >= N || j + dj >= N || k + dk >= N) continue;
-        const b = node(i + di, j + dj, k + dk);
-        const axis = b.clone().sub(a).normalize();
-        const side = Math.abs(axis.dot(up)) > 0.9 ? new THREE.Vector3(1, 0, 0) : up.clone();
-        const perp = side.cross(axis).normalize();
-        const mid = a.clone().lerp(b, 0.5);
-        const o1 = a.clone().lerp(b, 0.16), o2 = a.clone().lerp(b, 0.84);
-        atoms.push({ p: o1, kind: 'O', r: 0.1 }, { p: o2, kind: 'O', r: 0.1 });
-        link(a, o1); link(b, o2);
-        const ring: THREE.Vector3[] = [];
-        for (let s = 0; s < 6; s++) {
-          const t = (s / 6) * Math.PI * 2;
-          const v = mid.clone().addScaledVector(axis, Math.cos(t) * 0.42).addScaledVector(perp, Math.sin(t) * 0.42);
-          ring.push(v);
-          atoms.push({ p: v, kind: 'C', r: 0.085 });
+    for (let i = 0; i < N; i++)
+      for (let j = 0; j < N; j++)
+        for (let k = 0; k < N; k++) {
+          const a = node(i, j, k);
+          const dirs: [number, number, number][] = [
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1],
+          ];
+          for (const [di, dj, dk] of dirs) {
+            if (i + di >= N || j + dj >= N || k + dk >= N) continue;
+            const b = node(i + di, j + dj, k + dk);
+            const axis = b.clone().sub(a).normalize();
+            const side =
+              Math.abs(axis.dot(up)) > 0.9
+                ? new THREE.Vector3(1, 0, 0)
+                : up.clone();
+            const perp = side.cross(axis).normalize();
+            const mid = a.clone().lerp(b, 0.5);
+            const o1 = a.clone().lerp(b, 0.16),
+              o2 = a.clone().lerp(b, 0.84);
+            atoms.push(
+              { p: o1, kind: "O", r: 0.1 },
+              { p: o2, kind: "O", r: 0.1 },
+            );
+            link(a, o1);
+            link(b, o2);
+            const ring: THREE.Vector3[] = [];
+            for (let s = 0; s < 6; s++) {
+              const t = (s / 6) * Math.PI * 2;
+              const v = mid
+                .clone()
+                .addScaledVector(axis, Math.cos(t) * 0.42)
+                .addScaledVector(perp, Math.sin(t) * 0.42);
+              ring.push(v);
+              atoms.push({ p: v, kind: "C", r: 0.085 });
+            }
+            for (let s = 0; s < 6; s++) link(ring[s], ring[(s + 1) % 6]);
+            link(o1, ring[3]);
+            link(o2, ring[0]);
+          }
         }
-        for (let s = 0; s < 6; s++) link(ring[s], ring[(s + 1) % 6]);
-        link(o1, ring[3]); link(o2, ring[0]);
-      }
-    }
 
     const materials: THREE.Material[] = [];
     const geometries: THREE.BufferGeometry[] = [];
     const textures: THREE.Texture[] = [];
 
-    const COLORS = { Ni: 0x8fbf6a, Co: 0xff5b1f, Ce: 0xd9b45a, O: 0xece8df, C: 0x6f6a60 };
+    const COLORS = {
+      Ni: 0x8fbf6a,
+      Co: 0xff5b1f,
+      Ce: 0xd9b45a,
+      O: 0xece8df,
+      C: 0x6f6a60,
+    };
     const geo = new THREE.SphereGeometry(1, 20, 14);
     geometries.push(geo);
 
     (Object.keys(COLORS) as (keyof typeof COLORS)[]).forEach((kind) => {
       const list = atoms.filter((a) => a.kind === kind);
       const mat = new THREE.MeshStandardMaterial({
-        color: COLORS[kind], roughness: kind === 'C' ? 0.7 : 0.35, metalness: kind === 'Ce' ? 0.6 : 0.15,
-        emissive: kind === 'Ce' ? 0x5a3c00 : 0x000000,
+        color: COLORS[kind],
+        roughness: kind === "C" ? 0.7 : 0.35,
+        metalness: kind === "Ce" ? 0.6 : 0.15,
+        emissive: kind === "Ce" ? 0x5a3c00 : 0x000000,
       });
       materials.push(mat);
       const mesh = new THREE.InstancedMesh(geo, mat, list.length);
       const m = new THREE.Matrix4();
-      list.forEach((a, idx) => mesh.setMatrixAt(idx, m.makeScale(a.r, a.r, a.r).setPosition(a.p)));
+      list.forEach((a, idx) =>
+        mesh.setMatrixAt(idx, m.makeScale(a.r, a.r, a.r).setPosition(a.p)),
+      );
       lattice.add(mesh);
     });
 
     const bondGeo = new THREE.BufferGeometry();
-    bondGeo.setAttribute('position', new THREE.Float32BufferAttribute(bonds, 3));
+    bondGeo.setAttribute(
+      "position",
+      new THREE.Float32BufferAttribute(bonds, 3),
+    );
     geometries.push(bondGeo);
 
-    const lineMat = new THREE.LineBasicMaterial({ color: 0xa9a397, transparent: true, opacity: 0.35 });
+    const lineMat = new THREE.LineBasicMaterial({
+      color: 0xa9a397,
+      transparent: true,
+      opacity: 0.35,
+    });
     materials.push(lineMat);
     lattice.add(new THREE.LineSegments(bondGeo, lineMat));
 
     // Cerium glow halos
-    const glow = document.createElement('canvas');
+    const glow = document.createElement("canvas");
     glow.width = glow.height = 64;
-    const g = glow.getContext('2d')!;
+    const g = glow.getContext("2d")!;
     const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grad.addColorStop(0, 'rgba(255,255,255,1)');
-    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    grad.addColorStop(0, "rgba(255,255,255,1)");
+    grad.addColorStop(1, "rgba(255,255,255,0)");
     g.fillStyle = grad;
     g.fillRect(0, 0, 64, 64);
     const glowTex = new THREE.CanvasTexture(glow);
     textures.push(glowTex);
 
-    const halo = new THREE.SpriteMaterial({ map: glowTex, color: 0xd9b45a, transparent: true, opacity: 0.22, depthWrite: false, blending: THREE.AdditiveBlending });
+    const halo = new THREE.SpriteMaterial({
+      map: glowTex,
+      color: 0xd9b45a,
+      transparent: true,
+      opacity: 0.22,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
     materials.push(halo);
-    atoms.filter((a) => a.kind === 'Ce').forEach((a) => { const s = new THREE.Sprite(halo); s.position.copy(a.p); s.scale.setScalar(1.6); lattice.add(s); });
+    atoms
+      .filter((a) => a.kind === "Ce")
+      .forEach((a) => {
+        const s = new THREE.Sprite(halo);
+        s.position.copy(a.p);
+        s.scale.setScalar(1.6);
+        lattice.add(s);
+      });
 
     lattice.rotation.set(0.5, 0.6, 0);
 
     const resize = () => {
-      const w = el.clientWidth, h = el.clientHeight;
+      const w = el.clientWidth,
+        h = el.clientHeight;
       if (w === 0 || h === 0) return;
       renderer.setSize(w, h);
       camera.aspect = w / h;
       // Fit the ~6-unit lattice to the shorter side of the viewport.
-      const fit = 6.2 / Math.tan((camera.fov * Math.PI) / 360) / Math.min(1, camera.aspect * 1.4);
+      const fit =
+        6.2 /
+        Math.tan((camera.fov * Math.PI) / 360) /
+        Math.min(1, camera.aspect * 1.4);
       camera.position.z = Math.max(11, fit);
       fog.near = camera.position.z - 4;
       fog.far = camera.position.z + 7;
       camera.updateProjectionMatrix();
+      renderer.render(scene, camera);
     };
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(el);
 
     const target = { x: 0, y: 0 };
-    const move = (e: PointerEvent) => { target.x = (e.clientX / window.innerWidth - 0.5) * 0.8; target.y = (e.clientY / window.innerHeight - 0.5) * 0.6; };
-    window.addEventListener('pointermove', move, { passive: true });
+    const move = (e: PointerEvent) => {
+      target.x = (e.clientX / window.innerWidth - 0.5) * 0.8;
+      target.y = (e.clientY / window.innerHeight - 0.5) * 0.6;
+    };
+    window.addEventListener("pointermove", move, { passive: true });
 
-    let raf = 0, visible = true, t = 0;
-    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !reduce) loop(); });
-    io.observe(el);
+    let raf = 0,
+      visible = false,
+      t = 0,
+      isPaused = true,
+      lost = false;
     const loop = () => {
       cancelAnimationFrame(raf);
-      if (!visible) return;
+      if (!visible || isPaused || lost || document.hidden) return;
       t += 0.0035;
       lattice.rotation.y = 0.6 + t + target.x;
       lattice.rotation.x += (0.5 + target.y - lattice.rotation.x) * 0.04;
@@ -158,21 +245,60 @@ export default function Framework3D() {
       renderer.render(scene, camera);
       raf = requestAnimationFrame(loop);
     };
+    const sync = () => {
+      cancelAnimationFrame(raf);
+      if (visible && !isPaused && !lost && !document.hidden) loop();
+    };
+    control.current = (next) => {
+      isPaused = next;
+      sync();
+    };
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      sync();
+    });
+    io.observe(el);
+    document.addEventListener("visibilitychange", sync);
     renderer.render(scene, camera);
-    if (!reduce) loop();
 
     const onContextLost = (e: Event) => {
       e.preventDefault();
+      lost = true;
       cancelAnimationFrame(raf);
     };
-    renderer.domElement.addEventListener('webglcontextlost', onContextLost, false);
+    const onContextRestored = () => {
+      lost = false;
+      renderer.render(scene, camera);
+      sync();
+    };
+    renderer.domElement.addEventListener(
+      "webglcontextlost",
+      onContextLost,
+      false,
+    );
+    renderer.domElement.addEventListener(
+      "webglcontextrestored",
+      onContextRestored,
+      false,
+    );
 
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
       ro.disconnect();
-      window.removeEventListener('pointermove', move);
-      renderer.domElement.removeEventListener('webglcontextlost', onContextLost);
+      control.current = null;
+      document.removeEventListener("visibilitychange", sync);
+      window.removeEventListener("pointermove", move);
+      renderer.domElement.removeEventListener(
+        "webglcontextlost",
+        onContextLost,
+      );
+      renderer.domElement.removeEventListener(
+        "webglcontextrestored",
+        onContextRestored,
+      );
+      canvas.removeEventListener("webglcontextcreationerror", onCreationError);
+      scene.clear();
       materials.forEach((m) => m.dispose());
       geometries.forEach((g) => g.dispose());
       textures.forEach((tex) => tex.dispose());
@@ -183,5 +309,29 @@ export default function Framework3D() {
     };
   }, []);
 
-  return <div ref={mount} aria-hidden className="h-full w-full pointer-events-none" />;
+  return (
+    <div className="h-full w-full relative">
+      <div
+        ref={mount}
+        aria-hidden="true"
+        className="h-full w-full pointer-events-none"
+      />
+      {unsupported ? (
+        <p className="absolute inset-0 flex items-center justify-center p-8 text-sm text-paper-dim">
+          The schematic needs WebGL. Research details are available above.
+        </p>
+      ) : (
+        <button
+          className="btn btn-ghost absolute bottom-4 right-4"
+          aria-pressed={!paused}
+          onClick={() => {
+            control.current?.(!paused);
+            setPaused(!paused);
+          }}
+        >
+          {paused ? "Animate schematic" : "Pause animation"}
+        </button>
+      )}
+    </div>
+  );
 }

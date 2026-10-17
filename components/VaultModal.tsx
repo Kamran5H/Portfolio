@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { SITE, VAULT_ITEMS, type VaultItem } from '@/lib/site';
+import { useEffect, useRef, useState } from "react";
+import { SITE, VAULT_ITEMS, type VaultItem } from "@/lib/site";
 
 interface VaultModalProps {
   isOpen: boolean;
@@ -9,306 +9,185 @@ interface VaultModalProps {
   selectedItem?: VaultItem | null;
 }
 
-export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModalProps) {
-  const [targetId, setTargetId] = useState<string>(VAULT_ITEMS[0].id);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [institution, setInstitution] = useState('');
-  const [purpose, setPurpose] = useState('Academic Review');
-  const [submitted, setSubmitted] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
-
-  // Sync targetId when selectedItem changes or modal opens
-  useEffect(() => {
-    if (isOpen) {
-      setTargetId(selectedItem?.id || VAULT_ITEMS[0].id);
-      setSubmitted(false);
-      setCopied(false);
-    }
-  }, [isOpen, selectedItem]);
-
-  // Lock body scroll and handle Escape key
+export default function VaultModal({
+  isOpen,
+  onClose,
+  selectedItem,
+}: VaultModalProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [targetId, setTargetId] = useState(
+    selectedItem?.id || VAULT_ITEMS[0].id,
+  );
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [institution, setInstitution] = useState("");
+  const [purpose, setPurpose] = useState("Research Collaboration");
+  const [prepared, setPrepared] = useState(false);
+  const [notice, setNotice] = useState("");
   useEffect(() => {
     if (!isOpen) return;
-    document.body.classList.add('overflow-locked');
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => {
-      document.body.classList.remove('overflow-locked');
-      window.removeEventListener('keydown', handleKey);
-    };
-  }, [isOpen, onClose]);
-
-  // Focus trap
-  useEffect(() => {
-    if (!isOpen || !dialogRef.current) return;
     const dialog = dialogRef.current;
-    const focusable = dialog.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    if (focusable.length) focusable[0].focus();
-
-    const trap = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab' || !focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
+    const trigger = document.activeElement as HTMLElement | null;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    dialog?.showModal();
+    return () => {
+      dialog?.close();
+      document.body.style.overflow = previous;
+      trigger?.focus();
     };
-    window.addEventListener('keydown', trap);
-    return () => window.removeEventListener('keydown', trap);
-  }, [isOpen, submitted]);
+  }, [isOpen, selectedItem]);
 
-  const activeItem = VAULT_ITEMS.find((v) => v.id === targetId) || VAULT_ITEMS[0];
-
-  const getSubjectText = useCallback(() => {
-    return `Confidential Document Access Request: ${activeItem.label} — ${name}`;
-  }, [activeItem.label, name]);
-
-  const getBodyText = useCallback(() => {
-    return (
-      `Hello Kamran,\n\nI am requesting confidential access to: ${activeItem.label} (${activeItem.group})\n\n` +
-      `Requester Details:\n` +
-      `- Name: ${name}\n` +
-      `- Verified Email: ${email}\n` +
-      `- Institution/Organization: ${institution}\n` +
-      `- Stated Purpose: ${purpose}\n\n` +
-      `Thank you.`
-    );
-  }, [activeItem.label, activeItem.group, name, email, institution, purpose]);
-
-  const buildMailto = useCallback(() => {
-    const subject = encodeURIComponent(getSubjectText());
-    const body = encodeURIComponent(getBodyText());
-    return `mailto:${SITE.email}?subject=${subject}&body=${body}`;
-  }, [getSubjectText, getBodyText]);
-
-  const getGmailUrl = useCallback(() => {
-    const su = encodeURIComponent(getSubjectText());
-    const body = encodeURIComponent(getBodyText());
-    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SITE.email)}&su=${su}&body=${body}`;
-  }, [getSubjectText, getBodyText]);
-
-  const copyRequestText = async () => {
-    const full = `To: ${SITE.email}\nSubject: ${getSubjectText()}\n\n${getBodyText()}`;
+  const item = VAULT_ITEMS.find((v) => v.id === targetId) || VAULT_ITEMS[0];
+  const subject = `Document / research enquiry: ${item.label} — ${name.trim()}`;
+  const body = `Hello Kamran,\n\nI would like to discuss or request: ${item.label}.\n\nName: ${name.trim()}\nReply email: ${email.trim()}\nInstitution / organisation: ${institution.trim()}\nPurpose: ${purpose}\n\nPlease let me know what information can be shared.\n\nThank you.`;
+  const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SITE.email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const copy = async () => {
     try {
-      await navigator.clipboard.writeText(full);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2200);
+      await navigator.clipboard.writeText(
+        `To: ${SITE.email}\nSubject: ${subject}\n\n${body}`,
+      );
+      setNotice("Request text copied. Paste it into your email application.");
     } catch {
-      // fallback
+      setNotice(`Clipboard unavailable. You can email ${SITE.email} directly.`);
     }
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    window.location.href = buildMailto();
-    setSubmitted(true);
-  };
-
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/50 backdrop-blur-md animate-[fadein_0.2s_ease-out]"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Confidential Document Access Request"
+    <dialog
+      ref={dialogRef}
+      className="request-dialog"
+      aria-labelledby="request-title"
+      aria-describedby="request-description"
+      onCancel={onClose}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          const r = e.currentTarget.getBoundingClientRect();
+          if (
+            e.clientX < r.left ||
+            e.clientX > r.right ||
+            e.clientY < r.top ||
+            e.clientY > r.bottom
+          )
+            onClose();
+        }
+      }}
     >
-      <div
-        ref={dialogRef}
-        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border border-white/[0.08] bg-ink-1/75 p-6 sm:p-8 shadow-2xl shadow-black/80 backdrop-blur-xl"
-        onClick={(e) => e.stopPropagation()}
+      <button
+        className="dialog-close"
+        onClick={onClose}
+        aria-label="Close document request"
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 h-8 w-8 rounded-full border border-white/[0.08] bg-white/[0.04] flex items-center justify-center text-paper-dim hover:text-white hover:border-white/20 transition-colors"
-          aria-label="Close"
+        ×
+      </button>
+      <p className="eyebrow">Research &amp; supporting documents</p>
+      <h2 id="request-title" className="display">
+        {prepared ? "Your request is ready." : "Start an enquiry."}
+      </h2>
+      <p id="request-description">
+        {prepared
+          ? "We attempted to open your email application. Review and send the message there. Nothing has been sent by this website."
+          : "Prepare an email to Kamran for academic review, employment verification, or research discussion. Availability is reviewed individually."}
+      </p>
+      {!prepared ? (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setPrepared(true);
+            window.location.href = mailto;
+          }}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M18 6 6 18M6 6l12 12"/></svg>
-        </button>
-
-        {submitted ? (
-          <div className="text-center py-6">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald/20 text-emerald-bright text-2xl border border-emerald/30">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden><path d="M5 13l4 4L19 7"/></svg>
-            </div>
-            <h3 className="display text-2xl sm:text-3xl text-paper">Email Client Opened</h3>
-            <p className="mt-3 text-sm text-paper-dim leading-relaxed">
-              A pre-filled request for <strong className="text-paper">{activeItem.label}</strong> has been
-              composed in your default mail client. Please review and send it.
-            </p>
-            <div className="mt-5 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 text-left text-xs text-paper-dim space-y-1">
-              <div className="font-mono text-paper-faint uppercase text-[10px] tracking-wider mb-1">
-                What Happens Next
-              </div>
-              <p>Verified directly by Muhammad Kamran Ashraf.</p>
-              <p>Access dispatched exclusively to your verified institutional email.</p>
-              <p>Documents are watermarked and not publicly downloadable.</p>
-            </div>
-
-            <div className="mt-6 flex flex-col gap-2.5">
-              <div className="flex flex-col sm:flex-row gap-2.5">
-                <a
-                  href={getGmailUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald/20 border border-emerald/40 px-4 py-2.5 text-xs font-semibold text-emerald-bright hover:bg-emerald/30 transition-colors"
-                >
-                  <span>Compose in Gmail Web</span>
-                  <span className="text-xs">↗</span>
-                </a>
-                <button
-                  onClick={() => { window.location.href = buildMailto(); }}
-                  className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-xs font-medium text-paper hover:bg-white/[0.08] transition-colors"
-                >
-                  Open Mail App
-                </button>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-2.5">
-                <button
-                  onClick={copyRequestText}
-                  className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-xs font-mono text-paper-dim hover:text-paper hover:border-white/20 transition-colors"
-                >
-                  {copied ? '✓ Request Copied to Clipboard' : '📋 Copy Full Request Text'}
-                </button>
-                <button
-                  onClick={onClose}
-                  className="rounded-xl border border-white/[0.08] bg-white/[0.04] px-5 py-2.5 text-xs font-medium text-paper hover:bg-white/[0.08] transition-colors"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div>
-            {/* Header */}
-            <div className="flex items-center gap-2 mb-2">
-              <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-              <span className="font-mono text-xs uppercase tracking-wider text-gold">
-                Confidential Document Access
-              </span>
-            </div>
-            <h3 className="display text-2xl sm:text-3xl text-paper">
-              Request Verified Access
-            </h3>
-            <p className="mt-2 text-xs sm:text-sm text-paper-dim">
-              Credentials, official transcripts, and unpublished research dossiers are kept strictly confidential to protect research integrity.
-            </p>
-
-            {/* Document Selector */}
-            <div className="mt-5">
-              <label htmlFor="vault-target" className="block font-mono text-[11px] uppercase tracking-wider text-paper-faint mb-1.5">
-                Target Record
-              </label>
-              <select
-                id="vault-target"
-                value={targetId}
-                onChange={(e) => setTargetId(e.target.value)}
-                className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2.5 text-sm text-paper focus:border-emerald-bright focus:outline-none transition-colors"
-              >
-                {VAULT_ITEMS.map((item) => (
-                  <option key={item.id} value={item.id} className="bg-ink-1 text-paper">
-                    [{item.group}] {item.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="mt-4 space-y-3.5">
-              <div>
-                <label htmlFor="vault-name" className="block font-mono text-[11px] uppercase tracking-wider text-paper-faint mb-1">
-                  Full Name
-                </label>
-                <input
-                  id="vault-name"
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Prof. / Dr. / Researcher Name"
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald-bright focus:outline-none transition-colors"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="vault-email" className="block font-mono text-[11px] uppercase tracking-wider text-paper-faint mb-1">
-                  Institutional / Professional Email
-                </label>
-                <input
-                  id="vault-email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@university.edu or name@institution.org"
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald-bright focus:outline-none transition-colors"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label htmlFor="vault-institution" className="block font-mono text-[11px] uppercase tracking-wider text-paper-faint mb-1">
-                    Institution / University
-                  </label>
-                  <input
-                    id="vault-institution"
-                    type="text"
-                    required
-                    value={institution}
-                    onChange={(e) => setInstitution(e.target.value)}
-                    placeholder="e.g. QAU, Cambridge, Industry"
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2 text-sm text-paper placeholder:text-paper-faint focus:border-emerald-bright focus:outline-none transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="vault-purpose" className="block font-mono text-[11px] uppercase tracking-wider text-paper-faint mb-1">
-                    Purpose
-                  </label>
-                  <select
-                    id="vault-purpose"
-                    value={purpose}
-                    onChange={(e) => setPurpose(e.target.value)}
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-sm text-paper focus:border-emerald-bright focus:outline-none transition-colors"
-                  >
-                    <option value="Academic Review" className="bg-ink-1 text-paper">Academic Review</option>
-                    <option value="Faculty / Graduate Admissions" className="bg-ink-1 text-paper">Faculty / Graduate Admissions</option>
-                    <option value="Research Collaboration" className="bg-ink-1 text-paper">Research Collaboration</option>
-                    <option value="Verification / Employment" className="bg-ink-1 text-paper">Verification / Employment</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  className="w-full rounded-xl bg-emerald hover:bg-emerald-bright py-3 text-sm font-medium text-ink transition-colors shadow-lg shadow-emerald/20"
-                >
-                  Open in Mail Client
-                </button>
-              </div>
-            </form>
-
-            <p className="mt-3.5 text-center font-mono text-[10px] text-paper-faint">
-              Opens your default email client with a pre-filled request.
-            </p>
-          </div>
-        )}
-      </div>
-    </div>
+          <label htmlFor="vault-target">Document or project</label>
+          <select
+            id="vault-target"
+            value={targetId}
+            onChange={(e) => setTargetId(e.target.value)}
+          >
+            {VAULT_ITEMS.map((v) => (
+              <option key={v.id} value={v.id}>
+                {v.label}
+              </option>
+            ))}
+          </select>
+          <label htmlFor="vault-name">Full name</label>
+          <input
+            autoComplete="name"
+            id="vault-name"
+            required
+            maxLength={100}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label htmlFor="vault-email">Reply email</label>
+          <input
+            autoComplete="email"
+            id="vault-email"
+            type="email"
+            required
+            maxLength={200}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label htmlFor="vault-institution">Institution or organisation</label>
+          <input
+            autoComplete="organization"
+            id="vault-institution"
+            required
+            maxLength={160}
+            value={institution}
+            onChange={(e) => setInstitution(e.target.value)}
+          />
+          <label htmlFor="vault-purpose">Purpose</label>
+          <select
+            id="vault-purpose"
+            value={purpose}
+            onChange={(e) => setPurpose(e.target.value)}
+          >
+            {[
+              "Research Collaboration",
+              "Graduate Admissions",
+              "Academic Review",
+              "Employment Verification",
+              "Software Discussion",
+            ].map((p) => (
+              <option key={p}>{p}</option>
+            ))}
+          </select>
+          <button type="submit" className="btn btn-emerald">
+            Prepare email request ↗
+          </button>
+          <p className="dialog-note">
+            Your details stay in this browser until you send the email. This
+            form does not verify identity or grant document access.
+          </p>
+        </form>
+      ) : (
+        <div className="prepared-actions">
+          <a
+            className="btn btn-emerald"
+            href={gmail}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Compose in Gmail ↗
+          </a>
+          <a className="btn btn-ghost" href={mailto}>
+            Open email application
+          </a>
+          <button className="btn btn-ghost" onClick={copy}>
+            Copy request text
+          </button>
+          <button className="text-link" onClick={() => setPrepared(false)}>
+            Edit request
+          </button>
+        </div>
+      )}
+      <p className="dialog-notice" role="status">
+        {notice}
+      </p>
+      <p className="dialog-direct">
+        Prefer a direct email? <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+    </dialog>
   );
 }
