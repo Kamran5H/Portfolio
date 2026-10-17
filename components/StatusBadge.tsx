@@ -1,7 +1,7 @@
 import type { Status } from '@/lib/site';
 
 const STYLE: Record<Status, string> = {
-  LIVE: 'text-moss',
+  LIVE: 'text-emerald-bright',
   PRODUCTION: 'text-gold',
   'OPEN SOURCE': 'text-paper-dim',
   PRIVATE: 'text-paper-faint',

@@ -9,12 +9,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: { DEFAULT: "#0f0f0d", 2: "#171714", 3: "#201f1b" },
-        paper: { DEFAULT: "#ece8df", dim: "#a9a397", faint: "#6f6a60" },
-        signal: "#ff5b1f",
-        moss: "#8fbf6a",
-        gold: "#d9b45a",
-        line: { DEFAULT: "rgba(236, 232, 223, 0.09)", 2: "rgba(236, 232, 223, 0.16)" },
+        ink: {
+          DEFAULT: "#070c18", // deep midnight navy
+          2: "#0e172a",       // secondary midnight slate
+          3: "#16223b",       // card surface
+          card: "#111c33",    // explicit stage panel
+        },
+        paper: {
+          DEFAULT: "#f8fafc", // high-contrast crisp text
+          dim: "#cbd5e1",     // secondary readable copy
+          faint: "#818fa3",   // subtle metadata
+        },
+        emerald: {
+          DEFAULT: "#10b981",
+          bright: "#34d399",
+          glow: "rgba(16, 185, 129, 0.25)",
+        },
+        gold: {
+          DEFAULT: "#f59e0b",
+          bright: "#fbbf24",
+          glow: "rgba(245, 158, 11, 0.25)",
+        },
+        line: {
+          DEFAULT: "rgba(255, 255, 255, 0.08)",
+          2: "rgba(255, 255, 255, 0.16)",
+          bright: "rgba(52, 211, 153, 0.35)",
+        },
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],

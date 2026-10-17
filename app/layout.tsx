@@ -8,7 +8,7 @@ const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', displ
 
 export const metadata: Metadata = {
   title: 'Muhammad Kamran Ashraf | Physical Chemist & Computational Researcher (QAU)',
-  description: 'MPhil Physical Chemistry scholar at Quaid-i-Azam University (QAU) Islamabad, supervised by Prof. Dr. Safeer Ahmed. Research in DFT simulations, Ce-doped NiCo MOFs, electrocatalysis, and 20+ software engines.',
+  description: 'MPhil Physical Chemistry scholar at Quaid-i-Azam University (QAU) Islamabad, supervised by Prof. Dr. Safeer Ahmed. Research in DFT simulations, electrocatalysis, energy storage materials, and scientific software systems.',
   authors: [{ name: 'Muhammad Kamran Ashraf', url: 'https://github.com/Kamran5H' }],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://kamranashraf.is-a.dev'),
   alternates: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: '/',
     title: 'Muhammad Kamran Ashraf | Physical Chemist & Computational Researcher',
-    description: 'MPhil Physical Chemistry at QAU Islamabad. Quantum ESPRESSO DFT, Ce-NiCo MOFs for Zn-air batteries, QAU Kalam, and 20+ shipped tools.',
+    description: 'MPhil Physical Chemistry at QAU Islamabad. Quantum ESPRESSO DFT, electrocatalysis for energy systems, QAU Kalam, and 15+ shipped tools.',
     siteName: 'Muhammad Kamran Ashraf Portfolio',
     images: [{
       url: '/og-image.png',
@@ -31,13 +31,14 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Muhammad Kamran Ashraf | Physical Chemist & Software Builder',
-    description: 'MPhil Physical Chemistry at QAU Islamabad · Ce-NiCo MOFs & electrocatalytic simulations.',
+    description: 'MPhil Physical Chemistry at QAU Islamabad · DFT modelling & electrocatalytic simulations.',
     images: ['/og-image.png'],
   },
   icons: { icon: '/favicon.ico' },
 };
 
-export const viewport: Viewport = { themeColor: '#0f0f0d' };
+export const viewport: Viewport = { themeColor: '#070c18' };
+
 
 const jsonLd = {
   '@context': 'https://schema.org',

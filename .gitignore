@@ -31,3 +31,8 @@ desktop.ini
 # Scratch or temporary files
 .tmp/
 scratch/
+
+# Confidential staging (uploaded to private storage, never committed)
+private_upload/
+.env*
+!.env.example

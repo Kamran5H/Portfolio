@@ -1,0 +1,40 @@
+{
+  "name": { "first": "Muhammad", "middle": "Kamran", "last": "Ashraf", "urdu": "محمد کامران اشرف" },
+  "tagline": "Chemist · Builder · Islamabad",
+  "intro": "Computational chemistry on the bench side, shipped software on the other. Some work lives here; the rest opens on request.",
+  "location": "Islamabad, Pakistan",
+  "siteUrl": "https://kamranashraf.is-a.dev",
+  "email": "chkamran32b@gmail.com",
+  "cv": {
+    "pdf": "/cv/KAMRAN-ASHRAF-CV.pdf",
+    "docx": "/cv/KAMRAN-ASHRAF-CV.docx",
+    "label": "Public CV"
+  },
+  "socials": [
+    { "label": "GitHub", "href": "https://github.com/Kamran5H" },
+    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/kamran-ashraf-762a21363/" },
+    { "label": "ORCID", "href": "https://orcid.org/0009-0003-2997-2954" },
+    { "label": "Instagram", "href": "https://www.instagram.com/muhammad.kamran.ashraf" },
+    { "label": "Facebook", "href": "https://www.facebook.com/chkamran32b" }
+  ],
+  "focus": [
+    "Electrocatalysis",
+    "Computational chemistry",
+    "Energy storage",
+    "Materials",
+    "Scientific software"
+  ],
+  "path": [
+    { "years": "2025 – now", "title": "MPhil Chemistry", "where": "Quaid-i-Azam University, Islamabad" },
+    { "years": "2020 – 2024", "title": "BS Chemistry", "where": "University of the Punjab, Lahore" },
+    { "years": "2020 – 2022", "title": "Associate Degree in Science", "where": "Govt. Postgraduate College, Okara" },
+    { "years": "2024 – 2025", "title": "Chemistry Teacher", "where": "Unique Science Academy, Lahore" },
+    { "years": "2019 – 2022", "title": "Science Teacher", "where": "The Educators, Noor Campus, Okara" }
+  ],
+  "stack": [
+    { "group": "Frontend & motion", "note": "what people touch", "tools": ["Next.js", "React", "TypeScript", "Tailwind", "Three.js", "Canvas"] },
+    { "group": "Backend & data", "note": "what keeps it running", "tools": ["FastAPI", "Python", "Postgres / Neon", "SQLite", "Azure", "Docker"] },
+    { "group": "Automation & media", "note": "what saves the hours", "tools": ["Playwright", "yt-dlp", "aria2c", "FFmpeg", "Chrome MV3", "Gmail API"] },
+    { "group": "Science", "note": "what the degree is for", "tools": ["DFT modelling", "Spectroscopy", "Electrochemistry", "NumPy / SciPy"] }
+  ]
+}

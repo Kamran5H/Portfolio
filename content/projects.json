@@ -1,0 +1,74 @@
+[
+  {
+    "id": "qau-kalam",
+    "name": "QAU Kalam",
+    "hook": "A verified, students-only network for Quaid-i-Azam University: feed, mentors, chat, bus times.",
+    "model": "phone",
+    "status": "LIVE",
+    "stack": ["FastAPI", "Neon Postgres", "Azure", "MediaPipe"],
+    "live": "https://www.qaukalam.me"
+  },
+  {
+    "id": "articles-downloader",
+    "name": "Articles Downloader",
+    "hook": "One query, nine scholarly APIs, a folder of PDFs. Search history kept in SQLite.",
+    "model": "papers",
+    "status": "OPEN SOURCE",
+    "stack": ["Python", "SQLite", "OpenAlex", "PubMed"],
+    "repo": "https://github.com/Kamran5H/ArticlesDownloader"
+  },
+  {
+    "id": "gmail-zenith",
+    "name": "Gmail Zenith",
+    "hook": "Rule-based inbox cleanup on the official Gmail API.",
+    "model": "envelope",
+    "status": "OPEN SOURCE",
+    "stack": ["Python", "Gmail API", "OAuth"],
+    "repo": "https://github.com/Kamran5H/GmailZenith"
+  },
+  {
+    "id": "disk-cleaner",
+    "name": "Disk Cleaner",
+    "hook": "Duplicate hunter and cleanup for C: and D: drives.",
+    "model": "disk",
+    "status": "OPEN SOURCE",
+    "stack": ["Python", "Tkinter", "Windows"],
+    "repo": "https://github.com/Kamran5H/DiskOptimizerPro"
+  },
+  {
+    "id": "humanizer-pro",
+    "name": "Humanizer Pro",
+    "hook": "Rewrites stiff machine text into plain prose, and scores it with a local detector first.",
+    "model": "morph",
+    "status": "OPEN SOURCE",
+    "stack": ["Python", "NLP", "Tkinter", "LLM"],
+    "repo": "https://github.com/Kamran5H/Humanizer"
+  },
+  {
+    "id": "subah-taskbook",
+    "name": "Subah TaskBook",
+    "hook": "A morning task book that rolls unfinished work forward and pays you back with small surprises.",
+    "model": "book",
+    "status": "OPEN SOURCE",
+    "stack": ["JavaScript", "Electron", "PWA", "Offline-first"],
+    "repo": "https://github.com/Kamran5H/Subah-TaskBook"
+  },
+  {
+    "id": "facebook-cleaner",
+    "name": "Facebook Cleaner",
+    "hook": "Bulk-triage friends, groups and pages from a web GUI.",
+    "model": "funnel",
+    "status": "OPEN SOURCE",
+    "stack": ["Python", "Web GUI", "Automation"],
+    "repo": "https://github.com/Kamran5H/FacebookCleaner"
+  },
+  {
+    "id": "quidian-media-downloader",
+    "name": "Quidian Media Downloader",
+    "hook": "4K streams, whole playlists and subtitles, pulled in parallel by yt-dlp and aria2c.",
+    "model": "prism",
+    "status": "OPEN SOURCE",
+    "stack": ["Python", "yt-dlp", "aria2c", "FFmpeg"],
+    "repo": "https://github.com/Kamran5H/Quidian-MediaDownloader"
+  }
+]

@@ -1,0 +1,15 @@
+[
+  { "id": "student-id", "label": "Student identity", "group": "Identity", "blurb": "Current university identity record." },
+  { "id": "bs-degree", "label": "Bachelor's degree", "group": "Degree", "blurb": "Four-year degree, original scan." },
+  { "id": "bs-transcript", "label": "Official transcript", "group": "Degree", "blurb": "Detailed marks sheet for the bachelor's programme." },
+  { "id": "associate-degree", "label": "Associate degree result", "group": "Degree", "blurb": "Result intimation, original scan." },
+  { "id": "intermediate", "label": "Intermediate result", "group": "School", "blurb": "Board result intimation." },
+  { "id": "matric", "label": "Matriculation result", "group": "School", "blurb": "Board result intimation." },
+  { "id": "experience-unique", "label": "Teaching letter · 2024–25", "group": "Experience", "blurb": "Institutional experience letter." },
+  { "id": "experience-educators", "label": "Teaching letter · 2019–22", "group": "Experience", "blurb": "Institutional experience letter." },
+  { "id": "award-naat", "label": "Certificate of appreciation", "group": "Award", "blurb": "Inter-university competition, 2024." },
+  { "id": "research-dossier", "label": "Research dossier", "group": "Research", "blurb": "Current research. Shared case by case." },
+  { "id": "manuscripts", "label": "Manuscripts", "group": "Research", "blurb": "Drafts and submissions. Shared case by case." },
+  { "id": "capstone", "label": "Capstone research", "group": "Research", "blurb": "Undergraduate research project." },
+  { "id": "cv-extended", "label": "Extended CV", "group": "Profile", "blurb": "Full version with references." }
+]

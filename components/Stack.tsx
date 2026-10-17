@@ -8,8 +8,10 @@ const USED_IN: Record<string, string> = {
   'Next.js': 'this site', React: 'this site', TypeScript: 'this site', Tailwind: 'this site · Kalam admin', 'Three.js': 'research viewers', Canvas: 'Urdu Poetry Studio',
   FastAPI: 'QAU Kalam · Facebook Cleaner', Python: '15 repos', 'Postgres / Neon': 'QAU Kalam', SQLite: 'Articles Downloader', Azure: 'QAU Kalam · this site', Docker: 'QAU Kalam',
   Playwright: 'Source Genius · TikTok Hunter', 'yt-dlp': 'Quidian', aria2c: 'Quidian', FFmpeg: 'Quidian · VideoStudio', 'Chrome MV3': '4 extensions', 'Gmail API': 'Gmail Zenith',
-  'Quantum ESPRESSO': 'MPhil thesis', Gaussian: 'melatonin DFT', ORCA: 'thesis benchmarks', 'NumPy / SciPy': 'Tafel & EIS fits', 'Cyclic voltammetry': 'Ce-NiCo-MOF', EIS: 'Ce-NiCo-MOF',
+  'Quantum ESPRESSO': 'DFT simulations', Gaussian: 'quantum calculations', ORCA: 'spectroscopic models', 'NumPy / SciPy': 'Tafel & EIS fits', 'Cyclic voltammetry': 'electrochemical kinetics', EIS: 'interfacial impedance',
+  'DFT modelling': 'surface adsorption', Spectroscopy: 'FTIR & UV-Vis', Electrochemistry: 'bifunctional ORR/OER',
 };
+
 
 export default function Stack() {
   const [hover, setHover] = useState<string | null>(null);
@@ -18,7 +20,7 @@ export default function Stack() {
       <div className="mx-auto max-w-[1280px] px-4 py-24 sm:px-8 sm:py-32">
         <div className="reveal mb-14 flex flex-col sm:flex-row sm:items-baseline justify-between gap-4">
           <h2 className="display text-5xl sm:text-7xl">How it ships</h2>
-          <span className="meta min-h-[1.25rem] text-signal transition-opacity duration-300">
+          <span className="meta min-h-[1.25rem] text-emerald-bright transition-opacity duration-300">
             {hover ? `${hover} → ${USED_IN[hover]}` : 'tap or hover a tool'}
           </span>
         </div>
@@ -41,7 +43,7 @@ export default function Stack() {
                       className="group flex w-full items-baseline justify-between gap-3 py-1.5 text-left"
                     >
                       <span className={`display text-2xl transition-all duration-500 ease-out ${hover && hover !== t ? 'text-paper-faint' : 'text-paper'} group-hover:translate-x-1.5`}>{t}</span>
-                      <span className={`truncate font-mono text-[10px] text-signal transition-opacity duration-300 ${hover === t ? 'opacity-100' : 'opacity-0'}`}>{USED_IN[t]}</span>
+                      <span className={`truncate font-mono text-[10px] text-emerald-bright transition-opacity duration-300 ${hover === t ? 'opacity-100' : 'opacity-0'}`}>{USED_IN[t]}</span>
                     </button>
                   </li>
                 ))}
