@@ -118,7 +118,7 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/80 backdrop-blur-md animate-[fadein_0.2s_ease-out]"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/60 backdrop-blur-lg animate-[fadein_0.2s_ease-out]"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -126,13 +126,13 @@ export default function VaultModal({ isOpen, onClose, selectedItem }: VaultModal
     >
       <div
         ref={dialogRef}
-        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border border-line bg-ink-1 p-6 sm:p-8 shadow-2xl shadow-black/80"
+        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-ink-1/80 p-6 sm:p-8 shadow-2xl shadow-black/80 backdrop-blur-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 h-8 w-8 rounded-full border border-line bg-ink-card flex items-center justify-center text-paper-dim hover:text-white hover:border-line-hover transition-colors"
+          className="absolute top-5 right-5 h-8 w-8 rounded-full border border-white/10 bg-ink-card/60 flex items-center justify-center text-paper-dim hover:text-white hover:border-line-hover transition-colors"
           aria-label="Close"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M18 6 6 18M6 6l12 12"/></svg>

@@ -93,14 +93,14 @@ export default function Hero() {
           {/* Right: Authentic MPhil Thesis 3D MOF Crystal Structure with 3D Tilt */}
           <div
             ref={cardTiltRef}
-            className="preserve-3d relative w-full h-[280px] sm:h-[400px] lg:h-[480px] order-1 lg:order-2 rounded-3xl border border-line/80 bg-gradient-to-b from-ink-card/90 to-ink-2/90 overflow-hidden shadow-2xl shadow-black/60 backdrop-blur-md transition-all duration-300 hover:border-emerald-bright/50"
+            className="preserve-3d relative w-full h-[280px] sm:h-[400px] lg:h-[480px] order-1 lg:order-2 rounded-3xl border border-white/10 bg-gradient-to-b from-ink-card/30 to-ink-2/25 overflow-hidden shadow-2xl shadow-black/40 backdrop-blur-md transition-all duration-300 hover:border-emerald-bright/50"
           >
             <div className="absolute inset-0">
               <Framework3D />
             </div>
 
             {/* Thesis Structure Legend & Tag */}
-            <div className="pointer-events-none absolute bottom-3 inset-x-4 flex items-center justify-between text-paper-faint bg-ink/80 px-3 py-1.5 rounded-xl border border-line/50 backdrop-blur-md">
+            <div className="pointer-events-none absolute bottom-3 inset-x-4 flex items-center justify-between text-paper-faint bg-ink-2/35 px-3 py-1.5 rounded-xl border border-white/10 backdrop-blur-md">
               <span className="font-mono text-[10px] text-paper-dim">Ce-doped NiCo-MOF · Thesis</span>
               <span className="flex items-center gap-2.5 font-mono text-[10px]">
                 {LEGEND.map(([k, c]) => (

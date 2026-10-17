@@ -27,7 +27,7 @@ function StackColumn({
   return (
     <div
       ref={tiltRef}
-      className="card-3d-flip preserve-3d rounded-2xl border border-line/60 bg-ink-1/80 backdrop-blur-md p-5 sm:p-6 transition-all duration-300 hover:border-emerald-bright/40 shadow-xl shadow-black/30"
+      className="card-3d-flip preserve-3d rounded-2xl border border-white/10 bg-ink-1/30 backdrop-blur-md p-5 sm:p-6 transition-all duration-300 hover:border-emerald-bright/40 shadow-xl shadow-black/30"
     >
       <div className="border-t border-line-2 pt-2">
         <h3 className="font-medium text-paper text-base">{group.group}</h3>

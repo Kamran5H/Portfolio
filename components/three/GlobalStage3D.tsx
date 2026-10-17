@@ -40,7 +40,7 @@ export default function GlobalStage3D() {
     el.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const fog = new THREE.FogExp2(0x070c18, 0.022);
+    const fog = new THREE.FogExp2(0x070c18, 0.016);
     scene.fog = fog;
 
     const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 140);
@@ -51,23 +51,23 @@ export default function GlobalStage3D() {
     const geometries: THREE.BufferGeometry[] = [];
     const textures: THREE.Texture[] = [];
 
-    // Lighting rig
-    const hemiLight = new THREE.HemisphereLight(0xe2e8f0, 0x070c18, 0.75);
+    // Lighting rig (boosted for maximum vibrancy through frosted glass)
+    const hemiLight = new THREE.HemisphereLight(0xe2e8f0, 0x070c18, 0.85);
     scene.add(hemiLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
     dirLight.position.set(8, 14, 10);
     scene.add(dirLight);
 
-    const emeraldLight = new THREE.PointLight(0x10b981, 2.4, 45);
+    const emeraldLight = new THREE.PointLight(0x10b981, 2.8, 50);
     emeraldLight.position.set(-6, -2, 6);
     scene.add(emeraldLight);
 
-    const goldLight = new THREE.PointLight(0xf59e0b, 2.2, 40);
+    const goldLight = new THREE.PointLight(0xf59e0b, 2.6, 45);
     goldLight.position.set(7, 4, 5);
     scene.add(goldLight);
 
-    const cyanLight = new THREE.PointLight(0x06b6d4, 2.0, 35);
+    const cyanLight = new THREE.PointLight(0x06b6d4, 2.4, 40);
     cyanLight.position.set(0, -8, 8);
     scene.add(cyanLight);
 
@@ -231,8 +231,8 @@ export default function GlobalStage3D() {
     const torusGeo2 = new THREE.TorusGeometry(4.8, 0.04, 16, 90);
     geometries.push(torusGeo1, torusGeo2);
 
-    const cyanWireMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.38 });
-    const emeraldWireMat = new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.38 });
+    const cyanWireMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.45 });
+    const emeraldWireMat = new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.45 });
     materials.push(cyanWireMat, emeraldWireMat);
 
     const prismRing1 = new THREE.Mesh(torusGeo1, cyanWireMat);
@@ -266,7 +266,7 @@ export default function GlobalStage3D() {
     const beamMat = new THREE.LineBasicMaterial({
       color: 0x38bdf8,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.65,
       blending: THREE.AdditiveBlending,
     });
     materials.push(beamMat);
@@ -470,11 +470,11 @@ export default function GlobalStage3D() {
     textures.push(pTex);
 
     const particleMat = new THREE.PointsMaterial({
-      size: 0.22,
+      size: 0.28,
       vertexColors: true,
       map: pTex,
       transparent: true,
-      opacity: 0.72,
+      opacity: 0.85,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });

@@ -76,7 +76,7 @@ function ResearchCard({
   return (
     <article
       ref={tiltRef}
-      className="card-3d-flip preserve-3d rounded-2xl border border-line bg-ink-1/85 backdrop-blur-md p-5 sm:p-6 flex flex-col justify-between hover:border-emerald-bright/40 transition-all duration-300 shadow-xl shadow-black/30"
+      className="card-3d-flip preserve-3d rounded-2xl border border-white/10 bg-ink-1/30 backdrop-blur-md p-5 sm:p-6 flex flex-col justify-between hover:border-emerald-bright/40 transition-all duration-300 shadow-xl shadow-black/30"
     >
       <div>
         <div className="flex items-center justify-between gap-2 mb-3">
@@ -104,7 +104,7 @@ function ResearchCard({
           {rf.methods.map((m) => (
             <span
               key={m}
-              className="rounded border border-line bg-ink-2/60 px-2 py-0.5 font-mono text-[10px] text-paper-dim"
+              className="rounded border border-white/10 bg-ink-2/35 px-2 py-0.5 font-mono text-[10px] text-paper-dim"
             >
               {m}
             </span>
@@ -180,10 +180,10 @@ export default function Research() {
         {/* Verified Academic Trajectory & Scholar Profile with 3D Flip */}
         <div
           ref={scholarTiltRef}
-          className="card-3d-flip preserve-3d mb-14 sm:mb-20 rounded-3xl border border-line bg-ink-1/85 backdrop-blur-md p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 lg:gap-12 items-center shadow-2xl shadow-black/40"
+          className="card-3d-flip preserve-3d mb-14 sm:mb-20 rounded-3xl border border-white/10 bg-ink-1/30 backdrop-blur-md p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 lg:gap-12 items-center shadow-2xl shadow-black/40"
         >
           {/* Author Scholar Badge / Portrait */}
-          <div className="flex flex-col items-center text-center p-4 sm:p-6 rounded-2xl border border-line bg-ink-2/60">
+          <div className="flex flex-col items-center text-center p-4 sm:p-6 rounded-2xl border border-white/10 bg-ink-2/30">
             <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-emerald/40 bg-ink-card p-1 shadow-lg mb-3 sm:mb-4">
               <Image
                 src="/assets/images/kamran_nobg.png"
@@ -238,7 +238,7 @@ export default function Research() {
         {/* Confidential Document & Credential Vault with 3D Flip */}
         <div
           ref={vaultTiltRef}
-          className="card-3d-flip preserve-3d rounded-3xl border border-line bg-gradient-to-b from-ink-1/90 to-ink-card/90 backdrop-blur-md p-6 sm:p-10 shadow-2xl shadow-black/50"
+          className="card-3d-flip preserve-3d rounded-3xl border border-white/10 bg-gradient-to-b from-ink-1/35 to-ink-card/30 backdrop-blur-md p-6 sm:p-10 shadow-2xl shadow-black/50"
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-line pb-6 mb-8">
             <div>
@@ -277,7 +277,7 @@ export default function Research() {
                 {credentials.map((item) => (
                   <div
                     key={item.id}
-                    className="rounded-xl border border-line bg-ink-2/60 p-4 flex flex-col justify-between hover:border-line-hover transition-colors"
+                    className="rounded-xl border border-white/10 bg-ink-2/35 p-4 flex flex-col justify-between hover:border-line-hover hover:bg-ink-2/50 transition-colors"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-1.5">
@@ -309,7 +309,7 @@ export default function Research() {
                 {researchDossiers.map((item) => (
                   <div
                     key={item.id}
-                    className="rounded-xl border border-line bg-ink-2/60 p-4 flex flex-col justify-between hover:border-line-hover transition-colors"
+                    className="rounded-xl border border-white/10 bg-ink-2/35 p-4 flex flex-col justify-between hover:border-line-hover hover:bg-ink-2/50 transition-colors"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-1.5">

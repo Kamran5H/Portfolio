@@ -19,7 +19,7 @@ export default function Contact() {
         
         <div
           ref={cardTiltRef}
-          className="card-3d-flip preserve-3d mt-6 rounded-3xl border border-line/70 bg-ink-1/80 backdrop-blur-md p-6 sm:p-10 transition-all duration-300 hover:border-emerald-bright/40 shadow-2xl shadow-black/50"
+          className="card-3d-flip preserve-3d mt-6 rounded-3xl border border-white/10 bg-ink-1/30 backdrop-blur-md p-6 sm:p-10 transition-all duration-300 hover:border-emerald-bright/40 shadow-2xl shadow-black/50"
         >
           <button
             onClick={copy}
