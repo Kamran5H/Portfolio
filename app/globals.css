@@ -2241,6 +2241,7 @@ a.contact-channel:hover {
   );
 }
 .studio-header {
+  background: var(--ink);
   position: absolute;
   top: 0;
   left: 0;
@@ -2294,7 +2295,7 @@ a.contact-channel:hover {
   gap: 5px;
   padding: 10px;
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  background: var(--surface);
   border-radius: 6px;
 }
 .studio-room-nav button {
@@ -2342,6 +2343,8 @@ section.studio-room {
 }
 .studio-copy {
   max-width: min(475px, 43vw);
+  background: var(--ink);
+  box-shadow: 0 0 0 22px var(--ink);
   position: relative;
   z-index: 1;
 }
@@ -2371,6 +2374,14 @@ section.studio-room {
   font-size: 25px;
   margin: 22px 0;
 }
+.studio-photo-link {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 8px 0;
+}
 .studio-actions {
   display: flex;
   align-items: center;
@@ -2379,7 +2390,7 @@ section.studio-room {
   margin-top: 28px;
 }
 .studio-note {
-  color: var(--faint);
+  color: var(--muted);
   font-size: 11px;
   margin-top: 18px;
   max-width: 330px;
@@ -2440,7 +2451,7 @@ section.studio-room {
   display: flex;
   gap: 20px;
   align-items: center;
-  background: linear-gradient(transparent, var(--ink));
+  background: var(--ink);
 }
 .studio-footer > p {
   font-family: var(--font-mono), monospace;
@@ -2510,7 +2521,7 @@ section.studio-room {
   .studio-copy {
     max-width: 48vw;
   }
-  .studio-room {
+  section.studio-room {
     padding-left: 5vw;
   }
 }
@@ -2548,7 +2559,7 @@ section.studio-room {
   .studio-room-nav button span:last-child {
     display: none;
   }
-  .studio-room {
+  section.studio-room {
     padding: 0 24px 90px;
     align-items: flex-end;
     min-height: 680px;

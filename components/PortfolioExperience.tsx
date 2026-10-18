@@ -271,9 +271,19 @@ export default function PortfolioExperience({
                   )}
                   <p className="studio-description">{room.text}</p>
                   {i === 0 && (
-                    <p className="studio-signature" lang="ur" dir="rtl">
-                      {SITE.name.urdu}
-                    </p>
+                    <>
+                      <p className="studio-signature" lang="ur" dir="rtl">
+                        {SITE.name.urdu}
+                      </p>
+                      <a
+                        className="studio-photo-link"
+                        href="/images/certificate-presentation.jpg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View original photograph in full resolution ↗
+                      </a>
+                    </>
                   )}
                   {i === 2 && (
                     <div className="studio-projects">

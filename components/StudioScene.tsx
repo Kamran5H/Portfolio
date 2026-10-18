@@ -40,7 +40,7 @@ export default function StudioScene({
         canvas.removeEventListener("webglcontextcreationerror", fail);
       };
     }
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.2;
@@ -149,8 +149,9 @@ export default function StudioScene({
         .forEach((line, i) => ctx.fillText(line, 48, 175 + i * 65));
       const tex = new THREE.CanvasTexture(sheet);
       tex.colorSpace = THREE.SRGBColorSpace;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
       textures.push(tex);
-      const mat = new THREE.MeshBasicMaterial({ map: tex });
+      const mat = new THREE.MeshBasicMaterial({ map: tex, toneMapped: false });
       materials.push(mat);
       const geo = new THREE.PlaneGeometry(w, h);
       geometries.push(geo);
@@ -239,7 +240,7 @@ export default function StudioScene({
       for (let k = 0; k < 8; k++)
         box(group, 4.4 + k * 0.26, 2.3, -3.12, 0.055, 4.3, 0.12, oak);
       label(group, roomNames[i], 1.2, 3.6, -3.16, 3.1, 1.55);
-      plant(group, 5.4, 1.6, 1.1);
+      if (i === 3 || i === 4) plant(group, 5.4, 1.6, 1.1);
       cylinder(group, -2.3, -0.43, 1.3, 0.7, 0.5, stone);
       cylinder(group, -2.3, -0.16, 1.3, 0.77, 0.07, brass);
       // Floor inlay forms one uninterrupted route through the studio.
@@ -248,7 +249,7 @@ export default function StudioScene({
     const entrance = groups[0];
     desk(entrance, 1.6, 0.3);
     box(entrance, 0.4, 0.82, 0.55, 1.4, 0.08, 0.9, paper);
-    box(entrance, 2.4, 1.8, -0.35, 2.3, 1.98, 0.12, oak);
+    box(entrance, 2.6, 2.05, -0.35, 3.05, 2.64, 0.12, ink);
     const photograph = new THREE.TextureLoader().load(
       "/images/certificate-presentation.jpg",
       () => {
@@ -257,13 +258,17 @@ export default function StudioScene({
       },
     );
     photograph.colorSpace = THREE.SRGBColorSpace;
+    photograph.anisotropy = renderer.capabilities.getMaxAnisotropy();
     textures.push(photograph);
-    const photoMaterial = new THREE.MeshBasicMaterial({ map: photograph });
+    const photoMaterial = new THREE.MeshBasicMaterial({
+      map: photograph,
+      toneMapped: false,
+    });
     materials.push(photoMaterial);
-    const photoGeometry = new THREE.PlaneGeometry(2.12, (2.12 * 2197) / 2560);
+    const photoGeometry = new THREE.PlaneGeometry(2.89, (2.89 * 2197) / 2560);
     geometries.push(photoGeometry);
     const photo = new THREE.Mesh(photoGeometry, photoMaterial);
-    photo.position.set(2.4, 1.8, -0.27);
+    photo.position.set(2.6, 2.05, -0.27);
     entrance.add(photo);
     cylinder(entrance, 3.5, 1.1, 1, 0.16, 0.5, stone);
     cylinder(entrance, -0.25, 1.35, -0.25, 0.06, 1.1, brass);
@@ -272,11 +277,15 @@ export default function StudioScene({
     const lamp = new THREE.Mesh(lampGeo, sage);
     lamp.position.set(-0.25, 1.96, -0.25);
     entrance.add(lamp);
+    // A coding terminal and lab glassware introduce both sides of the practice.
+    monitor(entrance, -0.85, -0.55, "Python / Chemistry\nmodel → analyse");
+    cylinder(entrance, 0.55, 1.05, 0.7, 0.2, 0.5, glass);
+    cylinder(entrance, 0.55, 1.35, 0.7, 0.09, 0.15, ink);
     // Research sculpture and a schematic instrument bench.
     const research = groups[1];
     cylinder(research, 1.5, 0.05, 0.1, 1.5, 1.4, stone);
     cylinder(research, 1.5, 0.78, 0.1, 1.53, 0.08, brass);
-    const bondMat = new THREE.LineBasicMaterial({ color: 0x82988b });
+    const bondMat = new THREE.LineBasicMaterial({ color: 0x45605c });
     materials.push(bondMat);
     const points: number[] = [];
     for (let x = 0; x < 3; x++)
@@ -306,6 +315,22 @@ export default function StudioScene({
       cylinder(research, 3.6 + k * 0.6, 0.7, -1.1, 0.18, 0.6, glass);
       cylinder(research, 3.6 + k * 0.6, 1.06, -1.1, 0.09, 0.18, brass);
     }
+    // Potentiostat housing, electrode leads and an electrochemical cell.
+    box(research, -1.2, 0.45, -0.65, 1.6, 1.1, 1, ink);
+    label(
+      research,
+      "POTENTIOSTAT\nOER / HER",
+      -1.2,
+      0.53,
+      -0.13,
+      1.35,
+      0.7,
+      "#162a30",
+      "#f5f2e9",
+    );
+    cylinder(research, 3.7, 0.9, 0.8, 0.4, 0.8, glass);
+    for (const dx of [-0.18, 0, 0.18])
+      cylinder(research, 3.7 + dx, 1.5, 0.8, 0.035, 0.7, copper);
     // Software workstations carry actual project names.
     const software = groups[2];
     desk(software, 1.7, 0.6);
@@ -314,7 +339,21 @@ export default function StudioScene({
     box(software, 1.2, 0.81, 1.05, 1.8, 0.05, 0.6, ink);
     for (let k = 0; k < 8; k++)
       box(software, 0.5 + k * 0.2, 0.842, 1, 0.1, 0.01, 0.32, stone);
-    label(software, "Subah TaskBook", 4.4, 1.5, -1.4, 1.8, 0.9);
+    label(
+      software,
+      "Python · TypeScript\nData → models → tools",
+      2,
+      2.8,
+      -2.9,
+      3.8,
+      1.6,
+      "#162a30",
+      "#f5f2e9",
+    );
+    // Compact compute tower: a recognisable programming workstation.
+    box(software, 4.65, 0.35, 0.25, 0.65, 1.9, 1.1, ink);
+    for (let k = 0; k < 5; k++)
+      box(software, 4.65, 0.65 + k * 0.16, 0.81, 0.45, 0.035, 0.02, brass);
     // An architectural library, with a reading lectern and books.
     const library = groups[3];
     for (let k = 0; k < 4; k++) {
@@ -401,6 +440,9 @@ export default function StudioScene({
       (scene.fog as THREE.Fog).color.copy(background);
       plaster.color.set(dark ? 0x293c32 : 0xe5dfcf);
       stone.color.set(dark ? 0x47584b : 0xc5bdaa);
+      bondMat.color.set(dark ? 0xc4dbd6 : 0x334c49);
+      sage.color.set(dark ? 0x79ac96 : 0x285f50);
+      glass.color.set(dark ? 0x8ec4d1 : 0x487f94);
       hemisphere.intensity = dark ? 1.8 : 2.4;
       renderer.toneMappingExposure = dark ? 1.25 : 1.2;
       wake();
