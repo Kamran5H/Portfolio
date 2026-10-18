@@ -271,12 +271,6 @@ export default function StudioScene({
     photo.position.set(2.6, 2.05, -0.27);
     entrance.add(photo);
     cylinder(entrance, 3.5, 1.1, 1, 0.16, 0.5, stone);
-    cylinder(entrance, -0.25, 1.35, -0.25, 0.06, 1.1, brass);
-    const lampGeo = new THREE.ConeGeometry(0.5, 0.4, 32);
-    geometries.push(lampGeo);
-    const lamp = new THREE.Mesh(lampGeo, sage);
-    lamp.position.set(-0.25, 1.96, -0.25);
-    entrance.add(lamp);
     // A coding terminal and lab glassware introduce both sides of the practice.
     monitor(entrance, -0.85, -0.55, "Python / Chemistry\nmodel → analyse");
     cylinder(entrance, 0.55, 1.05, 0.7, 0.2, 0.5, glass);
@@ -311,12 +305,15 @@ export default function StudioScene({
     geometries.push(bonds);
     research.add(new THREE.LineSegments(bonds, bondMat));
     box(research, 4.3, 0.35, -1.1, 2.2, 0.15, 1.1, oak);
+    for (const x of [3.5, 5.1])
+      box(research, x, -0.15, -1.1, 0.1, 0.9, 0.8, ink);
     for (let k = 0; k < 3; k++) {
       cylinder(research, 3.6 + k * 0.6, 0.7, -1.1, 0.18, 0.6, glass);
       cylinder(research, 3.6 + k * 0.6, 1.06, -1.1, 0.09, 0.18, brass);
     }
     // Potentiostat housing, electrode leads and an electrochemical cell.
     box(research, -1.2, 0.45, -0.65, 1.6, 1.1, 1, ink);
+    box(research, -1.2, -0.35, -0.65, 1.8, 0.5, 1.2, stone);
     label(
       research,
       "POTENTIOSTAT\nOER / HER",
@@ -329,6 +326,7 @@ export default function StudioScene({
       "#f5f2e9",
     );
     cylinder(research, 3.7, 0.9, 0.8, 0.4, 0.8, glass);
+    cylinder(research, 3.7, -0.05, 0.8, 0.52, 1.1, stone);
     for (const dx of [-0.18, 0, 0.18])
       cylinder(research, 3.7 + dx, 1.5, 0.8, 0.035, 0.7, copper);
     // Software workstations carry actual project names.
