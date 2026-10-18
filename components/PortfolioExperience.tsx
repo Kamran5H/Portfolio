@@ -99,6 +99,7 @@ export default function PortfolioExperience({
   const scroller = useRef<HTMLDivElement>(null);
   const activeRef = useRef(0);
   const positionRef = useRef(0);
+  const roomUrlTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = (index: number) => {
     const el = scroller.current;
     if (!el) return;
@@ -146,16 +147,17 @@ export default function PortfolioExperience({
     if (mode !== "studio") return;
     const old = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const initialRoom = rooms.findIndex(
-      (room) => `#studio-${room.id}` === window.location.hash,
-    );
-    const frame = requestAnimationFrame(() => {
+    const syncRoom = () => {
+      const initialRoom = rooms.findIndex(
+        (room) => `#studio-${room.id}` === window.location.hash,
+      );
       const el = scroller.current;
       if (el && initialRoom >= 0)
         el.scrollTop =
           initialRoom *
           (el.querySelector("section")?.clientHeight || el.clientHeight);
-    });
+    };
+    const frame = requestAnimationFrame(syncRoom);
     const resize = () => {
       const el = scroller.current;
       if (el)
@@ -164,10 +166,15 @@ export default function PortfolioExperience({
           (el.querySelector("section")?.clientHeight || el.clientHeight);
     };
     window.addEventListener("resize", resize);
+    window.addEventListener("hashchange", syncRoom);
+    window.addEventListener("popstate", syncRoom);
     return () => {
       cancelAnimationFrame(frame);
       document.body.style.overflow = old;
       window.removeEventListener("resize", resize);
+      window.removeEventListener("hashchange", syncRoom);
+      window.removeEventListener("popstate", syncRoom);
+      if (roomUrlTimer.current) clearTimeout(roomUrlTimer.current);
     };
   }, [mode]);
 
@@ -242,6 +249,12 @@ export default function PortfolioExperience({
                 activeRef.current = index;
                 setActive(index);
               }
+              if (roomUrlTimer.current) clearTimeout(roomUrlTimer.current);
+              roomUrlTimer.current = setTimeout(() => {
+                const url = new URL(window.location.href);
+                url.hash = `studio-${rooms[index].id}`;
+                window.history.replaceState(window.history.state, "", url);
+              }, 180);
             }}
           >
             {rooms.map((room, i) => (
@@ -290,7 +303,9 @@ export default function PortfolioExperience({
                       {FLAGSHIPS.map((project) => (
                         <button
                           key={project.id}
-                          onClick={() => changeView("reading", "work")}
+                          onClick={() =>
+                            changeView("reading", `project-${project.id}`)
+                          }
                         >
                           <span>{project.name}</span>
                           <span aria-hidden="true">↗</span>

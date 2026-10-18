@@ -2457,6 +2457,9 @@ section.studio-room {
   color: var(--accent);
   font-size: 13px;
 }
+.project-card[id] {
+  scroll-margin-top: 110px;
+}
 .studio-projects button:hover {
   padding-left: 7px;
   background: var(--tint);
@@ -2638,8 +2641,8 @@ section.studio-room {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 36px;
-    min-width: 32px;
+    min-height: 44px;
+    min-width: 36px;
     padding: 4px;
     border-radius: 4px;
     transition:

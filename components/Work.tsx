@@ -22,7 +22,11 @@ export default function Work() {
         </div>
         <div className="project-list">
           {FLAGSHIPS.map((project, index) => (
-            <article key={project.id} className="project-card">
+            <article
+              key={project.id}
+              id={`project-${project.id}`}
+              className="project-card"
+            >
               <div className="project-summary">
                 <div className="card-topline">
                   <span className="eyebrow">

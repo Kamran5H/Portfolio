@@ -17,7 +17,7 @@ export default function HeroBackground() {
       <defs>
         {/* Subtle radial mask so graphics feather softly at boundaries */}
         <radialGradient
-          id="hero-bg-feather"
+          id="hero-bg-feather-gradient"
           cx="60%"
           cy="42%"
           r="62%"
@@ -28,6 +28,13 @@ export default function HeroBackground() {
           <stop offset="70%" stopColor="#fff" stopOpacity="0.6" />
           <stop offset="100%" stopColor="#fff" stopOpacity="0" />
         </radialGradient>
+        <mask id="hero-bg-feather">
+          <rect
+            width="1200"
+            height="680"
+            fill="url(#hero-bg-feather-gradient)"
+          />
+        </mask>
         <pattern
           id="hero-reciprocal-grid"
           width="40"
@@ -238,7 +245,13 @@ export default function HeroBackground() {
           <circle cx="100" cy="270" r="5" fill="var(--atom-co)" opacity="0.8" />
 
           {/* Cerium (Ce) Active Dopant Site (Highlighted in Gold) */}
-          <circle cx="240" cy="40" r="7.5" fill="var(--atom-ce)" opacity="0.9" />
+          <circle
+            cx="240"
+            cy="40"
+            r="7.5"
+            fill="var(--atom-ce)"
+            opacity="0.9"
+          />
           <circle
             cx="240"
             cy="40"
@@ -251,11 +264,20 @@ export default function HeroBackground() {
           />
 
           {/* Center Lattice Coordination Node */}
-          <circle cx="240" cy="190" r="6" fill="var(--atom-ni)" opacity="0.85" />
+          <circle
+            cx="240"
+            cy="190"
+            r="6"
+            fill="var(--atom-ni)"
+            opacity="0.85"
+          />
           <circle cx="240" cy="340" r="5" fill="var(--atom-co)" opacity="0.8" />
 
           {/* Benzene Ring Linker Motif along top edge */}
-          <g transform="translate(170, 75) rotate(-26) scale(0.65)" opacity="0.7">
+          <g
+            transform="translate(170, 75) rotate(-26) scale(0.65)"
+            opacity="0.7"
+          >
             <polygon
               points="15,0 30,8 30,24 15,32 0,24 0,8"
               fill="none"
