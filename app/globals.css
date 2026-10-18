@@ -114,7 +114,8 @@ footer[id],
   font-weight: 400;
 }
 .font-urdu {
-  font-family: var(--font-urdu), "Gulzar", "Noto Nastaliq Urdu", "Urdu Typesetting", serif;
+  font-family:
+    var(--font-urdu), "Gulzar", "Noto Nastaliq Urdu", "Urdu Typesetting", serif;
   line-height: 2.2;
 }
 .section-shell {
@@ -855,8 +856,14 @@ summary:hover {
   background-color: var(--band);
   background-image:
     radial-gradient(var(--line) 0.9px, transparent 0.9px),
-    linear-gradient(to right, color-mix(in srgb, var(--line) 45%, transparent) 1px, transparent 1px);
-  background-size: 32px 32px, 128px 128px;
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--line) 45%, transparent) 1px,
+      transparent 1px
+    );
+  background-size:
+    32px 32px,
+    128px 128px;
   border-block: 1px solid var(--line);
   position: relative;
 }
@@ -2562,23 +2569,33 @@ section.studio-room {
     padding: 8px 11px;
   }
   .studio-room-nav {
-    top: 76px;
-    left: 18px;
-    right: 18px;
-    transform: none;
-    display: flex;
-    justify-content: space-between;
-    padding: 3px 8px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    left: auto;
+    transform: translateY(-50%);
+    display: grid;
+    gap: 4px;
+    padding: 6px 4px;
+    z-index: 6;
   }
   .studio-room-nav button {
-    min-height: 33px;
-    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    min-width: 32px;
+    padding: 4px;
+    border-radius: 4px;
+  }
+  .studio-room-nav button span:first-child {
+    font-size: 11px;
   }
   .studio-room-nav button span:last-child {
     display: none;
   }
   section.studio-room {
-    padding: 125px 20px 75px;
+    padding: 80px 52px 70px 16px;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
@@ -2587,7 +2604,7 @@ section.studio-room {
   .studio-copy {
     max-width: 100%;
     width: 100%;
-    max-height: calc(100dvh - 205px);
+    max-height: calc(100dvh - 160px);
     overflow-y: auto;
     scrollbar-width: thin;
     padding: 16px;
