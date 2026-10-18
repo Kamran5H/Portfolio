@@ -7,6 +7,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/lib/site";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const serif = Instrument_Serif({
   subsets: ["latin"],
@@ -115,6 +116,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <GoogleAnalytics />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
