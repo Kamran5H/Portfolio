@@ -2330,7 +2330,8 @@ a.contact-channel:hover {
 .studio-journey::-webkit-scrollbar {
   display: none;
 }
-.studio-room {
+section.studio-room {
+  scroll-margin: 0;
   height: 100%;
   min-height: 640px;
   position: relative;

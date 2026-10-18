@@ -212,6 +212,7 @@ export default function PortfolioExperience({
             {rooms.map((room, i) => (
               <button
                 key={room.id}
+                aria-label={`0${i} ${room.name}`}
                 aria-current={active === i ? "step" : undefined}
                 onClick={() => navigate(i)}
               >
