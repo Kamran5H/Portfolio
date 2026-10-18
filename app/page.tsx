@@ -5,10 +5,11 @@ import Lab from "@/components/Lab";
 import Stack from "@/components/Stack";
 import Research from "@/components/Research";
 import Contact from "@/components/Contact";
+import PortfolioExperience from "@/components/PortfolioExperience";
 
 export default function Home() {
   return (
-    <>
+    <PortfolioExperience>
       <Nav />
       <main id="main-content" tabIndex={-1}>
         <Hero />
@@ -18,6 +19,6 @@ export default function Home() {
         <Lab />
       </main>
       <Contact />
-    </>
+    </PortfolioExperience>
   );
 }

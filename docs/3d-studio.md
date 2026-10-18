@@ -1,0 +1,11 @@
+# Full-site research studio
+
+The user selected a full 3D research studio, calm motion, and 3D as the default with an explicit reading-view switch. The experience consists of five connected architectural spaces: entrance, research bench, software desk, academic library and collaboration room. This replaces the earlier interpretation of 3D as only a molecular illustration.
+
+`PortfolioExperience` supplies scrollable, keyboard-accessible HTML room content, room navigation, previous/next controls, both themes and the reading-view switch. `StudioScene` supplies one shared Three.js scene with architectural geometry, furnishings, a framed original certificate photograph, scientific sculpture, labelled software screens and books. Native scroll position drives the camera between spaces. It does not autoplay or consume continuous animation frames when settled. Reduced motion snaps the camera to the requested position.
+
+The complete pre-existing portfolio remains server-rendered in the reading container, including all 22 project studies, filters, comparison, CV, contacts and molecular explorer. Room actions open the corresponding reading section. Existing section links and collection query links select reading view; explicit studio links select the corresponding room. The preference persists when browser storage is available, and falls back to visit state otherwise. A no-JavaScript style reveals the reading portfolio. A WebGL creation failure keeps all HTML room controls available and offers reading view.
+
+The scene caps pixel ratio, uses shared primitive geometries, limits visibility to nearby rooms, stops frames when hidden/offscreen, listens for context loss/restoration and disposes geometries, materials, textures, observers and renderer when reading view is entered. Photograph bytes are unchanged. Architectural objects and the research sculpture are illustrative, not representations of actual laboratory facilities or measured results.
+
+Four routing regression tests verify the default, saved preference, legacy links, shared collections and explicit room links. Browser checks must also cover the five room views, camera transitions, mobile framing, both themes, reading-view round trips and links. Compilation alone does not prove those visual behaviors.
