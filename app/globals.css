@@ -2318,10 +2318,13 @@ a.contact-channel:hover {
   z-index: 5;
   display: grid;
   gap: 5px;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid var(--line);
-  background: var(--surface);
-  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 .studio-room-nav button {
   display: flex;
@@ -2331,19 +2334,36 @@ a.contact-channel:hover {
   font-size: 10px;
   min-height: 42px;
   color: var(--muted);
-  padding: 8px;
-  border-radius: 3px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.12s ease;
 }
 .studio-room-nav button > span:first-child {
   font-family: var(--font-mono), monospace;
   color: var(--faint);
+  transition: color 0.18s ease;
 }
 .studio-room-nav button[aria-current] {
   background: var(--tint);
   color: var(--accent);
+  font-weight: 600;
 }
-.studio-room-nav button:hover {
+.studio-room-nav button[aria-current] > span:first-child {
+  color: var(--accent);
+  font-weight: 600;
+}
+.studio-room-nav button:hover:not([aria-current]) {
   background: var(--tint);
+  color: var(--paper);
+}
+.studio-room-nav button:hover:not([aria-current]) > span:first-child {
+  color: var(--paper);
+}
+.studio-room-nav button:active {
+  transform: scale(0.97);
 }
 .studio-journey {
   height: 100%;
@@ -2516,11 +2536,24 @@ section.studio-room {
   z-index: 35;
   background: var(--accent);
   color: var(--ink);
-  box-shadow: 0 5px 24px #0002;
+  box-shadow: 0 5px 24px rgba(0, 0, 0, 0.12);
   padding: 12px 18px;
   border-radius: 30px;
   min-height: 44px;
   font-size: 12px;
+  font-weight: 500;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.return-to-studio:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+.return-to-studio:active {
+  transform: translateY(0) scale(0.98);
 }
 .studio-fallback {
   position: absolute;
@@ -2540,6 +2573,16 @@ section.studio-room {
   text-decoration: underline;
 }
 @media (max-width: 1050px) and (min-width: 760px) {
+  .studio-room-nav {
+    right: 16px;
+    padding: 6px 4px;
+    gap: 4px;
+  }
+  .studio-room-nav button {
+    justify-content: center;
+    min-width: 36px;
+    padding: 6px;
+  }
   .studio-room-nav button span:last-child {
     display: none;
   }
@@ -2548,9 +2591,16 @@ section.studio-room {
   }
   section.studio-room {
     padding-left: 5vw;
+    padding-right: 68px;
   }
 }
 @media (max-width: 759px) {
+  .return-to-studio {
+    bottom: 14px;
+    right: 14px;
+    padding: 10px 15px;
+    font-size: 11px;
+  }
   .studio-header {
     padding: 14px 18px;
     gap: 8px;
@@ -2578,18 +2628,27 @@ section.studio-room {
     gap: 4px;
     padding: 6px 4px;
     z-index: 6;
+    border-radius: 8px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .studio-room-nav button {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 34px;
+    min-height: 36px;
     min-width: 32px;
     padding: 4px;
     border-radius: 4px;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
   }
   .studio-room-nav button span:first-child {
     font-size: 11px;
+    letter-spacing: 0.02em;
   }
   .studio-room-nav button span:last-child {
     display: none;
