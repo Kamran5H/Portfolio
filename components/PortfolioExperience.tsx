@@ -294,7 +294,7 @@ export default function PortfolioExperience({
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        View original photograph in full resolution ↗
+                        View full photograph ↗
                       </a>
                     </>
                   )}
