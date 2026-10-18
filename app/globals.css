@@ -22,6 +22,11 @@
   --graphic-line: #7f9689;
   --graphic-stroke: #526f62;
   --disc: #d3decf;
+  --atom-ni: #3f8069;
+  --atom-co: #9b5a40;
+  --atom-ce: #b38c45;
+  --atom-o: #77969b;
+  --atom-c: #525b54;
   color-scheme: light;
 }
 :root[data-theme="dark"] {
@@ -43,6 +48,11 @@
   --graphic-line: #a7bbab;
   --graphic-stroke: #b6cdbd;
   --disc: #465f50;
+  --atom-ni: #78bc9b;
+  --atom-co: #d79a79;
+  --atom-ce: #e4bf76;
+  --atom-o: #a9ced1;
+  --atom-c: #b9c9bb;
   color-scheme: dark;
 }
 * {
@@ -686,19 +696,19 @@ summary:hover {
   border: 1px solid var(--control-border);
 }
 .atom-ni {
-  background: #3f8069;
+  background: var(--atom-ni);
 }
 .atom-co {
-  background: #9b5a40;
+  background: var(--atom-co);
 }
 .atom-ce {
-  background: #b38c45;
+  background: var(--atom-ce);
 }
 .atom-o {
-  background: #77969b;
+  background: var(--atom-o);
 }
 .atom-c {
-  background: #525b54;
+  background: var(--atom-c);
 }
 .model-canvas canvas {
   cursor: grab;

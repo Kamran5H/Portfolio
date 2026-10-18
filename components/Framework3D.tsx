@@ -165,7 +165,9 @@ export default function Framework3D() {
     (Object.keys(COLORS) as (keyof typeof COLORS)[]).forEach((kind) => {
       const list = atoms.filter((a) => a.kind === kind);
       const mat = new THREE.MeshStandardMaterial({
-        color: COLORS[kind],
+        color:
+          palette().getPropertyValue(`--atom-${kind.toLowerCase()}`).trim() ||
+          COLORS[kind],
         roughness: kind === "C" ? 0.7 : 0.35,
         metalness: kind === "Ce" ? 0.6 : 0.15,
         emissive: kind === "Ce" ? 0x5a3c00 : 0x000000,
@@ -304,6 +306,12 @@ export default function Framework3D() {
     canvas.addEventListener("pointercancel", upDrag);
     canvas.addEventListener("lostpointercapture", upDrag);
     const syncPalette = () => {
+      atomMeshes.forEach((mesh, kind) => {
+        (mesh.material as THREE.MeshStandardMaterial).color.set(
+          palette().getPropertyValue(`--atom-${kind.toLowerCase()}`).trim() ||
+            COLORS[kind],
+        );
+      });
       fog.color.set(palette().getPropertyValue("--model-bg").trim());
       lineMat.color.set(palette().getPropertyValue("--muted").trim());
       if (!lost) renderer.render(scene, camera);
