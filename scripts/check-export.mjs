@@ -103,6 +103,14 @@ try {
     ),
     "Private staging included in export",
   );
+  const exportedImages = walk(path.join(root, "images")).map((p) =>
+    path.relative(path.join(root, "images"), p).replace(/\\/g, "/"),
+  );
+  assert.deepEqual(
+    exportedImages,
+    ["certificate-presentation.jpg"],
+    "Unexpected orphan images in export: " + exportedImages.join(", "),
+  );
   console.log(
     "Static export verified: page structure, metadata, navigation, local assets, CV, true 404, and Azure configuration.",
   );

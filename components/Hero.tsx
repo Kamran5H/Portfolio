@@ -2,6 +2,7 @@ import Image from "next/image";
 import { SITE } from "@/lib/site";
 import CVButton from "./CVButton";
 import FrameworkLink from "./FrameworkLink";
+import HeroBackground from "./HeroBackground";
 
 export default function Hero() {
   return (
@@ -10,6 +11,7 @@ export default function Hero() {
       className="hero section-shell"
       aria-labelledby="intro-title"
     >
+      <HeroBackground />
       <div className="hero-copy">
         <p className="eyebrow">
           <span className="status-dot" /> Physical chemistry · Scientific

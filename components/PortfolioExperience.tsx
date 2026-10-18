@@ -128,7 +128,7 @@ export default function PortfolioExperience({
     if (view === "studio")
       for (const key of ["compare", "q", "sort", "access", "category"])
         url.searchParams.delete(key);
-    window.history.replaceState(window.history.state, "", url);
+    window.history.pushState(window.history.state, "", url);
     window.dispatchEvent(new Event("portfolio-view"));
     if (view === "reading")
       requestAnimationFrame(() => {

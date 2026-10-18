@@ -3,6 +3,7 @@ import {
   Instrument_Serif,
   Inter_Tight,
   JetBrains_Mono,
+  Gulzar,
 } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/lib/site";
@@ -22,6 +23,12 @@ const sans = Inter_Tight({
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
+});
+const urdu = Gulzar({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-urdu",
   display: "swap",
 });
 
@@ -103,7 +110,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
+      className={`${serif.variable} ${sans.variable} ${mono.variable} ${urdu.variable}`}
       data-theme="light"
       suppressHydrationWarning
     >

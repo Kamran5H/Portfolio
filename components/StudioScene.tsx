@@ -121,6 +121,13 @@ export default function StudioScene({
       group.add(mesh);
       return mesh;
     };
+    interface ThemePlacard {
+      sheet: HTMLCanvasElement;
+      ctx: CanvasRenderingContext2D;
+      tex: THREE.CanvasTexture;
+      text: string;
+    }
+    const placards: ThemePlacard[] = [];
     const label = (
       group: THREE.Object3D,
       text: string,
@@ -129,20 +136,26 @@ export default function StudioScene({
       z: number,
       w: number,
       h: number,
-      background = "#f0ecdf",
-      color = "#344d40",
+      background?: string,
+      color?: string,
     ) => {
       const sheet = document.createElement("canvas");
       sheet.width = 768;
       sheet.height = 384;
       const ctx = sheet.getContext("2d");
       if (!ctx) return;
-      ctx.fillStyle = background;
+      const customTheme = background !== undefined || color !== undefined;
+      const dark = document.documentElement.dataset.theme === "dark";
+      const bg = background ?? (dark ? "#202925" : "#f0ecdf");
+      const fg = color ?? (dark ? "#eeeee3" : "#344d40");
+      const rule = customTheme ? fg : dark ? "#78bc9b" : "#344d40";
+      ctx.fillStyle = bg;
       ctx.fillRect(0, 0, 768, 384);
-      ctx.fillStyle = color;
+      ctx.fillStyle = rule;
       ctx.font = "30px Georgia";
       ctx.fillText("K / RESEARCH STUDIO", 48, 65);
       ctx.fillRect(48, 95, 672, 2);
+      ctx.fillStyle = fg;
       ctx.font = "46px Georgia";
       text
         .split("\n")
@@ -151,6 +164,9 @@ export default function StudioScene({
       tex.colorSpace = THREE.SRGBColorSpace;
       tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
       textures.push(tex);
+      if (!customTheme) {
+        placards.push({ sheet, ctx, tex, text });
+      }
       const mat = new THREE.MeshBasicMaterial({ map: tex, toneMapped: false });
       materials.push(mat);
       const geo = new THREE.PlaneGeometry(w, h);
@@ -438,11 +454,28 @@ export default function StudioScene({
       (scene.fog as THREE.Fog).color.copy(background);
       plaster.color.set(dark ? 0x293c32 : 0xe5dfcf);
       stone.color.set(dark ? 0x47584b : 0xc5bdaa);
+      oak.color.set(dark ? 0x5a442e : 0x9c7752);
+      paper.color.set(dark ? 0x27362f : 0xf5f0df);
+      ink.color.set(dark ? 0x141f1a : 0x26372f);
       bondMat.color.set(dark ? 0xc4dbd6 : 0x334c49);
       sage.color.set(dark ? 0x79ac96 : 0x285f50);
       glass.color.set(dark ? 0x8ec4d1 : 0x487f94);
       hemisphere.intensity = dark ? 1.8 : 2.4;
       renderer.toneMappingExposure = dark ? 1.25 : 1.2;
+      placards.forEach(({ ctx, tex, text }) => {
+        ctx.fillStyle = dark ? "#202925" : "#f0ecdf";
+        ctx.fillRect(0, 0, 768, 384);
+        ctx.fillStyle = dark ? "#78bc9b" : "#344d40";
+        ctx.font = "30px Georgia";
+        ctx.fillText("K / RESEARCH STUDIO", 48, 65);
+        ctx.fillRect(48, 95, 672, 2);
+        ctx.fillStyle = dark ? "#eeeee3" : "#344d40";
+        ctx.font = "46px Georgia";
+        text
+          .split("\n")
+          .forEach((line, i) => ctx.fillText(line, 48, 175 + i * 65));
+        tex.needsUpdate = true;
+      });
       wake();
     };
     const resize = () => {

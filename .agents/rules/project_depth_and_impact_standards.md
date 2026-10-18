@@ -10,8 +10,10 @@ When presenting software engineering and computational research in academic and 
    - Detail the explicit technical rationale behind architectural patterns (e.g., ASGI asyncpg connection pooling, offline-first IPC event buses, multi-segmented TCP chunking, or localized statistical NLP heuristics).
    - Document technical tradeoffs (e.g., local SQLite vs. remote cloud persistence, edge biometric verification vs. server storage).
 
-3. **Quantified Real-World Impact**:
-   - Ground project outcomes in verifiable metrics: median response latency, active user community size, bandwidth acceleration factor, or time savings in research workflows.
+3. **Verifiable Impact & Evidence-Based Claims**:
+   - Never assert unmeasured metrics (such as fabricated latency percentiles, user counts, or percentage improvements). If a measurement is cited, it must have a documented baseline, method, and date.
+   - Clearly delineate project status: differentiate between open-source repositories with public code, live deployed platforms, and private/conceptual prototypes.
+   - For physical and chemical visualizations (e.g. molecular lattices, instrument setups), explicitly state that they are illustrative conceptual sketches, not refined crystallographic structures or simulation results.
 
 4. **Academic & Scholarship Presentation Hierarchy**:
    - **Primary Identity**: The candidate's English name must remain prominent (`H1`) and commanding on the first screen for international committees, professors, and institutional evaluators.
