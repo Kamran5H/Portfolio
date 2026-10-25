@@ -37,6 +37,7 @@ function fixture(run) {
       "og-image.png",
       "favicon.ico",
       "images/certificate-presentation.jpg",
+      "images/kamran-portrait.jpg",
     ])
       write(file);
     for (const artifact of artifacts)

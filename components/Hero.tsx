@@ -52,23 +52,23 @@ export default function Hero() {
           <FrameworkLink />
         </div>
       </div>
-      <figure className="hero-portrait hero-portrait--event">
+      <figure className="hero-portrait hero-portrait--solo">
         <div className="portrait-index">
-          <span>Academic engagement</span>
-          <span>Certificate presentation</span>
+          <span>Developer &amp; Scholar</span>
+          <span>Muhammad Kamran Ashraf</span>
         </div>
         <a
           className="portrait-frame"
-          href="/images/certificate-presentation.jpg"
+          href="/images/kamran-portrait.jpg"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="View the full certificate presentation photograph (opens in a new tab)"
+          aria-label="View full portrait of Muhammad Kamran Ashraf (opens in a new tab)"
         >
           <Image
-            src="/images/certificate-presentation.jpg"
-            alt="Muhammad Kamran Ashraf (centre) receiving a certificate, with two presenters at an academic event"
-            width={2560}
-            height={2197}
+            src="/images/kamran-portrait.jpg"
+            alt="Muhammad Kamran Ashraf — Developer & Computational Physical Chemist"
+            width={1024}
+            height={1024}
             priority
             sizes="(max-width: 760px) 90vw, 40vw"
             className="portrait-image"
@@ -76,17 +76,18 @@ export default function Hero() {
         </a>
         <figcaption>
           <span>
-            Certificate presentation
+            <strong>Developer: Kamran Ashraf</strong>
             <br />
-            Muhammad Kamran Ashraf (centre)
+            AI Systems Architect &bull; Physical Chemist
           </span>
           <a
             className="photo-original-link"
             href="/images/certificate-presentation.jpg"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="View academic award and certificate presentation photograph"
           >
-            Full photograph <span aria-hidden="true">↗</span>
+            Award Presentation <span aria-hidden="true">↗</span>
           </a>
         </figcaption>
       </figure>

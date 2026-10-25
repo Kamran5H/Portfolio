@@ -26,6 +26,7 @@ try {
     "favicon.ico",
     "staticwebapp.config.json",
     "images/certificate-presentation.jpg",
+    "images/kamran-portrait.jpg",
   ])
     assert(
       fs.existsSync(path.join(root, required)),
@@ -103,12 +104,12 @@ try {
     ),
     "Private staging included in export",
   );
-  const exportedImages = walk(path.join(root, "images")).map((p) =>
-    path.relative(path.join(root, "images"), p).replace(/\\/g, "/"),
-  );
+  const exportedImages = walk(path.join(root, "images"))
+    .map((p) => path.relative(path.join(root, "images"), p).replace(/\\/g, "/"))
+    .sort();
   assert.deepEqual(
     exportedImages,
-    ["certificate-presentation.jpg"],
+    ["certificate-presentation.jpg", "kamran-portrait.jpg"],
     "Unexpected orphan images in export: " + exportedImages.join(", "),
   );
   console.log(
